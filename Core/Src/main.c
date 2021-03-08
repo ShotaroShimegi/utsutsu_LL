@@ -116,7 +116,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  LED1_GPIO_Port->BSRR = LED1_Pin;			//LEDをセットした感じ
+	  LED1_GPIO_Port->BSRR = LED1_Pin;
 	  LL_mDelay(500);
 	  LED1_GPIO_Port->BSRR = (LED1_Pin << 16);
 	  LL_mDelay(500);
