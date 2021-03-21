@@ -45,10 +45,10 @@ void MX_GPIO_Init(void)
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOD);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOC, LED_FR_Pin|LED_R_Pin|STBY_Pin|LED3_Pin);
+  LL_GPIO_ResetOutputPin(GPIOC, FrontRight_Pin|Right_Pin|STBY_Pin|LED3_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOA, LED_FF_Pin|LED_L_Pin|LED_FL_Pin|RIGHT_DIR1_Pin
+  LL_GPIO_ResetOutputPin(GPIOA, FrontCenter_Pin|Left_Pin|FrontLeft_Pin|RIGHT_DIR1_Pin
                           |RIGHT_DIR2_Pin);
 
   /**/
@@ -59,7 +59,7 @@ void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(SPI_CS_GPIO_Port, SPI_CS_Pin);
 
   /**/
-  GPIO_InitStruct.Pin = LED_FR_Pin|LED_R_Pin|STBY_Pin|LED3_Pin;
+  GPIO_InitStruct.Pin = FrontRight_Pin|Right_Pin|STBY_Pin|LED3_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -67,7 +67,7 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = LED_FF_Pin|LED_L_Pin|LED_FL_Pin|RIGHT_DIR1_Pin
+  GPIO_InitStruct.Pin = FrontCenter_Pin|Left_Pin|FrontLeft_Pin|RIGHT_DIR1_Pin
                           |RIGHT_DIR2_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;

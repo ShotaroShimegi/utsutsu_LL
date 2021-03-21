@@ -74,26 +74,26 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LED_FR_Pin LL_GPIO_PIN_2
-#define LED_FR_GPIO_Port GPIOC
-#define LED_R_Pin LL_GPIO_PIN_3
-#define LED_R_GPIO_Port GPIOC
+#define FrontRight_Pin LL_GPIO_PIN_2
+#define FrontRight_GPIO_Port GPIOC
+#define Right_Pin LL_GPIO_PIN_3
+#define Right_GPIO_Port GPIOC
 #define AD_FR_Pin LL_GPIO_PIN_0
 #define AD_FR_GPIO_Port GPIOA
 #define AD_R_Pin LL_GPIO_PIN_1
 #define AD_R_GPIO_Port GPIOA
 #define AD_FF_Pin LL_GPIO_PIN_2
 #define AD_FF_GPIO_Port GPIOA
-#define LED_FF_Pin LL_GPIO_PIN_3
-#define LED_FF_GPIO_Port GPIOA
+#define FrontCenter_Pin LL_GPIO_PIN_3
+#define FrontCenter_GPIO_Port GPIOA
 #define AD_L_Pin LL_GPIO_PIN_4
 #define AD_L_GPIO_Port GPIOA
 #define AD_FL_Pin LL_GPIO_PIN_5
 #define AD_FL_GPIO_Port GPIOA
-#define LED_L_Pin LL_GPIO_PIN_6
-#define LED_L_GPIO_Port GPIOA
-#define LED_FL_Pin LL_GPIO_PIN_7
-#define LED_FL_GPIO_Port GPIOA
+#define Left_Pin LL_GPIO_PIN_6
+#define Left_GPIO_Port GPIOA
+#define FrontLeft_Pin LL_GPIO_PIN_7
+#define FrontLeft_GPIO_Port GPIOA
 #define STBY_Pin LL_GPIO_PIN_5
 #define STBY_GPIO_Port GPIOC
 #define LEFT_DIR1_Pin LL_GPIO_PIN_0

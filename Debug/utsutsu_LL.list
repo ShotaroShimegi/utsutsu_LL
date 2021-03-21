@@ -35,15 +35,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  15 .debug_ranges 00000788  00000000  00000000  000296d0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  0001b3cf  00000000  00000000  00029e58  2**0
+ 16 .debug_macro  000026e0  00000000  00000000  00029e58  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   000067bc  00000000  00000000  00045227  2**0
+ 17 .debug_line   000067bc  00000000  00000000  0002c538  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    0009b57e  00000000  00000000  0004b9e3  2**0
+ 18 .debug_str    0009b569  00000000  00000000  00032cf4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  000e6f61  2**0
+ 19 .comment      0000007b  00000000  00000000  000ce25d  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000021e8  00000000  00000000  000e6fdc  2**2
+ 20 .debug_frame  000021e8  00000000  00000000  000ce2d8  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -842,13 +842,13 @@ void MX_GPIO_Init(void)
  80007aa:	f7ff ffc1 	bl	8000730 <LL_AHB1_GRP1_EnableClock>
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOC, LED_FR_Pin|LED_R_Pin|STBY_Pin|LED3_Pin);
+  LL_GPIO_ResetOutputPin(GPIOC, FrontRight_Pin|Right_Pin|STBY_Pin|LED3_Pin);
  80007ae:	f44f 7196 	mov.w	r1, #300	; 0x12c
  80007b2:	4830      	ldr	r0, [pc, #192]	; (8000874 <MX_GPIO_Init+0xf4>)
  80007b4:	f7ff ffd4 	bl	8000760 <LL_GPIO_ResetOutputPin>
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOA, LED_FF_Pin|LED_L_Pin|LED_FL_Pin|RIGHT_DIR1_Pin
+  LL_GPIO_ResetOutputPin(GPIOA, FrontCenter_Pin|Left_Pin|FrontLeft_Pin|RIGHT_DIR1_Pin
  80007b8:	f24c 01c8 	movw	r1, #49352	; 0xc0c8
  80007bc:	482e      	ldr	r0, [pc, #184]	; (8000878 <MX_GPIO_Init+0xf8>)
  80007be:	f7ff ffcf 	bl	8000760 <LL_GPIO_ResetOutputPin>
@@ -868,7 +868,7 @@ void MX_GPIO_Init(void)
  80007d0:	f7ff ffc6 	bl	8000760 <LL_GPIO_ResetOutputPin>
 
   /**/
-  GPIO_InitStruct.Pin = LED_FR_Pin|LED_R_Pin|STBY_Pin|LED3_Pin;
+  GPIO_InitStruct.Pin = FrontRight_Pin|Right_Pin|STBY_Pin|LED3_Pin;
  80007d4:	f44f 7396 	mov.w	r3, #300	; 0x12c
  80007d8:	603b      	str	r3, [r7, #0]
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
@@ -890,7 +890,7 @@ void MX_GPIO_Init(void)
  80007f0:	f001 fb2f 	bl	8001e52 <LL_GPIO_Init>
 
   /**/
-  GPIO_InitStruct.Pin = LED_FF_Pin|LED_L_Pin|LED_FL_Pin|RIGHT_DIR1_Pin
+  GPIO_InitStruct.Pin = FrontCenter_Pin|Left_Pin|FrontLeft_Pin|RIGHT_DIR1_Pin
  80007f4:	f24c 03c8 	movw	r3, #49352	; 0xc0c8
  80007f8:	603b      	str	r3, [r7, #0]
                           |RIGHT_DIR2_Pin;
@@ -1534,7 +1534,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  LED1_GPIO_Port->BSRR = LED1_Pin;			//LEDをセットした感じ
+	  LED1_GPIO_Port->BSRR = LED1_Pin;
  8000ba2:	4b08      	ldr	r3, [pc, #32]	; (8000bc4 <main+0x6c>)
  8000ba4:	f44f 4280 	mov.w	r2, #16384	; 0x4000
  8000ba8:	619a      	str	r2, [r3, #24]
@@ -1548,7 +1548,7 @@ int main(void)
 	  LL_mDelay(500);
  8000bba:	f44f 70fa 	mov.w	r0, #500	; 0x1f4
  8000bbe:	f002 f925 	bl	8002e0c <LL_mDelay>
-	  LED1_GPIO_Port->BSRR = LED1_Pin;			//LEDをセットした感じ
+	  LED1_GPIO_Port->BSRR = LED1_Pin;
  8000bc2:	e7ee      	b.n	8000ba2 <main+0x4a>
  8000bc4:	40020400 	.word	0x40020400
 

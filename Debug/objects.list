@@ -1,3 +1,4 @@
+"Core/Src/Peripheral/wrap_gpio.o"
 "Core/Src/adc.o"
 "Core/Src/gpio.o"
 "Core/Src/main.o"
