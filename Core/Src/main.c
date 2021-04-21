@@ -84,6 +84,9 @@ int main(void)
 
   /* USER CODE BEGIN Init */
 
+
+
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -107,15 +110,18 @@ int main(void)
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
+  LL_TIM_EnableIT_UPDATE(TIM6);
+  LL_TIM_EnableCounter(TIM6);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+  /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
+  /* USER CODE BEGIN 3 */
 	  LED1_GPIO_Port->BSRR = LED1_Pin;
 	  LL_mDelay(500);
 	  LED1_GPIO_Port->BSRR = (LED1_Pin << 16);

@@ -23,6 +23,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "Peripheral/wrap_gpio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -200,6 +201,13 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
+void TIM6_IRQHandler(void){
+	if(LL_TIM_IsActiveFlag_UPDATE(TIM6) == 1) {
+		LL_TIM_ClearFlag_UPDATE(TIM6);
+	}
+	callbackTIM();
+	changeLED1Status(1);
+}
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

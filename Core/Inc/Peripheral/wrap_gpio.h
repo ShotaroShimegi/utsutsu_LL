@@ -8,14 +8,13 @@
 #ifndef INC_PERIPHERAL_WRAP_GPIO_H_
 #define INC_PERIPHERAL_WRAP_GPIO_H_
 
+#include <stdint.h>
+
 void changeLED1Status(uint8_t state);
 void changeLED2Status(uint8_t state);
 void changeLED3Status(uint8_t state);
 void changeLED4Status(uint8_t state);
 void changeLED5Status(uint8_t state);
-void changeLED6Status(uint8_t state);
-void changeLED7Status(uint8_t state);
-void changeLED8Status(uint8_t state);
 
 void changeFrontCenterStatus(uint8_t state);
 void changeFrontRightStatus(uint8_t state);

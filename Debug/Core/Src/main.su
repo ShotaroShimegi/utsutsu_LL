@@ -15,6 +15,8 @@ stm32f4xx_ll_bus.h:1706:22:LL_APB2_GRP1_EnableClock	24	static
 stm32f4xx_ll_system.h:1542:22:LL_FLASH_SetLatency	16	static
 stm32f4xx_ll_system.h:1568:26:LL_FLASH_GetLatency	4	static
 stm32f4xx_ll_pwr.h:507:22:LL_PWR_SetRegulVoltageScaling	16	static
+stm32f4xx_ll_tim.h:1051:22:LL_TIM_EnableCounter	16	static
+stm32f4xx_ll_tim.h:3334:22:LL_TIM_EnableIT_UPDATE	16	static
 main.c:68:5:main	8	static
-main.c:131:6:SystemClock_Config	8	static
-main.c:176:6:Error_Handler	4	static,ignoring_inline_asm
+main.c:137:6:SystemClock_Config	8	static
+main.c:182:6:Error_Handler	4	static,ignoring_inline_asm

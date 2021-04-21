@@ -1,4 +1,7 @@
+"Core/Src/Hardware/basic_timer.o"
 "Core/Src/Peripheral/wrap_gpio.o"
+"Core/Src/Peripheral/wrap_tim.o"
+"Core/Src/System/callback.o"
 "Core/Src/adc.o"
 "Core/Src/gpio.o"
 "Core/Src/main.o"
