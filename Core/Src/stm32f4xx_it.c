@@ -23,7 +23,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "Peripheral/wrap_gpio.h"
+#include "System/callback.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -206,7 +206,6 @@ void TIM6_IRQHandler(void){
 		LL_TIM_ClearFlag_UPDATE(TIM6);
 	}
 	callbackTIM();
-	changeLED1Status(1);
 }
 
 /* USER CODE END 1 */

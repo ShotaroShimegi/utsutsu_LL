@@ -1,5 +1,5 @@
-stm32f4xx_ll_tim.h:3063:22:LL_TIM_ClearFlag_UPDATE	16	static
-stm32f4xx_ll_tim.h:3074:26:LL_TIM_IsActiveFlag_UPDATE	16	static
+stm32f4xx_ll_tim.h:3124:22:LL_TIM_ClearFlag_UPDATE	16	static
+stm32f4xx_ll_tim.h:3135:26:LL_TIM_IsActiveFlag_UPDATE	16	static
 stm32f4xx_it.c:71:6:NMI_Handler	4	static
 stm32f4xx_it.c:86:6:HardFault_Handler	4	static
 stm32f4xx_it.c:101:6:MemManage_Handler	4	static

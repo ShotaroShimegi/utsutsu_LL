@@ -27,6 +27,16 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include<stdio.h>
+
+#include"Hardware/ICM20689.h"
+#include"Hardware/basic_timer.h"
+#include"Hardware/buzzer.h"
+#include"Hardware/encoder.h"
+#include"Hardware/interface_LED.h"
+#include"Hardware/motor.h"
+#include"Hardware/wall_sensor.h"
+
 
 /* USER CODE END Includes */
 
@@ -54,6 +64,24 @@
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int c)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+
+int __io_putchar(int c) {
+/*
+	if( c == '\n' ) {
+    uint8_t _c = '\r';
+    LL_USART_TransmitData8(USART1, _c);
+    while(LL_USART_IsActiveFlag_TXE(USART1) == 0);
+  }
+*/
+  LL_USART_TransmitData8(USART1, (uint8_t)c);
+  while(LL_USART_IsActiveFlag_TXE(USART1) == 0);
+  return 0;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -83,9 +111,7 @@ int main(void)
   /* System interrupt init*/
 
   /* USER CODE BEGIN Init */
-
-
-
+  setbuf(stdout,NULL);
 
   /* USER CODE END Init */
 
@@ -119,12 +145,21 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-  /* USER CODE BEGIN 3 */
-	  LED1_GPIO_Port->BSRR = LED1_Pin;
+    /* USER CODE BEGIN 3 */
+	  setLED1State(ON);
+	  setLED2State(ON);
+	  setLED3State(ON);
+	  setLED4State(ON);
+
+	  printf("Hello,World \r\n");
+
 	  LL_mDelay(500);
-	  LED1_GPIO_Port->BSRR = (LED1_Pin << 16);
+	  setLED1State(OFF);
+	  setLED2State(OFF);
+	  setLED3State(OFF);
+	  setLED4State(OFF);
 	  LL_mDelay(500);
   }
   /* USER CODE END 3 */
