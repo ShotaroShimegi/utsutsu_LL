@@ -1,3 +1,7 @@
+core_cm4.h:1676:26:__NVIC_GetPriorityGrouping	4	static
+core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
+core_cm4.h:1816:22:__NVIC_SetPriority	16	static
+core_cm4.h:1863:26:NVIC_EncodePriority	40	static
 stm32f4xx_ll_bus.h:411:22:LL_AHB1_GRP1_EnableClock	24	static
 stm32f4xx_ll_bus.h:1187:22:LL_APB1_GRP1_EnableClock	24	static
 stm32f4xx_ll_bus.h:1706:22:LL_APB2_GRP1_EnableClock	24	static
@@ -16,6 +20,6 @@ tim.c:28:6:MX_TIM1_Init	112	static
 tim.c:92:6:MX_TIM2_Init	88	static
 tim.c:143:6:MX_TIM3_Init	56	static
 tim.c:196:6:MX_TIM4_Init	56	static
-tim.c:249:6:MX_TIM6_Init	32	static
-tim.c:277:6:MX_TIM8_Init	112	static
-tim.c:339:6:MX_TIM11_Init	88	static
+tim.c:249:6:MX_TIM5_Init	32	static
+tim.c:283:6:MX_TIM8_Init	112	static
+tim.c:345:6:MX_TIM11_Init	88	static

@@ -200,13 +200,25 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
 
-/* USER CODE BEGIN 1 */
-void TIM6_IRQHandler(void){
-	if(LL_TIM_IsActiveFlag_UPDATE(TIM6) == 1) {
-		LL_TIM_ClearFlag_UPDATE(TIM6);
-	}
+/**
+  * @brief This function handles TIM5 global interrupt.
+  */
+void TIM5_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM5_IRQn 0 */
 	callbackTIM();
+
+	if(LL_TIM_IsActiveFlag_UPDATE(TIM5) == 1) {
+		LL_TIM_ClearFlag_UPDATE(TIM5);
+	}
+
+  /* USER CODE END TIM5_IRQn 0 */
+  /* USER CODE BEGIN TIM5_IRQn 1 */
+
+  /* USER CODE END TIM5_IRQn 1 */
 }
+
+/* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

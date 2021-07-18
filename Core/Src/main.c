@@ -37,6 +37,8 @@
 #include"Hardware/motor.h"
 #include"Hardware/wall_sensor.h"
 
+#include"System/callback.h"
+
 
 /* USER CODE END Includes */
 
@@ -70,14 +72,9 @@ void SystemClock_Config(void);
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
 
+void TIM5_IRQHandler(void);
+
 int __io_putchar(int c) {
-/*
-	if( c == '\n' ) {
-    uint8_t _c = '\r';
-    LL_USART_TransmitData8(USART1, _c);
-    while(LL_USART_IsActiveFlag_TXE(USART1) == 0);
-  }
-*/
   LL_USART_TransmitData8(USART1, (uint8_t)c);
   while(LL_USART_IsActiveFlag_TXE(USART1) == 0);
   return 0;
@@ -133,11 +130,11 @@ int main(void)
   MX_USART1_UART_Init();
   MX_SPI3_Init();
   MX_TIM11_Init();
-  MX_TIM6_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
-  LL_TIM_EnableIT_UPDATE(TIM6);
-  LL_TIM_EnableCounter(TIM6);
+  LL_TIM_EnableIT_UPDATE(TIM5);
+  LL_TIM_EnableCounter(TIM5);
 
   /* USER CODE END 2 */
 
@@ -153,13 +150,15 @@ int main(void)
 	  setLED3State(ON);
 	  setLED4State(ON);
 
-	  printf("Hello,World \r\n");
+	  printf("Hello,World tim = %d\r\n", tim_counter);
 
 	  LL_mDelay(500);
+
 	  setLED1State(OFF);
 	  setLED2State(OFF);
 	  setLED3State(OFF);
 	  setLED4State(OFF);
+
 	  LL_mDelay(500);
   }
   /* USER CODE END 3 */
