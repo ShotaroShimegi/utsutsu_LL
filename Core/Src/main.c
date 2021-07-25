@@ -38,6 +38,7 @@
 #include"Hardware/wall_sensor.h"
 
 #include"System/callback.h"
+#include"System/music.h"
 
 
 /* USER CODE END Includes */
@@ -71,8 +72,6 @@ void SystemClock_Config(void);
 #else
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
-
-void TIM5_IRQHandler(void);
 
 int __io_putchar(int c) {
   LL_USART_TransmitData8(USART1, (uint8_t)c);
@@ -132,6 +131,9 @@ int main(void)
   MX_TIM11_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
+  enableMelody();
+  WaitMs(1);
+  MelodySummer();
 
   LL_TIM_EnableIT_UPDATE(TIM5);
   LL_TIM_EnableCounter(TIM5);

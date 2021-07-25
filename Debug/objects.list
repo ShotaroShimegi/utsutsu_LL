@@ -7,6 +7,7 @@
 "Core/Src/Hardware/wall_sensor.o"
 "Core/Src/Peripheral/wrap_tim.o"
 "Core/Src/System/callback.o"
+"Core/Src/System/music.o"
 "Core/Src/adc.o"
 "Core/Src/gpio.o"
 "Core/Src/main.o"

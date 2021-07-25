@@ -26,7 +26,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h \
  ../Core/Inc/Hardware/buzzer.h ../Core/Inc/Hardware/encoder.h \
  ../Core/Inc/Hardware/interface_LED.h ../Core/Inc/Hardware/motor.h \
- ../Core/Inc/Hardware/wall_sensor.h ../Core/Inc/System/callback.h
+ ../Core/Inc/Hardware/wall_sensor.h ../Core/Inc/System/callback.h \
+ ../Core/Inc/System/music.h
 
 ../Core/Inc/main.h:
 
@@ -101,3 +102,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/Hardware/wall_sensor.h:
 
 ../Core/Inc/System/callback.h:
+
+../Core/Inc/System/music.h:

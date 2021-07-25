@@ -9,9 +9,11 @@
 #define INC_HARDWARE_BASIC_TIMER_H_
 
 #include"stm32f405xx.h"
+#include"stdint.h"
 
 void basicTimerCallback(void);
 void basicTimerStart(void);
 void basicTimerPause(void);
+void WaitMs(uint16_t ms);
 
 #endif /* INC_HARDWARE_BASIC_TIMER_H_ */
