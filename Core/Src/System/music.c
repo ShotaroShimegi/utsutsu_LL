@@ -34,7 +34,6 @@ void MelodyRayearth(void){
 	Melody(d6,200);
 	Melody(a5h,600);
 
-	stopMelody();
 }
 
 void MelodyGoal(void)
@@ -42,7 +41,7 @@ void MelodyGoal(void)
 	Melody(g6,300);
 	Melody(f6,300);
 	Melody(e6,300);
-	stopMelody();
+
 }
 
 void MelodyUrara(void){
@@ -65,7 +64,6 @@ void MelodyUrara(void){
 	Melody(a6,200);
 	WaitMs(50);
 
-	stopMelody();
 }
 
 void MelodyMrLawrence()
@@ -75,7 +73,6 @@ void MelodyMrLawrence()
 	Melody(d7,100);
 	Melody(a6,100);
 	Melody(d7,100);
-	stopMelody();
 
 	WaitMs(400);
 
@@ -91,7 +88,6 @@ void MelodyMrLawrence()
 	Melody(c7,100);
 	Melody(a6,100);
 
-	stopMelody();
 }
 
 void MelodyNatsumatsuri()
@@ -105,7 +101,7 @@ void MelodyNatsumatsuri()
 	Melody(c6,200);
 	Melody(d6,200);
 
-	stopMelody();
+
 }
 
 void MelodyKurenai(void){
@@ -121,7 +117,6 @@ void MelodyKurenai(void){
 	Melody(c7,100);
 	Melody(b6,300);
 
-	stopMelody();
 }
 
 void MelodyYamato(){
@@ -136,5 +131,4 @@ void MelodyYamato(){
 	Melody(e6,400);
 	Melody(d6,400);
 
-	stopMelody();
 }

@@ -133,7 +133,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
   enableMelody();
   WaitMs(1);
-  MelodySummer();
+  MelodyGoal();
+  MelodyKurenai();
+  MelodyMrLawrence();
+  MelodyNatsumatsuri();
+  MelodyRayearth();
+  MelodyUrara();
+  MelodyYamato();
 
   LL_TIM_EnableIT_UPDATE(TIM5);
   LL_TIM_EnableCounter(TIM5);

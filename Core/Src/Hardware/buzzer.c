@@ -30,7 +30,7 @@ void stopMelody(void){
 void Melody(uint16_t hz, uint16_t ms)
 {
 	LL_TIM_SetAutoReload(TIM8,100000/hz);
-	LL_TIM_OC_SetCompareCH4(TIM8, 50000 / hz );
+	LL_TIM_OC_SetCompareCH4(TIM8, 95000 / hz );
 	LL_TIM_SetCounter(TIM8, 0);
 	WaitMs(ms);
 	stopMelody();
