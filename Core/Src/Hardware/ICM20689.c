@@ -7,7 +7,11 @@
 #include"Hardware/ICM20689.h"
 #include"main.h"
 
-void changeLeftStatus(uint8_t state){
-	if (state == 0) Left_GPIO_Port->BSRR = Left_Pin;
-	else			Left_GPIO_Port->BSRR = (Left_Pin << 16);
-}
+/**
+* @brief
+* @param argument1
+* @param (As many as the number of arguments)
+* @return
+* (@sa Functions to should refer to)
+* @details
+*/

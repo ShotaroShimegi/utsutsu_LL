@@ -14,6 +14,6 @@
 void basicTimerCallback(void);
 void basicTimerStart(void);
 void basicTimerPause(void);
-void WaitMs(uint16_t ms);
+void waitMs(uint16_t ms);
 
 #endif /* INC_HARDWARE_BASIC_TIMER_H_ */

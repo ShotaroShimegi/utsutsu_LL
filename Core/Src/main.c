@@ -132,14 +132,8 @@ int main(void)
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
   enableMelody();
-  WaitMs(1);
-  MelodyGoal();
-  MelodyKurenai();
-  MelodyMrLawrence();
-  MelodyNatsumatsuri();
-  MelodyRayearth();
-  MelodyUrara();
-  MelodyYamato();
+  waitMs(1);
+  MelodySummer();
 
   LL_TIM_EnableIT_UPDATE(TIM5);
   LL_TIM_EnableCounter(TIM5);

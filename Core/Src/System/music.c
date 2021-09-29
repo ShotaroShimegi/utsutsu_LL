@@ -20,15 +20,15 @@ void MelodySummer(void)
 	Melody(d7,100);
 	Melody(e7,100);
 	Melody(d7,100);
-	WaitMs(50);
+	waitMs(50);
 	Melody(c7,50);
-	WaitMs(50);
+	waitMs(50);
 	Melody(c7,200);
 }
 
 void MelodyRayearth(void){
 	Melody(f5,100);
-	WaitMs(10);
+	waitMs(10);
 	Melody(f5,600);
 	Melody(c6,400);
 	Melody(d6,200);
@@ -47,22 +47,22 @@ void MelodyGoal(void)
 void MelodyUrara(void){
 	Melody(d7,100);
 	Melody(a6,100);
-	WaitMs(10);
+	waitMs(10);
 	Melody(a6,200);
-	WaitMs(50);
+	waitMs(50);
 
 	Melody(d7,100);
 	Melody(a6,100);
-	WaitMs(10);
+	waitMs(10);
 	Melody(a6,200);
-	WaitMs(50);
+	waitMs(50);
 
 	Melody(d7,100);
 	Melody(c7,100);
 	Melody(d7,100);
 	Melody(c7,100);
 	Melody(a6,200);
-	WaitMs(50);
+	waitMs(50);
 
 }
 
@@ -74,7 +74,7 @@ void MelodyMrLawrence()
 	Melody(a6,100);
 	Melody(d7,100);
 
-	WaitMs(400);
+	waitMs(400);
 
 	Melody(d7,100);
 	Melody(e7,100);
@@ -106,22 +106,21 @@ void MelodyNatsumatsuri()
 
 void MelodyKurenai(void){
 	Melody(c7,300);
-	WaitMs(10);
+	waitMs(10);
 	Melody(c7,100);
 	Melody(b6,100);
 	Melody(c7,300);
-	WaitMs(10);
+	waitMs(10);
 	Melody(d6,100);
 	Melody(e7,300);
 	Melody(d7,100);
 	Melody(c7,100);
 	Melody(b6,300);
-
 }
 
 void MelodyYamato(){
 	Melody(e6,100);
-	WaitMs(10);
+	waitMs(10);
 	Melody(e6,200);
 	Melody(f6,100);
 	Melody(e6,200);

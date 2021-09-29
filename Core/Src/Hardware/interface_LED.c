@@ -8,6 +8,15 @@
 #include"Hardware/interface_LED.h"
 #include"main.h"
 
+/**
+* @brief
+* @param argument1
+* @param (As many as the number of arguments)
+* @return
+* (@sa Functions to should refer to)
+* @details
+*/
+
 void setLED1State(uint8_t state)	{
 	if (state == 0) LED1_GPIO_Port->BSRR = LED1_Pin;
 	else			LED1_GPIO_Port->BSRR = (LED1_Pin << 16);
