@@ -34,7 +34,7 @@
 #include"Hardware/buzzer.h"
 #include"Hardware/encoder.h"
 #include"Hardware/interface_LED.h"
-#include"Hardware/motor.h"
+#include <Hardware/motor.h>
 #include"Hardware/wall_sensor.h"
 
 #include"System/callback.h"
@@ -131,12 +131,16 @@ int main(void)
   MX_TIM11_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
+
   enableMelody();
   waitMs(1);
-  MelodySummer();
+  MelodyKurenai();
 
-  LL_TIM_EnableIT_UPDATE(TIM5);
-  LL_TIM_EnableCounter(TIM5);
+//  LL_TIM_EnableIT_UPDATE(TIM5);
+//  LL_TIM_EnableCounter(TIM5);
+
+  initMotors();
+
 
   /* USER CODE END 2 */
 
@@ -160,8 +164,10 @@ int main(void)
 	  setLED2State(OFF);
 	  setLED3State(OFF);
 	  setLED4State(OFF);
-
 	  LL_mDelay(500);
+
+//	  shutdownMotors();
+
   }
   /* USER CODE END 3 */
 }
@@ -185,7 +191,7 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_8, 168, LL_RCC_PLLP_DIV_2);
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_8, 160, LL_RCC_PLLP_DIV_2);
   LL_RCC_PLL_Enable();
 
    /* Wait till PLL is ready */
@@ -203,8 +209,8 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_Init1msTick(168000000);
-  LL_SetSystemCoreClock(168000000);
+  LL_Init1msTick(160000000);
+  LL_SetSystemCoreClock(160000000);
 }
 
 /* USER CODE BEGIN 4 */

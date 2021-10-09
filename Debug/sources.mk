@@ -22,7 +22,6 @@ OBJCOPY_BIN :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core/Src/Hardware \
-Core/Src/Peripheral \
 Core/Src/System \
 Core/Src \
 Core/Startup \

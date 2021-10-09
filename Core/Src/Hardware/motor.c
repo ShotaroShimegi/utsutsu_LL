@@ -5,36 +5,55 @@
  *      Author: sssho
  */
 #include <stdint.h>
+#include <stdio.h>
 
 #include "main.h"
 #include"Hardware/motor.h"
+#include<Hardware/interface_LED.h>
 
-/**
-* @brief
-* @param argument1
-* @param (As many as the number of arguments)
-* @return
-* (@sa Functions to should refer to)
-* @details
-*/
+#define ENABLE 	1
+#define DISABLE	0
+
+uint8_t setMotorDriverState(uint8_t state){
+	if(state == ENABLE){
+		LL_GPIO_SetOutputPin(STBY_GPIO_Port, STBY_Pin);
+		return ENABLE;
+	}else if(state == DISABLE){
+		LL_GPIO_ResetOutputPin(STBY_GPIO_Port, STBY_Pin);
+		return DISABLE;
+	}
+	return 0xff;
+}
 
 /**
 * @brief モータ関連の初期化
-*
 */
 void initMotors(void){
-	LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
-	LL_TIM_EnableCounter(TIM1);
-	LL_TIM_SetAutoReload(TIM1,1000);
+
+	uint8_t md_enable = setMotorDriverState(ENABLE);
+	printf("md = %d\r\n",md_enable);
+
+	LL_GPIO_SetOutputPin(LEFT_DIR1_GPIO_Port, LEFT_DIR1_Pin);
+	LL_GPIO_ResetOutputPin(LEFT_DIR2_GPIO_Port, LEFT_DIR2_Pin);
+
+	LL_GPIO_SetOutputPin(RIGHT_DIR1_GPIO_Port,RIGHT_DIR1_Pin);
+	LL_GPIO_ResetOutputPin(RIGHT_DIR2_GPIO_Port, RIGHT_DIR2_Pin);
 
 	LL_TIM_CC_EnableChannel(TIM2, LL_TIM_CHANNEL_CH2);
 	LL_TIM_EnableCounter(TIM2);
-	LL_TIM_SetAutoReload(TIM2,1000);
+//	LL_TIM_SetAutoReload(TIM2,100-1);
 
-	LL_TIM_OC_SetCompareCH1(TIM1, 0);
-	LL_TIM_OC_SetCompareCH2(TIM2, 0);
+	LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
+	LL_TIM_EnableCounter(TIM1);
+//	LL_TIM_SetAutoReload(TIM1,100-1);
+
+	LL_TIM_OC_SetCompareCH2(TIM2, 50);
+	LL_TIM_OC_SetCompareCH1(TIM1, 50);
 
 	LL_TIM_EnableAllOutputs(TIM2);
+	LL_TIM_EnableAllOutputs(TIM1);
+
+
 }
 
 /**
@@ -84,32 +103,32 @@ float dutyConverter(float max, float min, float check_val) {
 * @return   上手くいったら　0　返す
 */
 
-uint8_t driveMotors(float r_duty, float l_duty){
+void driveMotors(float r_duty, float l_duty){
 
 	setMotorDirection(r_duty, l_duty);
 
 	r_duty = dutyConverter(0.8f, 0.01f, r_duty);
 	l_duty = dutyConverter(0.8f, 0.01f, l_duty);
 
-	LL_TIM_OC_SetCompareCH1(TIM1, 1000*l_duty);
-	LL_TIM_OC_SetCompareCH2(TIM2, 1000*r_duty);
+	LL_TIM_OC_SetCompareCH1(TIM1, (100-1)*l_duty);
+	LL_TIM_OC_SetCompareCH2(TIM2, (100-1)*r_duty);
 
 	LL_TIM_SetCounter(TIM1, 0);
 	LL_TIM_SetCounter(TIM2, 0);
 
-	return 0;
 }
 
 /**
 * @brief 	走行用ドライブモータを停止する
 * @return   上手くいったら　0　返す
 */
-uint8_t shutdownMotors(void){
+void shutdownMotors(void) {
+
+	uint8_t md_enable = setMotorDriverState(DISABLE);
 
 	LL_TIM_CC_DisableChannel(TIM1, LL_TIM_CHANNEL_CH1);
 	LL_TIM_CC_DisableChannel(TIM2, LL_TIM_CHANNEL_CH2);
 	LL_TIM_DisableCounter(TIM1);
 	LL_TIM_DisableCounter(TIM2);
 
-	return 0;
 }

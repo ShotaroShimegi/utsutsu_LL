@@ -5,7 +5,6 @@
 "Core/Src/Hardware/interface_LED.o"
 "Core/Src/Hardware/motor.o"
 "Core/Src/Hardware/wall_sensor.o"
-"Core/Src/Peripheral/wrap_tim.o"
 "Core/Src/System/callback.o"
 "Core/Src/System/music.o"
 "Core/Src/adc.o"

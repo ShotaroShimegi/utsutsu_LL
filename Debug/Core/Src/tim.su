@@ -5,6 +5,7 @@ core_cm4.h:1863:26:NVIC_EncodePriority	40	static
 stm32f4xx_ll_bus.h:411:22:LL_AHB1_GRP1_EnableClock	24	static
 stm32f4xx_ll_bus.h:1187:22:LL_APB1_GRP1_EnableClock	24	static
 stm32f4xx_ll_bus.h:1706:22:LL_APB2_GRP1_EnableClock	24	static
+stm32f4xx_ll_tim.h:1250:22:LL_TIM_EnableARRPreload	16	static
 stm32f4xx_ll_tim.h:1261:22:LL_TIM_DisableARRPreload	16	static
 stm32f4xx_ll_tim.h:1866:22:LL_TIM_OC_DisableFast	24	static
 stm32f4xx_ll_tim.h:1910:22:LL_TIM_OC_EnablePreload	24	static
