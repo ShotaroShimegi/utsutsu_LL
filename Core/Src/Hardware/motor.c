@@ -33,11 +33,11 @@ void initMotors(void){
 	uint8_t md_enable = setMotorDriverState(ENABLE);
 	printf("md = %d\r\n",md_enable);
 
-	LL_GPIO_SetOutputPin(LEFT_DIR1_GPIO_Port, LEFT_DIR1_Pin);
-	LL_GPIO_ResetOutputPin(LEFT_DIR2_GPIO_Port, LEFT_DIR2_Pin);
+	LL_GPIO_ResetOutputPin(LEFT_DIR1_GPIO_Port, LEFT_DIR1_Pin);
+	LL_GPIO_SetOutputPin(LEFT_DIR2_GPIO_Port, LEFT_DIR2_Pin);
 
-	LL_GPIO_SetOutputPin(RIGHT_DIR1_GPIO_Port,RIGHT_DIR1_Pin);
-	LL_GPIO_ResetOutputPin(RIGHT_DIR2_GPIO_Port, RIGHT_DIR2_Pin);
+	LL_GPIO_ResetOutputPin(RIGHT_DIR1_GPIO_Port,RIGHT_DIR1_Pin);
+	LL_GPIO_SetOutputPin(RIGHT_DIR2_GPIO_Port, RIGHT_DIR2_Pin);
 
 	LL_TIM_CC_EnableChannel(TIM2, LL_TIM_CHANNEL_CH2);
 	LL_TIM_EnableCounter(TIM2);
@@ -45,14 +45,12 @@ void initMotors(void){
 
 	LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
 	LL_TIM_EnableCounter(TIM1);
-//	LL_TIM_SetAutoReload(TIM1,100-1);
 
 	LL_TIM_OC_SetCompareCH2(TIM2, 50);
 	LL_TIM_OC_SetCompareCH1(TIM1, 50);
 
 	LL_TIM_EnableAllOutputs(TIM2);
 	LL_TIM_EnableAllOutputs(TIM1);
-
 
 }
 
