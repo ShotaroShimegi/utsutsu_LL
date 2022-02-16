@@ -5,11 +5,9 @@
  *      Author: sssho
  */
 #include <stdint.h>
-#include <stdio.h>
 
 #include "main.h"
 #include"Hardware/motor.h"
-#include<Hardware/interface_LED.h>
 
 #define ENABLE 	1
 #define DISABLE	0
@@ -28,11 +26,12 @@ uint8_t setMotorDriverState(uint8_t state){
 /**
 * @brief モータ関連の初期化
 */
-void initMotors(void){
-
+void enableMotors(void)
+{
 	uint8_t md_enable = setMotorDriverState(ENABLE);
-	printf("md = %d\r\n",md_enable);
-
+	if(md_enable != ENABLE){
+		return;
+	}
 	LL_GPIO_ResetOutputPin(LEFT_DIR1_GPIO_Port, LEFT_DIR1_Pin);
 	LL_GPIO_SetOutputPin(LEFT_DIR2_GPIO_Port, LEFT_DIR2_Pin);
 
@@ -46,8 +45,8 @@ void initMotors(void){
 	LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
 	LL_TIM_EnableCounter(TIM1);
 
-	LL_TIM_OC_SetCompareCH2(TIM2, 50);
-	LL_TIM_OC_SetCompareCH1(TIM1, 50);
+	LL_TIM_OC_SetCompareCH2(TIM2, 1);
+	LL_TIM_OC_SetCompareCH1(TIM1, 1);
 
 	LL_TIM_EnableAllOutputs(TIM2);
 	LL_TIM_EnableAllOutputs(TIM1);
@@ -98,15 +97,14 @@ float dutyConverter(float max, float min, float check_val) {
 * @brief 最大・最小の範囲で値が範囲外なら再設定して出力
 * @param 	r_duty		右のデューティ
 * @param 	l_duty 		左のデューティ
-* @return   上手くいったら　0　返す
 */
 
 void driveMotors(float r_duty, float l_duty){
 
 	setMotorDirection(r_duty, l_duty);
 
-	r_duty = dutyConverter(0.8f, 0.01f, r_duty);
-	l_duty = dutyConverter(0.8f, 0.01f, l_duty);
+	r_duty = dutyConverter(MAX_DUTY, MIN_DUTY, r_duty);
+	l_duty = dutyConverter(MAX_DUTY, MIN_DUTY, l_duty);
 
 	LL_TIM_OC_SetCompareCH1(TIM1, (100-1)*l_duty);
 	LL_TIM_OC_SetCompareCH2(TIM2, (100-1)*r_duty);
@@ -123,6 +121,9 @@ void driveMotors(float r_duty, float l_duty){
 void shutdownMotors(void) {
 
 	uint8_t md_enable = setMotorDriverState(DISABLE);
+	if(md_enable != DISABLE){
+		return;
+	}
 
 	LL_TIM_CC_DisableChannel(TIM1, LL_TIM_CHANNEL_CH1);
 	LL_TIM_CC_DisableChannel(TIM2, LL_TIM_CHANNEL_CH2);

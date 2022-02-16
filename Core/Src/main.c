@@ -73,10 +73,16 @@ void SystemClock_Config(void);
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
 
-int __io_putchar(int c) {
-  LL_USART_TransmitData8(USART1, (uint8_t)c);
-  while(LL_USART_IsActiveFlag_TXE(USART1) == 0);
-  return 0;
+int __io_putchar(int c)
+{
+	if( c == '\n'){
+		uint8_t _c = '\r';
+		  LL_USART_TransmitData8(USART1, _c);
+		  while(LL_USART_IsActiveFlag_TXE(USART1) == 0);
+	}
+	LL_USART_TransmitData8(USART1, (uint8_t)c);
+	while(LL_USART_IsActiveFlag_TXE(USART1) == 0);
+	return 0;
 }
 /* USER CODE END PFP */
 
@@ -131,6 +137,9 @@ int main(void)
   MX_TIM11_Init();
   MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
+  LL_SPI_Enable(SPI3);
+
+  gyroInit();
 
   enableMelody();
   waitMs(1);
@@ -139,8 +148,9 @@ int main(void)
 //  LL_TIM_EnableIT_UPDATE(TIM5);
 //  LL_TIM_EnableCounter(TIM5);
 
-  initMotors();
-
+  enableMotors();
+  waitMs(500);
+  driveMotors(0.01f, 0.01f);
 
   /* USER CODE END 2 */
 
@@ -156,9 +166,9 @@ int main(void)
 	  setLED3State(ON);
 	  setLED4State(ON);
 
-	  printf("Hello,World tim = %d\r\n", tim_counter);
+	  printf("Hello,World tim = %d\n", tim_counter);
 
-	  LL_mDelay(500);
+	  LL_mDelay(1000);
 
 	  setLED1State(OFF);
 	  setLED2State(OFF);
