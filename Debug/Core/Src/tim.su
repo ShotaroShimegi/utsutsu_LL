@@ -19,8 +19,8 @@ stm32f4xx_ll_tim.h:2679:22:LL_TIM_SetTriggerOutput	16	static
 stm32f4xx_ll_tim.h:2745:22:LL_TIM_DisableMasterSlaveMode	16	static
 tim.c:28:6:MX_TIM1_Init	112	static
 tim.c:92:6:MX_TIM2_Init	88	static
-tim.c:147:6:MX_TIM3_Init	56	static
-tim.c:200:6:MX_TIM4_Init	56	static
-tim.c:253:6:MX_TIM5_Init	32	static
-tim.c:287:6:MX_TIM8_Init	112	static
-tim.c:350:6:MX_TIM11_Init	88	static
+tim.c:143:6:MX_TIM3_Init	56	static
+tim.c:196:6:MX_TIM4_Init	56	static
+tim.c:249:6:MX_TIM5_Init	32	static
+tim.c:283:6:MX_TIM8_Init	112	static
+tim.c:346:6:MX_TIM11_Init	88	static

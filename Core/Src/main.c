@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "dma.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -126,6 +127,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
@@ -145,10 +147,12 @@ int main(void)
   waitMs(1);
   MelodyKurenai();
 
+  startADCwithDMA();
+/*
   enableEncoder();
   int16_t el_counter = 0;
   int16_t er_counter = 0;
-
+*/
 //  LL_TIM_EnableIT_UPDATE(TIM5);
 //  LL_TIM_EnableCounter(TIM5);
 /*
@@ -156,7 +160,12 @@ int main(void)
   waitMs(500);
   driveMotors(0.01f, 0.01f);
 */
-
+  uint16_t data0;
+  uint16_t data1;
+  uint16_t data2;
+  uint16_t data3;
+  uint16_t data4;
+uint32_t i=0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -166,23 +175,41 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  setLED1State(ON);
+/*	  setLED1State(ON);
 	  setLED2State(ON);
 	  setLED3State(ON);
 	  setLED4State(ON);
+*/
+	 changeFrontCenterLED(ON);
+	 changeFrontLeftLED(ON);
+	 changeFrontRightLED(ON);
+	 changeRightLED(ON);
+	 changeLeftLED(ON);
 
-	  el_counter = getEncoderData(TIM3);
-	  er_counter = getEncoderData(TIM4);
+	 for( i=0;i<5000;i++){
 
-	  printf("el = %d, er = %d, \n", el_counter, er_counter);
+	 }
 
-	  LL_mDelay(1000);
+	  data0 = getWallADC(0);
+	  data1 = getWallADC(1);
+	  data2 = getWallADC(2);
+	  data3 = getWallADC(3);
+	  data4 = getWallADC(4);
 
-	  setLED1State(OFF);
-	  setLED2State(OFF);
-	  setLED3State(OFF);
-	  setLED4State(OFF);
-	  LL_mDelay(500);
+	  printf("%d %d %d %d %d\n",data0,data1,data2,data3,data4);
+
+	  changeFrontCenterLED(OFF);
+	  changeFrontLeftLED(OFF);
+	  changeFrontRightLED(OFF);
+	  changeRightLED(OFF);
+	  changeLeftLED(OFF);
+
+//	  el_counter = getEncoderData(TIM3);
+//	  er_counter = getEncoderData(TIM4);
+
+//	  printf("el = %d, er = %d, \n", el_counter, er_counter);
+
+	  LL_mDelay(1);
 
 //	  shutdownMotors();
 

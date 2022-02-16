@@ -10,15 +10,14 @@
 
 #include <stdint.h>
 
-typedef enum {
-	LOW,
-	HIGH
-} MY_LED_STATES;
+void startADCwithDMA(void);
+void DMA_CallbackTask(void);
+uint16_t getWallADC(uint8_t number);
 
-void changeFrontCenterStatus(uint8_t state);
-void changeFrontRightStatus(uint8_t state);
-void changeFrontLeftStatus(uint8_t state);
-void changeRightStatus(uint8_t state);
-void changeLeftStatus(uint8_t state);
+void changeFrontCenterLED(uint8_t state);
+void changeFrontRightLED(uint8_t state);
+void changeFrontLeftLED(uint8_t state);
+void changeRightLED(uint8_t state);
+void changeLeftLED(uint8_t state);
 
 #endif /* INC_HARDWARE_WALL_SENSOR_H_ */
