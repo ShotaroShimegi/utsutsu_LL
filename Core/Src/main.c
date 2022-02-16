@@ -34,7 +34,7 @@
 #include"Hardware/buzzer.h"
 #include"Hardware/encoder.h"
 #include"Hardware/interface_LED.h"
-#include <Hardware/motor.h>
+#include "Hardware/motor.h"
 #include"Hardware/wall_sensor.h"
 
 #include"System/callback.h"
@@ -139,18 +139,23 @@ int main(void)
   /* USER CODE BEGIN 2 */
   LL_SPI_Enable(SPI3);
 
-  gyroInit();
+  initIMU();
 
   enableMelody();
   waitMs(1);
   MelodyKurenai();
 
+  enableEncoder();
+  int16_t el_counter = 0;
+  int16_t er_counter = 0;
+
 //  LL_TIM_EnableIT_UPDATE(TIM5);
 //  LL_TIM_EnableCounter(TIM5);
-
+/*
   enableMotors();
   waitMs(500);
   driveMotors(0.01f, 0.01f);
+*/
 
   /* USER CODE END 2 */
 
@@ -166,7 +171,10 @@ int main(void)
 	  setLED3State(ON);
 	  setLED4State(ON);
 
-	  printf("Hello,World tim = %d\n", tim_counter);
+	  el_counter = getEncoderData(TIM3);
+	  er_counter = getEncoderData(TIM4);
+
+	  printf("el = %d, er = %d, \n", el_counter, er_counter);
 
 	  LL_mDelay(1000);
 

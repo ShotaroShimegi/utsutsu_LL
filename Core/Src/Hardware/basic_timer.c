@@ -11,20 +11,12 @@
 #include "stm32f4xx_ll_utils.h"
 
 /**
-* @brief タイマ割込みのコールバックだけど不必要？
-*/
-void basicTimerCallback(void)
-{
-	return;
-}
-
-/**
 * @brief タイマ割込みのスタート
 */
 void basicTimerStart(void)
 {
-	LL_TIM_EnableIT_UPDATE(TIM6);
-	LL_TIM_EnableCounter(TIM6);
+	LL_TIM_EnableIT_UPDATE(TIM5);
+	LL_TIM_EnableCounter(TIM5);
 }
 
 /**
@@ -32,8 +24,8 @@ void basicTimerStart(void)
 */
 void basicTimerPause(void)
 {
-	LL_TIM_DisableCounter(TIM6);
-	LL_TIM_DisableIT_UPDATE(TIM6);
+	LL_TIM_DisableCounter(TIM5);
+	LL_TIM_DisableIT_UPDATE(TIM5);
 }
 
 /**

@@ -34,7 +34,6 @@ void enableMotors(void)
 	}
 	LL_GPIO_ResetOutputPin(LEFT_DIR1_GPIO_Port, LEFT_DIR1_Pin);
 	LL_GPIO_SetOutputPin(LEFT_DIR2_GPIO_Port, LEFT_DIR2_Pin);
-
 	LL_GPIO_ResetOutputPin(RIGHT_DIR1_GPIO_Port,RIGHT_DIR1_Pin);
 	LL_GPIO_SetOutputPin(RIGHT_DIR2_GPIO_Port, RIGHT_DIR2_Pin);
 

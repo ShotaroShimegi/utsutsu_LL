@@ -73,8 +73,14 @@ void writeByte(uint8_t addres,uint8_t data)
 
 	SPI_Control(SPI3, trans_data, receive_data, 2);
 }
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// initIMU
+//	@brief IMUにデータを送信する
+// @param addres 書き込みたいデータのアドレス（IMU側データシートを参照）
+// @param addres 書き込みたいデータの内容（IMU側データシートを参照）
+//+++++++++++++++++++++++++++++++++++++++++++++++
 
-void gyroInit(void)
+void initIMU(void)
 {
 	uint8_t who_am_i = readByte(WHO_AM_I);
 	printf("Who am I ? -> 0x%x\n", who_am_i);

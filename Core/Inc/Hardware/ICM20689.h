@@ -25,7 +25,7 @@
 /*============================================================
 		関数プロトタイプ宣言
 ============================================================*/
-		void gyroInit();
+		void initIMU();
 /*		float ReadGyroOmegaZ(void);
 		float ReadGyroAccelX(void);
 		void GetOmegaOffset(uint16_t);
