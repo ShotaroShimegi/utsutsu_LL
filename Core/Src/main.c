@@ -199,7 +199,7 @@ uint32_t i=0;
 	  changeRightLED(OFF);
 	  changeLeftLED(OFF);
 SysTick->LOAD;
-SysTick_TypeDeg
+
 //	  el_counter = getEncoderData(TIM3);
 //	  er_counter = getEncoderData(TIM4);
 
