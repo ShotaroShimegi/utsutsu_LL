@@ -31,6 +31,8 @@ extern "C" {
 
 /* USER CODE END Includes */
 
+extern TIM_HandleTypeDef htim6;
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
@@ -40,6 +42,7 @@ void MX_TIM2_Init(void);
 void MX_TIM3_Init(void);
 void MX_TIM4_Init(void);
 void MX_TIM5_Init(void);
+void MX_TIM6_Init(void);
 void MX_TIM8_Init(void);
 void MX_TIM11_Init(void);
 

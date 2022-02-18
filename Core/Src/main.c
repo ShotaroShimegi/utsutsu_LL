@@ -105,13 +105,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
-
-  /* System interrupt init*/
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
   setbuf(stdout,NULL);
@@ -138,6 +132,7 @@ int main(void)
   MX_SPI3_Init();
   MX_TIM11_Init();
   MX_TIM5_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   LL_SPI_Enable(SPI3);
 
@@ -203,7 +198,8 @@ uint32_t i=0;
 	  changeFrontRightLED(OFF);
 	  changeRightLED(OFF);
 	  changeLeftLED(OFF);
-
+SysTick->LOAD;
+SysTick_TypeDeg
 //	  el_counter = getEncoderData(TIM3);
 //	  er_counter = getEncoderData(TIM4);
 
@@ -254,8 +250,13 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_Init1msTick(160000000);
   LL_SetSystemCoreClock(160000000);
+
+   /* Update the time base */
+  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */

@@ -35,3 +35,5 @@ void basicTimerPause(void)
 void waitMs(uint16_t ms){
 	LL_mDelay(ms);
 }
+
+
