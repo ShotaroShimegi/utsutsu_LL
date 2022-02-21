@@ -10,6 +10,9 @@
 
 #include <stdint.h>
 	/*ICM-20689用のマクロ*/
+#define GYRO_FIX 16.4f
+#define ACCEL_FIX 2048.0f
+
 #define		WHO_AM_I 0x75
 #define		GYRO_CORREST_REACTION 0x98
 #define		PWR_MGMT_1 0x6b
@@ -26,10 +29,7 @@
 		関数プロトタイプ宣言
 ============================================================*/
 		void initIMU();
-/*		float ReadGyroOmegaZ(void);
-		float ReadGyroAccelX(void);
-		void GetOmegaOffset(uint16_t);
-		void GetAccelOffset(uint16_t);
-*/
+		float readGyroOmegaZ(void);
+		float readGyroAccelX(void);
 
 #endif /* INC_HARDWARE_ICM20689_H_ */

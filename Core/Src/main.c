@@ -40,7 +40,7 @@
 
 #include"System/callback.h"
 #include"System/music.h"
-
+#include"System/sensing.h"
 
 /* USER CODE END Includes */
 
@@ -105,7 +105,13 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+
+  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+  /* System interrupt init*/
 
   /* USER CODE BEGIN Init */
   setbuf(stdout,NULL);
@@ -134,33 +140,19 @@ int main(void)
   MX_TIM5_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  LL_SPI_Enable(SPI3);
-
-  initIMU();
-
   enableMelody();
   waitMs(1);
   MelodyKurenai();
 
-  startADCwithDMA();
-/*
-  enableEncoder();
-  int16_t el_counter = 0;
-  int16_t er_counter = 0;
-*/
-//  LL_TIM_EnableIT_UPDATE(TIM5);
-//  LL_TIM_EnableCounter(TIM5);
-/*
+  initSensors();
+  basicTimerStart();
+
+  /*
   enableMotors();
   waitMs(500);
   driveMotors(0.01f, 0.01f);
 */
-  uint16_t data0;
-  uint16_t data1;
-  uint16_t data2;
-  uint16_t data3;
-  uint16_t data4;
-uint32_t i=0;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -175,37 +167,33 @@ uint32_t i=0;
 	  setLED3State(ON);
 	  setLED4State(ON);
 */
-	 changeFrontCenterLED(ON);
-	 changeFrontLeftLED(ON);
-	 changeFrontRightLED(ON);
-	 changeRightLED(ON);
-	 changeLeftLED(ON);
 
-	 for( i=0;i<5000;i++){
+//		changeFrontRightLED(ON);
+//		changeFrontCenterLED(ON);
+//		changeLeftLED(ON);
 
-	 }
+//		changeFrontLeftLED(ON);
+//		changeRightLED(ON);
+/*
+		waitUs(CHARG_TIME);
 
-	  data0 = getWallADC(0);
-	  data1 = getWallADC(1);
-	  data2 = getWallADC(2);
-	  data3 = getWallADC(3);
-	  data4 = getWallADC(4);
+		sensor.wall_fr = getWallADC(WALL_ID_FR);
+		sensor.wall_ff = getWallADC(WALL_ID_FF);
+		sensor.wall_l = getWallADC(WALL_ID_L);
+		sensor.wall_fl = getWallADC(WALL_ID_FL);
+		sensor.wall_r = getWallADC(WALL_ID_R);
 
-	  printf("%d %d %d %d %d\n",data0,data1,data2,data3,data4);
-
-	  changeFrontCenterLED(OFF);
-	  changeFrontLeftLED(OFF);
-	  changeFrontRightLED(OFF);
-	  changeRightLED(OFF);
-	  changeLeftLED(OFF);
-SysTick->LOAD;
-
-//	  el_counter = getEncoderData(TIM3);
-//	  er_counter = getEncoderData(TIM4);
-
-//	  printf("el = %d, er = %d, \n", el_counter, er_counter);
-
-	  LL_mDelay(1);
+		changeFrontRightLED(OFF);
+		changeFrontCenterLED(OFF);
+		changeLeftLED(OFF);
+		changeFrontLeftLED(OFF);
+		changeRightLED(OFF);
+*/
+	  printf("%lf %lf %lf %lf \n",sensor.gyro_omega, sensor.gyro_accel,
+			  	  	  	  	  	  	  	  	  sensor.encoder_vel_l,sensor.encoder_vel_r);
+	  printf("Wall : %d %d %d %d %d\n", sensor.wall_fl,sensor.wall_l,
+			  	  	  	  	  	  	  	  	  sensor.wall_ff, sensor.wall_r,sensor.wall_fr);
+	  LL_mDelay(1000);
 
 //	  shutdownMotors();
 
@@ -250,13 +238,8 @@ void SystemClock_Config(void)
   {
 
   }
+  LL_Init1msTick(160000000);
   LL_SetSystemCoreClock(160000000);
-
-   /* Update the time base */
-  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
-  {
-    Error_Handler();
-  }
 }
 
 /* USER CODE BEGIN 4 */

@@ -82,6 +82,8 @@ void writeByte(uint8_t addres,uint8_t data)
 
 void initIMU(void)
 {
+	LL_SPI_Enable(SPI3);
+
 	uint8_t who_am_i = readByte(WHO_AM_I);
 	printf("Who am I ? -> 0x%x\n", who_am_i);
 
@@ -105,48 +107,21 @@ void initIMU(void)
 	waitMs(10);
 	writeByte(ACCEL_CONFIG,0x18);
 	waitMs(10);
-
-	//この下は恐らくシステム側のセンシングデータ関連では？？
-//	GetOmegaOffset(100);
-//	GetAccelOffset(100);
-
 }
-/*
-float ReadGyroOmegaZ(void){
+
+float readGyroOmegaZ(void){
 	int16_t omega_raw_z;
 	float real_omega;
-	omega_raw_z = (int16_t)(ReadByte(GYRO_ZOUT_H) << 8 | ReadByte(GYRO_ZOUT_L));	//0x47が上位，0x48が下位の16bitデータでジャイロ値を取得
+	omega_raw_z = (int16_t)(readByte(GYRO_ZOUT_H) << 8 | readByte(GYRO_ZOUT_L));	//0x47が上位，0x48が下位の16bitデータでジャイロ値を取得
 	real_omega = (float)(omega_raw_z / GYRO_FIX);
 	return real_omega;
 }
 
-float ReadGyroAccelX(void){
+float readGyroAccelX(void){
 	int16_t accel_raw_x;
 	float real_accel;
-	accel_raw_x = (int16_t)(ReadByte(ACCEL_XOUT_H) << 8 | ReadByte(ACCEL_XOUT_L));	//0x47が上位，0x48が下位の16bitデータでジャイロ値を取得
+	accel_raw_x = (int16_t)(readByte(ACCEL_XOUT_H) << 8 | readByte(ACCEL_XOUT_L));	//0x47が上位，0x48が下位の16bitデータでジャイロ値を取得
 	real_accel = (float)(accel_raw_x / ACCEL_FIX);
 	return real_accel;
 }
 
-void GetOmegaOffset(uint16_t num){
-	float gyro_offset = 0;
-	int i;
-
-	for(i=0;i<num;i++){
-		gyro_offset += ReadGyroOmegaZ();
-		waitMs(1);
-	}
-	gyro_omega_base = gyro_offset / (float)num;
-}
-
-void GetAccelOffset(uint16_t num){
-	float gyro_offset = 0;
-	int i;
-
-	for(i=0;i<num;i++){
-		gyro_offset += ReadGyroAccelX();
-		WaitMs(1);
-	}
-	gyro_accel_base = gyro_offset / (float)num;
-}
-*/

@@ -10,6 +10,7 @@
 #include"adc.h"
 
 uint16_t dma_data_buff[5];
+
 void ADC1_Start_DMA2(){
 	LL_DMA_DisableStream(DMA2, LL_DMA_STREAM_0);
 	LL_DMA_ConfigAddresses(DMA2, LL_DMA_STREAM_0,
