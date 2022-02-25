@@ -8,8 +8,8 @@
 #ifndef INC_HARDWARE_MOTOR_H_
 #define INC_HARDWARE_MOTOR_H_
 
-#define MAX_DUTY 0.80f
-#define MIN_DUTY 0.01f
+#define MAX_DUTY 0.20f
+#define MIN_DUTY 0.00f
 
 void driveMotors(float r_duty, float l_duty);
 void enableMotors(void);

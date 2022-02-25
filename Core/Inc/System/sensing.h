@@ -9,7 +9,7 @@
 #define INC_SYSTEM_SENSING_H_
 
 //For IMU
-#define SAMPLE_NUMBER 1000
+#define SAMPLE_NUMBER 100
 #define TIME_STEP 0.001f
 
 //For Encoder
@@ -27,15 +27,18 @@
 #define WALL_ID_L		3
 #define WALL_ID_FL		4
 #define WALL_BORDE_FR	100
-#define WALL_BORDE_R	70
-#define WALL_BORDE_FF	70
-#define WALL_BORDE_L		120
+#define WALL_BORDE_R	60
+#define WALL_BORDE_FF	60
+#define WALL_BORDE_L		60
 #define WALL_BORDE_FL	100
 
 typedef struct{
-	float encoder_vel_r;
+	float encoder_vel_r;		// Unit m/s
 	float encoder_vel_l;
-	int32_t encoder_pulse_mileage;
+	int32_t encoder_mileage_r;
+	int32_t encoder_mileage_l;
+	float mileage_r_mm;
+	float mileage_l_mm;
 	float gyro_omega;
 	float gyro_accel;
 	float gyro_omega_offset;
@@ -54,17 +57,17 @@ typedef struct{
 
 
 void initSensors(void);
-void updataSensors(void);
+void updateSensors(void);
 void getOffsets(void);
 
-int32_t addPulseToMileage(int32_t val, int16_t pulse1, int16_t pulse2);
-
-float getMileage(void);
+float getCenterMileage(void);
 float addAngle(float val);
 float getCenterVelocity(void);
 float getOmega(void);
 float getAccel(void);
 
-extern volatile Sensing_Typedef sensor;
+uint8_t getWallInfo(void);
+
+extern Sensing_Typedef sensor;
 
 #endif /* INC_SYSTEM_SENSING_H_ */

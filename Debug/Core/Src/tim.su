@@ -22,5 +22,6 @@ tim.c:92:6:MX_TIM2_Init	88	static
 tim.c:143:6:MX_TIM3_Init	56	static
 tim.c:196:6:MX_TIM4_Init	56	static
 tim.c:249:6:MX_TIM5_Init	32	static
-tim.c:283:6:MX_TIM8_Init	112	static
-tim.c:346:6:MX_TIM11_Init	88	static
+tim.c:283:6:MX_TIM6_Init	32	static
+tim.c:311:6:MX_TIM8_Init	112	static
+tim.c:374:6:MX_TIM11_Init	88	static

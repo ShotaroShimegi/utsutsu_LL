@@ -59,7 +59,7 @@ void enableMotors(void)
 */
 void setMotorDirection(float r_duty, float l_duty){
 
-	if (l_duty < 0){
+	if (l_duty > 0){
 		LEFT_DIR1_GPIO_Port->BSRR = (LEFT_DIR1_Pin << 16);
 		LEFT_DIR2_GPIO_Port->BSRR = LEFT_DIR2_Pin;
 	}else{
@@ -67,7 +67,7 @@ void setMotorDirection(float r_duty, float l_duty){
 		LEFT_DIR2_GPIO_Port->BSRR = (LEFT_DIR2_Pin << 16);
 	}
 
-	if (r_duty < 0){
+	if (r_duty > 0){
 		RIGHT_DIR1_GPIO_Port->BSRR = (RIGHT_DIR1_Pin << 16);
 		RIGHT_DIR2_GPIO_Port->BSRR = RIGHT_DIR2_Pin;
 	}else{
@@ -98,15 +98,15 @@ float dutyConverter(float max, float min, float check_val) {
 * @param 	l_duty 		左のデューティ
 */
 
-void driveMotors(float r_duty, float l_duty){
+void driveMotors(float l_duty, float r_duty){
 
-	setMotorDirection(r_duty, l_duty);
+	setMotorDirection(l_duty, r_duty);
 
-	r_duty = dutyConverter(MAX_DUTY, MIN_DUTY, r_duty);
 	l_duty = dutyConverter(MAX_DUTY, MIN_DUTY, l_duty);
+	r_duty = dutyConverter(MAX_DUTY, MIN_DUTY, r_duty);
 
-	LL_TIM_OC_SetCompareCH1(TIM1, (100-1)*l_duty);
-	LL_TIM_OC_SetCompareCH2(TIM2, (100-1)*r_duty);
+	LL_TIM_OC_SetCompareCH1(TIM1, (100-1)*r_duty);
+	LL_TIM_OC_SetCompareCH2(TIM2, (100-1)*l_duty);
 
 	LL_TIM_SetCounter(TIM1, 0);
 	LL_TIM_SetCounter(TIM2, 0);

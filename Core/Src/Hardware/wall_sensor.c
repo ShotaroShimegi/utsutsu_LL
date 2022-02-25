@@ -36,7 +36,8 @@ void DMA_CallbackTask(void)
 	ADC1_Start_DMA2();
 }
 
-uint16_t getWallADC(uint8_t number){
+uint16_t getWallADC(uint8_t number)
+{
 	return dma_data_buff[number];
 }
 

@@ -10,20 +10,20 @@
 
 
 /**
-* @brief
-* @param argument1
-* @param (As many as the number of arguments)
-* @return
-* (@sa Functions to should refer to)
-* @details
+ * enableEncoder
+* @brief　エンコーダ機能の有効化
 */
-
 void enableEncoder(void)
 {
 	LL_TIM_EnableCounter(TIM3);
 	LL_TIM_EnableCounter(TIM4);
 }
-
+/**
+ * getEncoderData
+* @brief エンコーダのパルスカウントを取得
+* @param *TIMx 取得したいエンコーダタイマ、左:TIM3,  右: TIM4
+* @return パルスカウント数
+*/
 int16_t getEncoderData(TIM_TypeDef *TIMx)
 {
 	int16_t count = 0;
@@ -31,7 +31,7 @@ int16_t getEncoderData(TIM_TypeDef *TIMx)
 
 	TIMx->CNT = 0;
 
-	if(unsigned_count > 32767)	count = -(65535 - unsigned_count);
+	if(unsigned_count > 32767)	count = -(65536 - unsigned_count);
 	else										count = (int16_t)unsigned_count;
 
 	return count;

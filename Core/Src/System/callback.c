@@ -10,14 +10,16 @@
 
 #include "System/callback.h"
 #include"System/sensing.h"
+#include"System/state.h"
 
 extern uint16_t tim_counter;
 
 void callbackTIM(void)
 {
-	updataSensors();
-
 	static uint16_t l_state;
+	updateSensors();
+	updateStatus();
+
 	tim_counter++;
 	if(tim_counter > 3000) 	l_state = 0;
 	else								l_state = 1;

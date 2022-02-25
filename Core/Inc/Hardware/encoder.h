@@ -10,9 +10,6 @@
 
 #include"tim.h"
 
-#define		LEFT		0xf0
-#define		RIGHT	0x0f
-
 void enableEncoder(void);
 int16_t getEncoderData(TIM_TypeDef *TIMx);
 

@@ -41,6 +41,7 @@
 #include"System/callback.h"
 #include"System/music.h"
 #include"System/sensing.h"
+#include"System/state.h"
 
 /* USER CODE END Includes */
 
@@ -142,9 +143,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
   enableMelody();
   waitMs(1);
-  MelodyKurenai();
+  MelodySummer();
 
   initSensors();
+  initMouseStatus();
+LL_mDelay(1000);
+
+  getOffsets();
   basicTimerStart();
 
   /*
@@ -152,6 +157,15 @@ int main(void)
   waitMs(500);
   driveMotors(0.01f, 0.01f);
 */
+  MF.FLAG.ACTRL = 1;
+
+  MF.FLAG.WACCEL =0;
+  MF.FLAG.WDECEL = 0;
+
+  MF.FLAG.ACCEL = 0;
+  MF.FLAG.DECEL = 0;
+
+  enableMotors();
 
   /* USER CODE END 2 */
 
@@ -168,32 +182,11 @@ int main(void)
 	  setLED4State(ON);
 */
 
-//		changeFrontRightLED(ON);
-//		changeFrontCenterLED(ON);
-//		changeLeftLED(ON);
 
-//		changeFrontLeftLED(ON);
-//		changeRightLED(ON);
-/*
-		waitUs(CHARG_TIME);
-
-		sensor.wall_fr = getWallADC(WALL_ID_FR);
-		sensor.wall_ff = getWallADC(WALL_ID_FF);
-		sensor.wall_l = getWallADC(WALL_ID_L);
-		sensor.wall_fl = getWallADC(WALL_ID_FL);
-		sensor.wall_r = getWallADC(WALL_ID_R);
-
-		changeFrontRightLED(OFF);
-		changeFrontCenterLED(OFF);
-		changeLeftLED(OFF);
-		changeFrontLeftLED(OFF);
-		changeRightLED(OFF);
-*/
-	  printf("%lf %lf %lf %lf \n",sensor.gyro_omega, sensor.gyro_accel,
-			  	  	  	  	  	  	  	  	  sensor.encoder_vel_l,sensor.encoder_vel_r);
-	  printf("Wall : %d %d %d %d %d\n", sensor.wall_fl,sensor.wall_l,
-			  	  	  	  	  	  	  	  	  sensor.wall_ff, sensor.wall_r,sensor.wall_fr);
-	  LL_mDelay(1000);
+//	  printf("sen : %lf %lf %lf %lf \n",mouse.angle, mouse.omega,mouse.velocity,mouse.mileage);
+	  printf("tar : %lf %lf %lf %lf \n",mouse.omega,mouse.angle,
+	  			  	  	  	  	  	  	  	  	  d_out_l, d_out_r);
+	  LL_mDelay(500);
 
 //	  shutdownMotors();
 
