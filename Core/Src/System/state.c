@@ -136,7 +136,7 @@ void updateStatus(void)
 
 	//センサ値からステータス
 	mouse.angle = addAngle(mouse.angle);
-	mouse.omega = getOmega();
+	mouse.omega = getOmega()*CONVERT_TO_RAD;
 	mouse.mileage = getCenterMileage();
 	mouse.velocity = getCenterVelocity();
 

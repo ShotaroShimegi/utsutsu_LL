@@ -147,7 +147,7 @@ int main(void)
 
   initSensors();
   initMouseStatus();
-LL_mDelay(1000);
+  LL_mDelay(1000);
 
   getOffsets();
   basicTimerStart();
@@ -157,7 +157,7 @@ LL_mDelay(1000);
   waitMs(500);
   driveMotors(0.01f, 0.01f);
 */
-  MF.FLAG.ACTRL = 1;
+  MF.FLAG.WCTRL = 1;
 
   MF.FLAG.WACCEL =0;
   MF.FLAG.WDECEL = 0;
@@ -184,8 +184,8 @@ LL_mDelay(1000);
 
 
 //	  printf("sen : %lf %lf %lf %lf \n",mouse.angle, mouse.omega,mouse.velocity,mouse.mileage);
-	  printf("tar : %lf %lf %lf %lf \n",mouse.omega,mouse.angle,
-	  			  	  	  	  	  	  	  	  	  d_out_l, d_out_r);
+	  printf("tar : %lf %lf %d %d \n",mouse.omega,mouse.angle,
+	  			  	  	  	  	  	  	  	  	  sensor.wall_ff, sensor.wall_fr);
 	  LL_mDelay(500);
 
 //	  shutdownMotors();

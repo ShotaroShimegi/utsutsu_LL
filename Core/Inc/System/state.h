@@ -10,6 +10,8 @@
 
 #include<stdint.h>
 
+#define CONVERT_TO_RAD 0.01744f	// Unit Convert [deg/s] -> [rad/s]
+
 typedef struct {
 	float angle;
 	float omega;

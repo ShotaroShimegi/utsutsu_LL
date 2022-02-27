@@ -11,6 +11,8 @@
 #include <stdint.h>
 
 void startADCwithDMA(void);
+void pauseADCwithDMA(void);
+
 void DMA_CallbackTask(void);
 uint16_t getWallADC(uint8_t number);
 

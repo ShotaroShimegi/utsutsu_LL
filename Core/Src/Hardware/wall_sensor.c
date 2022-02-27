@@ -30,6 +30,11 @@ void startADCwithDMA(void)
 	ADC1_Start_DMA2();
 }
 
+void pauseADCwithDMA(void){
+	LL_DMA_DisableStream(DMA2, LL_DMA_STREAM_0);
+	LL_ADC_Disable(ADC1);
+}
+
 void DMA_CallbackTask(void)
 {
 	LL_ADC_ClearFlag_EOCS(ADC2);
