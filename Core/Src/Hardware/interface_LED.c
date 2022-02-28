@@ -18,22 +18,31 @@
 */
 
 void setLED1State(uint8_t state)	{
-	if (state == 1) 	LED1_GPIO_Port->BSRR = LED1_Pin;
+	if (state > 0) 	LED1_GPIO_Port->BSRR = LED1_Pin;
 	else					LED1_GPIO_Port->BSRR = (LED1_Pin << 16);
 }
 void setLED2State(uint8_t state)	{
-	if (state == 1) 	LED2_GPIO_Port->BSRR = LED2_Pin;
+	if (state > 0) 	LED2_GPIO_Port->BSRR = LED2_Pin;
 	else					LED2_GPIO_Port->BSRR = (LED2_Pin << 16);
 }
 void setLED3State(uint8_t state)	{
-	if (state == 1) 	LED3_GPIO_Port->BSRR = LED3_Pin;
+	if (state > 0) 	LED3_GPIO_Port->BSRR = LED3_Pin;
 	else					LED3_GPIO_Port->BSRR = (LED3_Pin << 16);
 }
 void setLED4State(uint8_t state)	{
-	if (state == 1) 	LED4_GPIO_Port->BSRR = LED4_Pin;
+	if (state > 0) 	LED4_GPIO_Port->BSRR = LED4_Pin;
 	else					LED4_GPIO_Port->BSRR = (LED4_Pin << 16);
 }
 void setLED5State(uint8_t state)	{
-	if (state == 1) 	LED5_GPIO_Port->BSRR = LED5_Pin;
+	if (state > 0) 	LED5_GPIO_Port->BSRR = LED5_Pin;
 	else					LED5_GPIO_Port->BSRR = (LED5_Pin << 16);
+}
+
+void displayBinaryValueWithLEDs(uint8_t order)
+{
+	setLED5State(order & 0x01);
+	setLED4State(order & 0x02);
+	setLED3State(order & 0x04);
+	setLED2State(order & 0x08);
+	setLED1State(order & 0x10);
 }

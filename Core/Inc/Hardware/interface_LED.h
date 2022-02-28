@@ -20,6 +20,7 @@ void setLED2State(uint8_t state);
 void setLED3State(uint8_t state);
 void setLED4State(uint8_t state);
 void setLED5State(uint8_t state);
+void displayBinaryValueWithLEDs(uint8_t order);
 
 
 #endif /* INC_HARDWARE_INTERFACE_LED_H_ */

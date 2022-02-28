@@ -30,6 +30,13 @@
 /* USER CODE BEGIN Includes */
 #include<stdio.h>
 
+#include"Controller/mode.h"
+
+#include"System/callback.h"
+#include"System/music.h"
+#include"System/sensing.h"
+#include"System/state.h"
+
 #include"Hardware/ICM20689.h"
 #include"Hardware/basic_timer.h"
 #include"Hardware/buzzer.h"
@@ -37,11 +44,6 @@
 #include"Hardware/interface_LED.h"
 #include "Hardware/motor.h"
 #include"Hardware/wall_sensor.h"
-
-#include"System/callback.h"
-#include"System/music.h"
-#include"System/sensing.h"
-#include"System/state.h"
 
 /* USER CODE END Includes */
 
@@ -147,16 +149,9 @@ int main(void)
 
   initSensors();
   initMouseStatus();
-  LL_mDelay(1000);
 
-  getOffsets();
-  basicTimerStart();
+//  basicTimerStart();
 
-  /*
-  enableMotors();
-  waitMs(500);
-  driveMotors(0.01f, 0.01f);
-*/
   MF.FLAG.WCTRL = 1;
 
   MF.FLAG.WACCEL =0;
@@ -165,7 +160,11 @@ int main(void)
   MF.FLAG.ACCEL = 0;
   MF.FLAG.DECEL = 0;
 
-  enableMotors();
+//  LL_mDelay(1000);
+//  getOffsets();
+//  enableMotors();
+
+  uint8_t mode;
 
   /* USER CODE END 2 */
 
@@ -176,17 +175,18 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-/*	  setLED1State(ON);
-	  setLED2State(ON);
-	  setLED3State(ON);
-	  setLED4State(ON);
-*/
+	  mode = modeSelect();
+	  waitMs(500);
+	  switch(mode){
+	  	  case 0:
+	  		  break;
 
+	  	  case 14:
+	  		  break;
 
-//	  printf("sen : %lf %lf %lf %lf \n",mouse.angle, mouse.omega,mouse.velocity,mouse.mileage);
-	  printf("tar : %lf %lf %d %d \n",mouse.omega,mouse.angle,
-	  			  	  	  	  	  	  	  	  	  sensor.wall_ff, sensor.wall_fr);
-	  LL_mDelay(500);
+	  	  default:
+	  		  break;
+	  }
 
 //	  shutdownMotors();
 
