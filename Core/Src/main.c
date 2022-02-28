@@ -179,6 +179,8 @@ int main(void)
 	  waitMs(500);
 	  switch(mode){
 	  	  case 0:
+	  		  waitStarting();
+	  		  judgeFailSafe();
 	  		  break;
 
 	  	  case 14:

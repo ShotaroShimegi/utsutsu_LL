@@ -326,7 +326,7 @@ void MX_TIM8_Init(void)
   /* USER CODE BEGIN TIM8_Init 1 */
 
   /* USER CODE END TIM8_Init 1 */
-  TIM_InitStruct.Prescaler = 800-1;
+  TIM_InitStruct.Prescaler = 800-LL_TIM_IC_FILTER_FDIV1_N2;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
   TIM_InitStruct.Autoreload = 1000;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
@@ -409,13 +409,13 @@ void MX_TIM11_Init(void)
     /**TIM11 GPIO Configuration
     PB9     ------> TIM11_CH1
     */
-  GPIO_InitStruct.Pin = LL_GPIO_PIN_9;
+  GPIO_InitStruct.Pin = FUN_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_3;
-  LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  LL_GPIO_Init(FUN_GPIO_Port, &GPIO_InitStruct);
 
 }
 

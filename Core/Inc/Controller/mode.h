@@ -10,11 +10,18 @@
 
 #include<stdint.h>
 
-#define RIGHT_RESOLUTION 		15
+#define RIGHT_RESOLUTION 		16
 #define LEFT_RESOLUTION 		3
+#define WALL_START_VALUE 	200
+
+#define FAIL_ANGLE 			30.0f
+#define FAIL_VELOCITY		2.0f
 
 uint8_t modeSelect(void);
-void checkWallSensor(void);
-void checkSensors(void);
+void waitStarting(void);
+
+void judgeFailSafe(void);
+void testWallSensors(void);
+void testEstimationSensors(void);
 
 #endif /* INC_SYSTEM_MODE_H_ */
