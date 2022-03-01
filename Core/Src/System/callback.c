@@ -5,7 +5,6 @@
  *      Author: sssho
  */
 
-
 #include"Hardware/interface_LED.h"
 
 #include "System/callback.h"
@@ -16,7 +15,6 @@ extern uint16_t tim_counter;
 
 void callbackTIM(void)
 {
-	static uint16_t l_state;
 	updateSensors();
 	updateStatus();
 

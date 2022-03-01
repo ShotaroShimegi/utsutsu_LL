@@ -18,6 +18,15 @@ void enableEncoder(void)
 	LL_TIM_EnableCounter(TIM3);
 	LL_TIM_EnableCounter(TIM4);
 }
+/* disableEncoder
+* @brief　エンコーダ機能の有効化
+*/
+void disableEncoder(void)
+{
+	LL_TIM_DisableCounter(TIM3);
+	LL_TIM_DisableCounter(TIM4);
+}
+
 /**
  * getEncoderData
 * @brief エンコーダのパルスカウントを取得

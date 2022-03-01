@@ -47,26 +47,34 @@ float calculatePID(PID_Typedef *instance)
 	return instance->outputPID;
 
 }
-
+/**
+ * calculateTargetVelocity
+* @brief MFの値から並進加速度の目標値を計算する
+* @return 計算後の目標値
+*/
 float calculateTargetVelocity(void)
 {
 	float target_val = target.velocity;
 
-	if(MF.FLAG.ACCEL == 1) 			target_val += target.accel;
-	else if(MF.FLAG.DECEL == 1)	target_val -= target.accel;
+	if(MF.FLAG.ACCEL == 1) 			target_val += max.accel;
+	else if(MF.FLAG.DECEL == 1)	target_val -= max.accel;
 
 	if(target_val > max.velocity)			target_val = max.velocity;
 	else if(target_val < -max.velocity)	target_val = -max.velocity;
 
 	return target_val;
 }
-
+/**
+ * calculateTargetOmega
+* @brief MFの値から並進加速度の目標値を計算する
+* @return 計算後の目標値
+*/
 float calculateTagetOmega(void)
 {
 	float target_val = target.omega;
 
-	if(MF.FLAG.WACCEL == 1) 			target_val += target.omega_accel;
-	else if(MF.FLAG.WDECEL == 1)	target_val -= target.omega_accel;
+	if(MF.FLAG.WACCEL == 1) 			target_val += max.omega_accel;
+	else if(MF.FLAG.WDECEL == 1)	target_val -= max.omega_accel;
 
 	if(target_val > max.omega)			target_val = max.omega;
 	else if(target_val < -max.omega)	target_val = -max.omega;
@@ -74,14 +82,15 @@ float calculateTagetOmega(void)
 	return target_val;
 }
 
-State_Typedef setStatus(float angle,float omega, float omega_accel,
+State_Typedef setStatus(float angle,float curve,
 									float mileage, float velocity, float accel,
 									uint8_t x, uint8_t y, uint8_t dir )
 {
 	State_Typedef instance;
 	instance.angle = angle;
-	instance.omega = omega;
-	instance.omega_accel = omega_accel;
+	instance.omega = velocity / curve;
+	instance.omega_accel = accel / curve;
+	instance.inverse_curvature = curve;
 	instance.mileage = mileage;
 	instance.velocity = velocity;
 	instance.accel = accel;
@@ -112,9 +121,9 @@ PID_Typedef setPrameters(float gainP, float gainI, float gainD, float limitI, fl
 void initMouseStatus(void)
 {
 	//State関連
-	mouse = setStatus(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0, 0x00);
-	target = setStatus(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0, 0, 0x00);
-	max = setStatus(0.0f, 0.0f, 0.0f, 0.0f, 0.50f, 0.40f, GOAL_X, GOAL_Y, 0x00);
+	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0, 0, 0x00);
+	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0, 0, 0x00);
+	max = setStatus(0.0f, 0.08f, 0.0f, 0.50f, 0.40f, GOAL_X, GOAL_Y, 0x00);
 
 	//MF
 	MF.FLAGS = 0x00000000;
@@ -170,8 +179,5 @@ void updateStatus(void)
 	output_duty_l += calculatePID(&PID_left_velocity);
 
 	driveMotors(output_duty_l, output_duty_r);
-
-	d_out_l = output_duty_l;
-	d_out_r = output_duty_r;
 
 }

@@ -13,12 +13,13 @@
 #define CONVERT_TO_RAD 0.01744f	// Unit Convert [deg/s] -> [rad/s]
 
 typedef struct {
-	float angle;
-	float omega;
-	float omega_accel;
-	float mileage;
-	float velocity;
-	float accel;
+	float angle;						// Unit [deg]
+	float omega;						// Unit [rad/s]
+	float omega_accel;				// Unit [rad/s/s]
+	float inverse_curvature;		//	Unit [m] 曲率の値は直感的ではないので、半径を採用
+	float mileage;						// Unit [mm]
+	float velocity;						// Unit [m/s] = [mm/ms]
+	float accel;						// Unit [m/s/s]
 	uint8_t x;
 	uint8_t y;
 	uint8_t dir;
@@ -72,8 +73,5 @@ extern PID_Typedef PID_left_velocity;
 extern PID_Typedef PID_right_velocity;
 extern PID_Typedef PID_omega;
 extern PID_Typedef PID_angle;
-
-extern float d_out_r;
-extern float d_out_l;
 
 #endif /* INC_SYSTEM_STATE_H_ */

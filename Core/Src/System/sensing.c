@@ -4,13 +4,13 @@
  *  Created on: Feb 18, 2022
  *      Author: sssho
  */
+#include"System/sensing.h"
+
 #include"Hardware/ICM20689.h"
 #include"Hardware/encoder.h"
 #include"Hardware/wall_sensor.h"
 #include"Hardware/basic_timer.h"
 #include"Hardware/interface_LED.h"
-
-#include"System/sensing.h"
 
 Sensing_Typedef sensor;
 
@@ -69,10 +69,6 @@ void getWallSensor(void)
 	changeLeftLED(ON);
 	waitUs(CHARG_TIME);
 
-/*	  LL_DMA_ClearFlag_TC0(DMA2);
-	  DMA_CallbackTask();
-	while( LL_DMA_IsActiveFlag_TC0(DMA2)  != 1);
-*/
 	sensor.wall_fr = getWallADC(WALL_ID_FR);
 	sensor.wall_ff = getWallADC(WALL_ID_FF);
 	sensor.wall_l = getWallADC(WALL_ID_L) ;
@@ -83,11 +79,7 @@ void getWallSensor(void)
 	changeFrontLeftLED(ON);
 	changeRightLED(ON);
 	waitUs(CHARG_TIME);
-/*
-	  LL_DMA_ClearFlag_TC0(DMA2);
-	  DMA_CallbackTask();
-	while( LL_DMA_IsActiveFlag_TC0(DMA2)  != 1);
-*/
+
 	sensor.wall_fl = getWallADC(WALL_ID_FL);
 	sensor.wall_r = getWallADC(WALL_ID_R) ;
 	changeFrontLeftLED(OFF);

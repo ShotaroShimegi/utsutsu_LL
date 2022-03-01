@@ -58,6 +58,9 @@ uint8_t modeSelect(void)
 		pre_mode = mode;
 	}while(enter != 2);
 
+	disableEncoder();
+	TIM3->CNT = 0;
+	TIM4->CNT = 0;
 	printf(" Enter : mode %2d\n",mode);
 	return mode;
 }

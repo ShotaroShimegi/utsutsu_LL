@@ -8,6 +8,8 @@
 #ifndef INC_SYSTEM_SENSING_H_
 #define INC_SYSTEM_SENSING_H_
 
+#include<stdint.h>
+
 //For IMU
 #define SAMPLE_NUMBER 100
 #define TIME_STEP 0.001f

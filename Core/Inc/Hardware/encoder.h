@@ -11,6 +11,7 @@
 #include"tim.h"
 
 void enableEncoder(void);
+void disableEncoder(void);
 int16_t getEncoderData(TIM_TypeDef *TIMx);
 
 #endif /* INC_HARDWARE_ENCODER_H_ */
