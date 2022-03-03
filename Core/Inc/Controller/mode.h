@@ -12,7 +12,7 @@
 
 #define RIGHT_RESOLUTION 		16
 #define LEFT_RESOLUTION 		3
-#define WALL_START_VALUE 	200
+#define WALL_START_VALUE 	130
 
 #define FAIL_ANGLE 			30.0f
 #define FAIL_VELOCITY		2.0f

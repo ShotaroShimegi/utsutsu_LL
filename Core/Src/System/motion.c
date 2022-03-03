@@ -5,18 +5,22 @@
  *      Author: sssho
  */
 #include<math.h>
+#include<stdint.h>
 
-#include"System/motion.h"
-#include"System/state.h"
+#include "System/motion.h"
+#include "System/state.h"
+#include "System/sensing.h"
 
-void driveMotion(float dist, float out_velocity)
+#include"Hardware/basic_timer.h"
+
+void driveAccelMotion(float dist, float out_velocity)
 {
 	float input_mileage = mouse.mileage;
 	//速度制御、角度制御、壁制御ON
 	MF.FLAG.VCTRL = 1;
-	MF.FLAG.ACTRL = 1;
-	MF.FLAG.WCTRL = 0;
-	MF.FLAG.CTRL = 1;
+	MF.FLAG.ACTRL = 0;
+	MF.FLAG.WCTRL = 1;
+	MF.FLAG.CTRL = 0;
 
 	//減速区間の計算
 	float error = max.velocity - out_velocity;
@@ -33,9 +37,17 @@ void driveMotion(float dist, float out_velocity)
 	MF.FLAG.DECEL = 1;
 	while(mouse.mileage < input_mileage +dist) {
 		//出口速度に速度が到達したら強制終了
-		if(mouse.velocity <= out_velocity)break;
+/*		if(target.velocity <= out_velocity){
+			target.velocity = out_velocity;
+			break;
+		}
+*/
 	}
+	MF.FLAG.ACCEL = 0;
+	MF.FLAG.DECEL = 0;
+	target.velocity = out_velocity;
 
+	if(out_velocity == 0.0f)	waitMs(200);
 }
 
 void turnMotion(float angle)

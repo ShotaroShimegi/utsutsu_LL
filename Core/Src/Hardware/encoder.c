@@ -25,6 +25,7 @@ void disableEncoder(void)
 {
 	LL_TIM_DisableCounter(TIM3);
 	LL_TIM_DisableCounter(TIM4);
+
 }
 
 /**

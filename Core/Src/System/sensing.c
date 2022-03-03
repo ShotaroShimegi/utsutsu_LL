@@ -146,6 +146,10 @@ void initSensors(void)
 	initIMU();
 	enableEncoder();
 	startADCwithDMA();
+
+	sensor.encoder_mileage_l = 0;
+	sensor.encoder_mileage_r = 0;
+
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
@@ -160,8 +164,8 @@ void updateSensors(void)
 	//Encoder
 	int16_t pulse_l = -getEncoderData(TIM3);
 	int16_t pulse_r = getEncoderData(TIM4);
-	sensor.encoder_mileage_l += pulse_l;
-	sensor.encoder_mileage_r += pulse_r;
+	sensor.encoder_mileage_l += (int32_t)pulse_l;
+	sensor.encoder_mileage_r += (int32_t)pulse_r;
 	sensor.encoder_vel_l = getEncoderVelocity(pulse_l);
 	sensor.encoder_vel_r = getEncoderVelocity(pulse_r);
 	//Wall Sensor

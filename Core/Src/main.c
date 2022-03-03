@@ -36,6 +36,7 @@
 #include"System/music.h"
 #include"System/sensing.h"
 #include"System/state.h"
+#include"System/motion.h"
 
 #include"Hardware/ICM20689.h"
 #include"Hardware/basic_timer.h"
@@ -150,20 +151,6 @@ int main(void)
   initSensors();
   initMouseStatus();
 
-//  basicTimerStart();
-
-  MF.FLAG.WCTRL = 1;
-
-  MF.FLAG.WACCEL =0;
-  MF.FLAG.WDECEL = 0;
-
-  MF.FLAG.ACCEL = 0;
-  MF.FLAG.DECEL = 0;
-
-//  LL_mDelay(1000);
-//  getOffsets();
-//  enableMotors();
-
   uint8_t mode;
 
   /* USER CODE END 2 */
@@ -180,10 +167,27 @@ int main(void)
 	  switch(mode){
 	  	  case 0:
 	  		  waitStarting();
-	  		  judgeFailSafe();
+
 	  		  break;
 
+	  	  case 1:
+	  		  waitStarting();
+	  		  enableEncoder();
+	  		  basicTimerStart();
+	  		  while(1){
+	  				printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n", mouse.mileage, sensor.mileage_l_mm, sensor.mileage_r_mm);
+	  				waitMs(500);
+	  		  }
+	  		  break;
 	  	  case 14:
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  basicTimerStart();
+	  		  enableMotors();
+
+	  		  driveAccelMotion(90.0f, 0.0f);
+	  		  shutdownMotors();
 	  		  break;
 
 	  	  default:

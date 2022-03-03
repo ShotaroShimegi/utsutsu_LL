@@ -58,6 +58,8 @@ uint8_t modeSelect(void)
 		pre_mode = mode;
 	}while(enter != 2);
 
+	Melody(e7,100);
+
 	disableEncoder();
 	TIM3->CNT = 0;
 	TIM4->CNT = 0;
@@ -82,6 +84,7 @@ void waitStarting(void)
 			break;
 		}
 	}
+	basicTimerPause();
 }
 
 void judgeFailSafe(void)
@@ -91,7 +94,7 @@ void judgeFailSafe(void)
 	float error_velocity_l = target.velocity - sensor.encoder_vel_l;
 	uint8_t error_code = 0;
 
-//	if(readBatteryCheck() == 0)							error_code = 1;
+	if(readBatteryCheck() == 0)							error_code = 1;
 	if(MF.FLAG.WCTRL != 1 && fabs(error_angle) > FAIL_ANGLE) 	error_code =2;
 	if(fabs(error_velocity_l) > FAIL_VELOCITY)	error_code = 3;
 	if(fabs(error_velocity_r) > FAIL_VELOCITY)	error_code = 4;
