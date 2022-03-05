@@ -39,7 +39,7 @@ uint8_t modeSelect(void)
 	TIM3->CNT = 0;
 	TIM4->CNT = 0;
 	enableEncoder();
-	printf("Select Mode \n");
+	printf("Utsutsu : Select Mode \n");
 
 	//モード(0~15)を確定するwhileループ
 	do{
@@ -76,7 +76,7 @@ void waitStarting(void)
 	shutdownMotors();
 
 	basicTimerStart();
-	printf("Ready???");
+	printf("Ready???\n");
 	while(1){
 		if(sensor.wall_ff > WALL_START_VALUE){
 			Melody(e6,300);

@@ -171,8 +171,9 @@ int main(void)
 	  		 MF.FLAG.SAFETY= 0;
 	  		waitStarting();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
-	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf \n",
-	  					log[i].target_velocity, log[i].target_omega,log[i].real_velocity, log[i].real_omega);
+	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf,%.3lf, %.3lf \n",
+	  					log[i].target_velocity, log[i].target_omega,log[i].real_velocity, log[i].real_omega,
+						log[i].mileage, log[i].angle);
 	  			  waitMs(1);
 	  		  }
 	  		  break;
@@ -210,20 +211,12 @@ int main(void)
 	  		  break;
 
 	  	  case 13:
-//	  		  waitStarting();
+	  		  waitStarting();
 	  		  enableEncoder();
 	  		  basicTimerStart();
 	  		  MF.FLAG.SAFETY = 0;
-	  		  int32_t val_l, val_r;
-	  		  float m1, m2,m3;
 	  		  while(1){
-	  			  val_l = sensor.encoder_mileage_l;
-	  			  val_r = sensor.encoder_mileage_r;
-	  			  m1 = mouse.mileage;
-	  			  m2 = sensor.mileage_l_mm;
-	  			  m3 = sensor.encoder_mileage_r;
-	  			printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n", m1,m2,m3);
-	  			printf("mile_l : %d, mile_r : %d\n",val_l,val_r);
+	  			printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n", mouse.mileage,sensor.mileage_l_mm,sensor.mileage_r_mm);
 	  			waitMs(500);
 	  		  }
 	  		  break;
@@ -236,6 +229,7 @@ int main(void)
 	  		  basicTimerStart();
 	  		  enableMotors();
 
+	  		  tim_counter = 0;
 	  		  driveAccelMotion(90.0f, 0.0f);
 
 	  		  shutdownMotors();

@@ -39,7 +39,7 @@ void disableEncoder(void)
 int16_t getEncoderData(uint8_t dir)
 {
 	int16_t count = 0;
-	uint16_t unsigned_count;
+	uint16_t unsigned_count = 0;
 	if(dir == 0xf0)	{
 		unsigned_count= TIM3->CNT;
 		TIM3->CNT = 0;
@@ -48,7 +48,7 @@ int16_t getEncoderData(uint8_t dir)
 		TIM4->CNT = 0;
 	}
 
-	if(unsigned_count > 32767)	count = (int16_t)(65536 - unsigned_count) * -1;
+	if(unsigned_count > 32767)	count = (int16_t)(65536 - unsigned_count) *( -1);
 	else										count = (int16_t)unsigned_count;
 
 	return count;

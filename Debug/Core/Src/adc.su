@@ -1,1 +1,15 @@
-adc.c:28:6:MX_ADC1_Init	112	static,ignoring_inline_asm
+stm32f4xx_ll_adc.h:2491:22:LL_ADC_REG_SetSequencerRanks	40	static,ignoring_inline_asm
+stm32f4xx_ll_adc.h:2723:22:LL_ADC_REG_SetFlagEndOfConversion	16	static
+stm32f4xx_ll_adc.h:3277:22:LL_ADC_SetChannelSamplingTime	56	static,ignoring_inline_asm
+stm32f4xx_ll_dma.h:596:22:LL_DMA_SetDataTransferDirection	24	static
+stm32f4xx_ll_dma.h:644:22:LL_DMA_SetMode	24	static
+stm32f4xx_ll_dma.h:691:22:LL_DMA_SetPeriphIncMode	24	static
+stm32f4xx_ll_dma.h:736:22:LL_DMA_SetMemoryIncMode	24	static
+stm32f4xx_ll_dma.h:782:22:LL_DMA_SetPeriphSize	24	static
+stm32f4xx_ll_dma.h:829:22:LL_DMA_SetMemorySize	24	static
+stm32f4xx_ll_dma.h:922:22:LL_DMA_SetStreamPriorityLevel	24	static
+stm32f4xx_ll_dma.h:1020:22:LL_DMA_SetChannelSelection	24	static
+stm32f4xx_ll_dma.h:1277:22:LL_DMA_DisableFifoMode	16	static
+stm32f4xx_ll_bus.h:411:22:LL_AHB1_GRP1_EnableClock	24	static
+stm32f4xx_ll_bus.h:1706:22:LL_APB2_GRP1_EnableClock	24	static
+adc.c:28:6:MX_ADC1_Init	80	static
