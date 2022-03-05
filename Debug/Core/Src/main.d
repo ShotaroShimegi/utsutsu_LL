@@ -25,7 +25,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/Controller/mode.h ../Core/Inc/System/callback.h \
  ../Core/Inc/System/music.h ../Core/Inc/System/sensing.h \
  ../Core/Inc/System/state.h ../Core/Inc/System/motion.h \
- ../Core/Inc/Hardware/ICM20689.h ../Core/Inc/Hardware/basic_timer.h \
+ ../Core/Inc/System/log.h ../Core/Inc/Hardware/ICM20689.h \
+ ../Core/Inc/Hardware/basic_timer.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h \
  ../Core/Inc/Hardware/buzzer.h ../Core/Inc/Hardware/encoder.h \
  ../Core/Inc/Hardware/interface_LED.h ../Core/Inc/Hardware/motor.h \
@@ -100,6 +101,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/System/state.h:
 
 ../Core/Inc/System/motion.h:
+
+../Core/Inc/System/log.h:
 
 ../Core/Inc/Hardware/ICM20689.h:
 

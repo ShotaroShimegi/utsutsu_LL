@@ -21,8 +21,8 @@ float getEncoderVelocity(int16_t count)
 
 float getCenterMileage(void)
 {
-	sensor.mileage_l_mm = sensor.encoder_mileage_l * GAIN_ENCODER;
-	sensor.mileage_r_mm = sensor.encoder_mileage_r * GAIN_ENCODER;
+	sensor.mileage_l_mm = (float)sensor.encoder_mileage_l * (float)GAIN_ENCODER;
+	sensor.mileage_r_mm = (float)sensor.encoder_mileage_r * (float)GAIN_ENCODER;
 
 	return (sensor.mileage_l_mm+ sensor.mileage_r_mm)*0.5f;
 }
@@ -145,11 +145,10 @@ void initSensors(void)
 {
 	initIMU();
 	enableEncoder();
-	startADCwithDMA();
+//	startADCwithDMA();
 
 	sensor.encoder_mileage_l = 0;
 	sensor.encoder_mileage_r = 0;
-
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
@@ -162,21 +161,20 @@ void updateSensors(void)
 	sensor.gyro_omega = readGyroOmegaZ() - sensor.gyro_omega_offset;
 	sensor.gyro_accel = readGyroAccelX() - sensor.gyro_accel_offset;
 	//Encoder
-	int16_t pulse_l = -getEncoderData(TIM3);
-	int16_t pulse_r = getEncoderData(TIM4);
-	sensor.encoder_mileage_l += (int32_t)pulse_l;
-	sensor.encoder_mileage_r += (int32_t)pulse_r;
-	sensor.encoder_vel_l = getEncoderVelocity(pulse_l);
-	sensor.encoder_vel_r = getEncoderVelocity(pulse_r);
+	sensor.pulse_l = (-1) * getEncoderData(LEFT);
+	sensor.pulse_r = getEncoderData(RIGHT);
+	sensor.encoder_mileage_l += sensor.pulse_l;
+	sensor.encoder_mileage_r += sensor.pulse_r;
+	sensor.encoder_vel_l = getEncoderVelocity(sensor.pulse_l);
+	sensor.encoder_vel_r = getEncoderVelocity(sensor.pulse_r);
 	//Wall Sensor
-	getWallSensor();
+//	getWallSensor();
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
 // getOffsets
 //	@brief IMU用のオフセットを取得する、主に走行前など自律移動開始時に呼び出す
 //+++++++++++++++++++++++++++++++++++++++++++++++
-
 void getOffsets(void)
 {
 	sensor.gyro_accel_offset = getAccelOffset(SAMPLE_NUMBER);

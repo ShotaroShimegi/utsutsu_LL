@@ -20,8 +20,6 @@ PID_Typedef PID_right_velocity;
 PID_Typedef PID_wall;
 PID_Typedef PID_omega;
 PID_Typedef PID_angle;
-float d_out_r;
-float d_out_l;
 
 /**
  * calculatePID
@@ -73,8 +71,8 @@ float calculateTagetOmega(void)
 {
 	float target_val = target.omega;
 
-	if(MF.FLAG.WACCEL == 1) 			target_val += max.omega_accel;
-	else if(MF.FLAG.WDECEL == 1)	target_val -= max.omega_accel;
+	if(MF.FLAG.WACCEL == 1) 			target_val += max.omega_accel * 0.001f;
+	else if(MF.FLAG.WDECEL == 1)	target_val -= max.omega_accel * 0.001f;
 
 	if(target_val > max.omega)			target_val = max.omega;
 	else if(target_val < -max.omega)	target_val = -max.omega;
@@ -163,21 +161,21 @@ void updateStatus(void)
 	//PID計算
 	if(MF.FLAG.ACTRL)	{
 		tmp = calculatePID(&PID_angle);
-		output_duty_r -= tmp;
-		output_duty_l += tmp;
+		output_duty_r += tmp;
+		output_duty_l -= tmp;
 	}
 	if(MF.FLAG.WCTRL){
 		tmp = calculatePID(&PID_omega);
-		output_duty_r -= tmp;
-		output_duty_l += tmp;
+		output_duty_r += tmp;
+		output_duty_l -= tmp;
 	}
 	if(MF.FLAG.CTRL){
 		output_duty_r -= calculatePID(&PID_wall);
 		output_duty_l += calculatePID(&PID_wall);
 	}
-	output_duty_r += calculatePID(&PID_right_velocity);
-	output_duty_l += calculatePID(&PID_left_velocity);
-
+	if(MF.FLAG.VCTRL){
+		output_duty_r += calculatePID(&PID_right_velocity);
+		output_duty_l += calculatePID(&PID_left_velocity);
+	}
 	driveMotors(output_duty_l, output_duty_r);
-
 }

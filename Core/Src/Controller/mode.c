@@ -59,6 +59,8 @@ uint8_t modeSelect(void)
 	}while(enter != 2);
 
 	Melody(e7,100);
+	Melody(f7,100);
+	Melody(g7,100);
 
 	disableEncoder();
 	TIM3->CNT = 0;

@@ -9,7 +9,7 @@
 #define INC_SYSTEM_MOTION_H_
 
 void driveAccelMotion(float dist, float out_velocity);
-void turnMotion(float angle);
+void spinMotion(float angle);
 void slalomMotion(float angle, float out_velocity);
 
 

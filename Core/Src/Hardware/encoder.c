@@ -15,6 +15,8 @@
 */
 void enableEncoder(void)
 {
+	TIM3->CNT = 0;
+	TIM4->CNT = 0;
 	LL_TIM_EnableCounter(TIM3);
 	LL_TIM_EnableCounter(TIM4);
 }
@@ -34,14 +36,19 @@ void disableEncoder(void)
 * @param *TIMx 取得したいエンコーダタイマ、左:TIM3,  右: TIM4
 * @return パルスカウント数
 */
-int16_t getEncoderData(TIM_TypeDef *TIMx)
+int16_t getEncoderData(uint8_t dir)
 {
 	int16_t count = 0;
-	uint16_t unsigned_count = TIMx->CNT;
+	uint16_t unsigned_count;
+	if(dir == 0xf0)	{
+		unsigned_count= TIM3->CNT;
+		TIM3->CNT = 0;
+	}else if(dir == 0x0f){
+		unsigned_count= TIM4->CNT;
+		TIM4->CNT = 0;
+	}
 
-	TIMx->CNT = 0;
-
-	if(unsigned_count > 32767)	count = -(65536 - unsigned_count);
+	if(unsigned_count > 32767)	count = (int16_t)(65536 - unsigned_count) * -1;
 	else										count = (int16_t)unsigned_count;
 
 	return count;

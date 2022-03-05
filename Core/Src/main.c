@@ -37,6 +37,7 @@
 #include"System/sensing.h"
 #include"System/state.h"
 #include"System/motion.h"
+#include"System/log.h"
 
 #include"Hardware/ICM20689.h"
 #include"Hardware/basic_timer.h"
@@ -150,6 +151,7 @@ int main(void)
 
   initSensors();
   initMouseStatus();
+  judgeFailSafe();
 
   uint8_t mode;
 
@@ -166,27 +168,76 @@ int main(void)
 	  waitMs(500);
 	  switch(mode){
 	  	  case 0:
-	  		  waitStarting();
-
+	  		 MF.FLAG.SAFETY= 0;
+	  		waitStarting();
+	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
+	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf \n",
+	  					log[i].target_velocity, log[i].target_omega,log[i].real_velocity, log[i].real_omega);
+	  			  waitMs(1);
+	  		  }
 	  		  break;
 
 	  	  case 1:
-	  		  waitStarting();
-	  		  enableEncoder();
-	  		  basicTimerStart();
-	  		  while(1){
-	  				printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n", mouse.mileage, sensor.mileage_l_mm, sensor.mileage_r_mm);
-	  				waitMs(500);
-	  		  }
+
 	  		  break;
-	  	  case 14:
+	  	  case 2 :
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
 	  		  basicTimerStart();
 	  		  enableMotors();
 
+	  		  tim_counter = 0;
+	  		  spinMotion(-90.0f);
+	  		  waitMs(500);
+/*	  		  spinMotion(90.0f);
+	  		  waitMs(500);
+	  		  spinMotion(180);
+	  		  waitMs(500);
+*/
+	  		  basicTimerPause();
+	  		  shutdownMotors();
+	  		  break;
+	  	  case 12:
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  basicTimerStart();
+	  		  MF.FLAG.SAFETY = 0;
+	  		  while(1){
+		  		printf("Angle : %lf\n", mouse.angle);
+		  		waitMs(500);
+	  		  }
+	  		  break;
+
+	  	  case 13:
+//	  		  waitStarting();
+	  		  enableEncoder();
+	  		  basicTimerStart();
+	  		  MF.FLAG.SAFETY = 0;
+	  		  int32_t val_l, val_r;
+	  		  float m1, m2,m3;
+	  		  while(1){
+	  			  val_l = sensor.encoder_mileage_l;
+	  			  val_r = sensor.encoder_mileage_r;
+	  			  m1 = mouse.mileage;
+	  			  m2 = sensor.mileage_l_mm;
+	  			  m3 = sensor.encoder_mileage_r;
+	  			printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n", m1,m2,m3);
+	  			printf("mile_l : %d, mile_r : %d\n",val_l,val_r);
+	  			waitMs(500);
+	  		  }
+	  		  break;
+
+	  	  case 14:
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  MF.FLAG.SAFETY = 1;
+	  		  basicTimerStart();
+	  		  enableMotors();
+
 	  		  driveAccelMotion(90.0f, 0.0f);
+
 	  		  shutdownMotors();
 	  		  break;
 

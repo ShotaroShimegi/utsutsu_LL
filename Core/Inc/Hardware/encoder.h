@@ -10,8 +10,11 @@
 
 #include"tim.h"
 
+#define LEFT 	0xf0
+#define RIGHT 	0x0f
+
 void enableEncoder(void);
 void disableEncoder(void);
-int16_t getEncoderData(TIM_TypeDef *TIMx);
+int16_t getEncoderData(uint8_t dir);
 
 #endif /* INC_HARDWARE_ENCODER_H_ */

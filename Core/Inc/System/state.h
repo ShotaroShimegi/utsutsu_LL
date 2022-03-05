@@ -10,7 +10,8 @@
 
 #include<stdint.h>
 
-#define CONVERT_TO_RAD 0.01744f	// Unit Convert [deg/s] -> [rad/s]
+#define CONVERT_TO_RAD 0.01745f	// Unit Convert [deg/s] -> [rad/s]
+#define CONVERT_TO_DEG 57.2957f
 
 typedef struct {
 	float angle;						// Unit [deg]
@@ -38,7 +39,7 @@ typedef union{
 		uint8_t WDECEL :1;		//回転減速フラグ(B7)
 		uint8_t VCTRL :1;		//並進制御フラグ(B8)
 		uint8_t WCTRL :1;		//回転制御フラグ(B9)
-		uint8_t FAIL :1;			//フェイルセーフフラグ(B10)
+		uint8_t SAFETY :1;			//フェイルセーフフラグ(B10)
 		uint8_t ACTRL :1;		//角度制御フラグ(B11)
 		uint8_t FRONT :1;		//前制御フラグ(B12)
 		uint8_t RESV13 :1;		//予備フラグ(B13)

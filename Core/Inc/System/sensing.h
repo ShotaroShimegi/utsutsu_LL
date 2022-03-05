@@ -18,7 +18,7 @@
 #define RAD_WHEEL_mm 12.25f
 #define DIA_PINION_mm	4.0f
 #define DIA_SPUR_mm 		21.0f
-#define Pi 						3.1415926f
+#define Pi 						3.14159f
 #define GAIN_ENCODER RAD_WHEEL_mm * DIA_PINION_mm / DIA_SPUR_mm * 2 * Pi / 4096
 
 //For Wall Sensor
@@ -39,6 +39,8 @@ typedef struct{
 	float encoder_vel_l;
 	int32_t encoder_mileage_r;
 	int32_t encoder_mileage_l;
+	int16_t pulse_r;
+	int16_t pulse_l;
 	float mileage_r_mm;
 	float mileage_l_mm;
 	float gyro_omega;

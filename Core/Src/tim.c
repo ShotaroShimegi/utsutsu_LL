@@ -184,7 +184,7 @@ void MX_TIM3_Init(void)
   TIM_InitStruct.Autoreload = 65535;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
   LL_TIM_Init(TIM3, &TIM_InitStruct);
-  LL_TIM_DisableARRPreload(TIM3);
+  LL_TIM_EnableARRPreload(TIM3);
   LL_TIM_SetTriggerOutput(TIM3, LL_TIM_TRGO_RESET);
   LL_TIM_DisableMasterSlaveMode(TIM3);
   /* USER CODE BEGIN TIM3_Init 2 */
@@ -237,7 +237,7 @@ void MX_TIM4_Init(void)
   TIM_InitStruct.Autoreload = 65535;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
   LL_TIM_Init(TIM4, &TIM_InitStruct);
-  LL_TIM_DisableARRPreload(TIM4);
+  LL_TIM_EnableARRPreload(TIM4);
   LL_TIM_SetTriggerOutput(TIM4, LL_TIM_TRGO_RESET);
   LL_TIM_DisableMasterSlaveMode(TIM4);
   /* USER CODE BEGIN TIM4_Init 2 */

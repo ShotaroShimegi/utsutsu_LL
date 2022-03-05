@@ -57,7 +57,7 @@ void enableMotors(void)
 * @param r_duty 右側モータのデューティ比
 * @param l_duty 左側モータのデューティ比
 */
-void setMotorDirection(float r_duty, float l_duty){
+void setMotorDirection(float l_duty, float r_duty){
 
 	if (l_duty > 0){
 		LEFT_DIR1_GPIO_Port->BSRR = (LEFT_DIR1_Pin << 16);

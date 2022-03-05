@@ -9,6 +9,7 @@
 #include "System/callback.h"
 #include"System/sensing.h"
 #include"System/state.h"
+#include"System/log.h"
 
 #include"Hardware/interface_LED.h"
 
@@ -18,7 +19,7 @@ void callbackTIM(void)
 {
 	updateSensors();
 	updateStatus();
-	judgeFailSafe();
+	if(MF.FLAG.SAFETY)		judgeFailSafe();
+	storeLog(tim_counter);
 	tim_counter++;
-
 }
