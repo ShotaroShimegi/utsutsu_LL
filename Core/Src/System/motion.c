@@ -11,6 +11,7 @@
 
 #include "System/motion.h"
 #include "System/sensing.h"
+#include "System/flags.h"
 
 #include"Hardware/basic_timer.h"
 

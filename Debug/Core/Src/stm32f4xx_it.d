@@ -20,7 +20,7 @@ Core/Src/stm32f4xx_it.o: ../Core/Src/stm32f4xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h \
- ../Core/Inc/stm32f4xx_it.h ../Core/Inc/System/callback.h \
+ ../Core/Inc/stm32f4xx_it.h ../Core/Inc/Controller/callback.h \
  ../Core/Inc/Hardware/wall_sensor.h
 
 ../Core/Inc/main.h:
@@ -69,6 +69,6 @@ Core/Src/stm32f4xx_it.o: ../Core/Src/stm32f4xx_it.c ../Core/Inc/main.h \
 
 ../Core/Inc/stm32f4xx_it.h:
 
-../Core/Inc/System/callback.h:
+../Core/Inc/Controller/callback.h:
 
 ../Core/Inc/Hardware/wall_sensor.h:

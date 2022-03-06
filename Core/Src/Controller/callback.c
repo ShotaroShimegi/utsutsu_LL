@@ -4,12 +4,13 @@
  *  Created on: 2021/04/21
  *      Author: sssho
  */
-#include"Controller/mode.h"
-#include"Controller/state.h"
+#include "Controller/mode.h"
+#include "Controller/state.h"
+#include "Controller/callback.h"
 
-#include "System/callback.h"
-#include"System/sensing.h"
-#include"System/log.h"
+#include "System/sensing.h"
+#include "System/log.h"
+#include "System/flags.h"
 
 #include"Hardware/interface_LED.h"
 

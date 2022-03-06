@@ -12,6 +12,7 @@
 
 #include"System/music.h"
 #include"System/sensing.h"
+#include"System/flags.h"
 
 #include"Hardware/encoder.h"
 #include"Hardware/interface_LED.h"
@@ -105,11 +106,7 @@ void judgeFailSafe(void)
 		shutdownMotors();
 		basicTimerPause();
 		displayBinaryValueWithLEDs(0x00);
-		changeFrontLeftLED(OFF);
-		changeLeftLED(OFF);
-		changeFrontCenterLED(OFF);
-		changeRightLED(OFF);
-		changeFrontRightLED(OFF);
+		changeLEDs(OFF, OFF, OFF, OFF, OFF);
 		waitMs(500);
 		MelodyMrLawrence();
 		while(1){

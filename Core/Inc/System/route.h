@@ -9,19 +9,16 @@
 #ifndef INC_SYSTEM_ROUTE_H_
 #define INC_SYSTEM_ROUTE_H_
 
-#define NORTH 0x00
-#define EAST 	0x01
-#define SOUTH 	0x02
-#define WEST 	0x03
+//行動の定義
+#define R90 -1
+#define L90 -2
+#define BIG_R90 -3
+#define BIG_L90 -4
+#define BIG_R180 -5
+#define BIG_L180 -6
 
-#define DIR_SPIN_R90	0x01
-#define DIR_SPIN_L90	0xff
-#define DIR_SPIN_180	0x02
-
-void MakeRoute_NESW();
-void ConfRoute_NESW(uint8_t);
-
-void updatePosition();
-void updateDirection(uint8_t);
+void MakePass(void);
+void ReadPass(void);
+void ShowPass(void);
 
 #endif /* INC_SYSTEM_ROUTE_H_ */

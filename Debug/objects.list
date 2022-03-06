@@ -1,3 +1,4 @@
+"Core/Src/Controller/callback.o"
 "Core/Src/Controller/mode.o"
 "Core/Src/Controller/search.o"
 "Core/Src/Controller/state.o"
@@ -10,7 +11,7 @@
 "Core/Src/Hardware/interface_LED.o"
 "Core/Src/Hardware/motor.o"
 "Core/Src/Hardware/wall_sensor.o"
-"Core/Src/System/callback.o"
+"Core/Src/System/flags.o"
 "Core/Src/System/log.o"
 "Core/Src/System/map.o"
 "Core/Src/System/motion.o"

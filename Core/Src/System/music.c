@@ -4,14 +4,12 @@
  *  Created on: 2021/07/25
  *      Author: sssho
  */
-
-
-#include"tim.h"
+#include"System/music.h"
 
 #include"Hardware/buzzer.h"
 #include"Hardware/basic_timer.h"
 
-#include"System/music.h"
+#include"tim.h"
 
 void MelodySummer(void)
 {

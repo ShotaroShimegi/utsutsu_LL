@@ -4,8 +4,9 @@
  *  Created on: 2022/03/05
  *      Author: sssho
  */
-#include"System/log.h"
 #include"Controller/state.h"
+
+#include"System/log.h"
 
 LOG_Typedef log[MAX_LOG];
 

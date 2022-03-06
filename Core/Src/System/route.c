@@ -4,126 +4,256 @@
  *  Created on: 2022/03/06
  *      Author: sssho
  */
-#include"Controller/state.h"
+#include<stdio.h>
 
 #include"System/route.h"
 #include"System/map.h"
 #include"System/sensing.h"
+#include"System/flags.h"
+#include"System/music.h"
+#include"System/motion.h"
 
-uint8_t route[1024];
-uint16_t r_cnt;
+#include"Hardware/basic_timer.h"
+#include "Hardware/motor.h"
+#include"Hardware/interface_LED.h"
 
-void MakeRoute_NESW()
+void ReadPass(void)
 {
-	//====変数宣言====
-	uint8_t i = 0;
-	uint8_t x, y;
-	uint8_t dir_temp =  mouse_on_map.dir;
-	uint8_t m_temp;					//マップデータ一時保持
+	uint16_t i = 0;
+	uint8_t buff;
 
-	//====最短経路を初期化====
-	do{
-		route[i++] = 0xff;										//routeを初期化、iをインクリメント
-	}while(i != 0);												//iが0でない間実行(iがオーバーフローして0になるまで実行？)
+	MF.FLAG.CTRL = 1;
+	DriveAccel(SET_MM,FRONT_CONTROL_FLAG);
 
-	//====歩数カウンタをセット====
-	uint8_t m_step = step_map[mouse_on_map.y][mouse_on_map.x];
+	while(i != pass_end_count){
+		if(pass[i] > 0)	{
+			buff = 0x00;
+			LedDisplay(&buff);
+			MF.FLAG.CTRL = 1;
+			DriveTrapezoid(HALF_MM *(float)pass[i],params_now.big_vel_max,params_now.vel_max,params_now.accel);
+		}else{
+			switch(pass[i]){
+				case R90:
+					buff = 0x10;
+					LedDisplay(&buff);
+					SlalomR90();
+					break;
+				case L90:
+					buff = 0x01;
+					LedDisplay(&buff);
+					SlalomL90();
+					break;
+				case BIG_R90:
+					buff = 0x08;
+					LedDisplay(&buff);
 
-	//====x, yに現在座標を書き込み====
-	x = mouse_on_map.x;
-	y = mouse_on_map.y;
+					BigSlalomR90();
+					break;
+				case BIG_L90:
+					buff = 0x02;
+					LedDisplay(&buff);
 
-	//====最短経路を導出====
-	do{
-		m_temp = map[y][x];										//比較用マップ情報の格納
-		if(MF.FLAG.SCND){										//二次走行用のマップを作成する場合(二次走行時はMF.FLAG.SCNDをTrueにする)
-			m_temp >>= 4;										//上位4bitを使うので4bit分右にシフトさせる
-		}
+					BigSlalomL90();
+					break;
+				case BIG_R180:
+					buff = 0x18;
+					LedDisplay(&buff);
+					BigSlalomR180();
+					break;
+				case BIG_L180:
+					buff = 0x03;
+					LedDisplay(&buff);
 
-		//----東を見る----
-		if(!(m_temp & 0x04) && (step_map[y][x+1] < m_step)){	//東側に壁が無く、現在地より小さい歩数マップ値であれば
-					route[i] = (0x01 - mouse_on_map.dir) & 0x03;					//route配列に進行方向を記録
-					m_step = step_map[y][x+1];								//最大歩数マップ値を更新
-					x++;													//東に進んだのでX座標をインクリメント
-		}
-		//----北を見る----
-		else if(!(m_temp & 0x08) && (step_map[y+1][x] < m_step)){		//北側に壁が無く、現在地より小さい歩数マップ値であれば
-			route[i] = (0x00 - mouse_on_map.dir) & 0x03;					//route配列に進行方向を記録
-			m_step = step_map[y+1][x];								//最大歩数マップ値を更新
-			y++;													//北に進んだのでY座標をインクリメント
-		}
-		//----南を見る----
-		else if(!(m_temp & 0x02) && (step_map[y-1][x] < m_step)){	//南側に壁が無く、現在地より小さい歩数マップ値であれば
-			route[i] = (0x02 - mouse_on_map.dir) & 0x03;					//route配列に進行方向を記録
-			m_step = step_map[y-1][x];								//最大歩数マップ値を更新
-			y--;												//南に進んだのでY座標をデクリメント
-		}
-		//----西を見る----
-		else if(!(m_temp & 0x01) && (step_map[y][x-1] < m_step)){	//西側に壁が無く、現在地より小さい歩数マップ値であれば
-			route[i] = (0x03 - mouse_on_map.dir) & 0x03;					//route配列に進行方向を記録
-			m_step = step_map[y][x-1];								//最大歩数マップ値を更新
-			x--;												//西に進んだのでX座標をデクリメント
-		}
-
-		//----格納データ形式変更----
-		switch(route[i]){										//route配列に格納した要素値で分岐
-		case 0x00:												//前進する場合
-			route[i] = 0x88;									//格納データ形式を変更
-			break;
-		case 0x01:												//右折する場合
-			updateDirection(DIR_SPIN_R90);			//内部情報の方向を90度右回転
-			route[i] = 0x44;									//格納データ形式を変更
-			break;
-		case 0x02:												//Uターンする場合
-			updateDirection(DIR_SPIN_180);						//内部情報の方向を180度回転
-			route[i] = 0x22;									//格納データ形式を変更
-			break;
-		case 0x03:												//左折する場合
-			updateDirection(DIR_SPIN_L90);						//内部情報の方向を90度右回転
-			route[i] = 0x11;									//格納データ形式を変更
-			break;
-		default:												//それ以外の場合
-			route[i] = 0x00;									//格納データ形式を変更
-			break;
+					BigSlalomL180();
+					break;
+				default:
+					FailSafe();
+					break;
+			}
 		}
 		i++;
-	}while( step_map[y][x] != 0);					//進んだ先の歩数マップ値が0(=ゴール)になるまで実行
-	mouse_on_map.dir = dir_temp;							//方向を始めの状態に戻す
-}
-
-void ConfRoute_NESW(uint8_t goal_size)
-{
-	//----壁情報書き込み----
-	WriteMap();
-
-	//----最短経路上に壁があれば進路変更----
-	if(getWallInfo() & route[r_cnt]){
-		MakeStepMap(goal_size);							//歩数マップを更新
-		MakeRoute_NESW();									//最短経路を更新
-		r_cnt = 0;											//経路カウンタを0に
 	}
+	HalfSectionDecel();
+	printf("PASS END\n");
+	shutdownMotors();
+	basicTimerPause();
+	MelodyGoal();
+
 }
 
-
-void updatePosition()
+void MakePass(void)
 {
-	switch(mouse_on_map.dir){
-	case NORTH:
-		mouse_on_map.y++;
-		break;
-	case EAST:
-		mouse_on_map.x++;
-		break;
-	case SOUTH:
-		mouse_on_map.y--;
-		break;
-	case WEST:
-		mouse_on_map.x--;
-		break;
+	uint16_t j = 0;
+	uint16_t pass_count = 0;
+	uint16_t route_count = 1;
+//	uint16_t show_counter;
+	uint16_t big_turn_flag = 0;
+	uint16_t normal_turn_flag = 0;
+	uint16_t return_flag = 0;
+	int8_t half_straight_count = 0;				//First Action is Always STRAIGHT
+
+	for(pass_count=0;pass_count<1024;pass_count++){
+		pass[pass_count] = 100;
 	}
+	half_straight_count = 1;
+	pass_count = 0;
+
+	j = route_count;
+	while(route[j] == STRAIGHT){
+		half_straight_count += 2;
+		j++;
+	}
+	pass[pass_count] = half_straight_count;
+	pass_count++;
+
+	half_straight_count = 0;
+	if((j-1) > 0)	route_count = j-1;			//Next is Straight
+	else			route_count = j;
+
+	normal_turn_flag = 1;
+
+	if(route[route_count+1] == 0xff)	return_flag = 1;
+
+	while(1){
+
+/*		printf("route_count : %d\n",route_count);
+		printf("half_straight_count : %d\n",half_straight_count);
+
+		for(show_counter=0;show_counter<255;show_counter++){
+			if(route[show_counter] == 0xff) break;
+			printf("route[%d] = %#x\n",show_counter,route[show_counter]);
+		}
+		for(show_counter=0;show_counter<1024;show_counter++){
+				if(pass[show_counter] == 100) break;
+				printf("pass[%d] = %d\n",show_counter,pass[show_counter]);
+		}
+		printf("\n");
+*/
+		switch(route[route_count]){
+			case STRAIGHT:
+
+				if((route[route_count+1] == TURN_RIGHT) && (route[route_count+2] == STRAIGHT)){
+
+					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
+						pass[pass_count] = 1;
+						pass_count++;
+					}
+
+					pass[pass_count] = BIG_R90;
+					pass_count++;
+					route_count += 2;
+					big_turn_flag = 1;
+					normal_turn_flag = 0;
+					break;
+				}else if((route[route_count+1] == TURN_RIGHT) && (route[route_count+2] == TURN_RIGHT) && (route[route_count+3] == STRAIGHT)){
+
+					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
+						pass[pass_count] = 1;
+						pass_count++;
+					}
+
+					pass[pass_count] = BIG_R180;
+
+					pass_count++;
+					route_count += 3;
+					big_turn_flag = 1;
+					normal_turn_flag = 0;
+					break;
+				}else if((route[route_count+1] == TURN_LEFT) && (route[route_count+2] == STRAIGHT)){
+					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
+						pass[pass_count] = 1;
+						pass_count++;
+					}
+					pass[pass_count] = BIG_L90;
+					pass_count++;
+					route_count += 2;
+					big_turn_flag = 1;
+					normal_turn_flag = 0;
+					break;
+				}else if((route[route_count+1] == TURN_LEFT) && (route[route_count+2] == TURN_LEFT) && (route[route_count+3] == STRAIGHT)){
+					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
+						pass[pass_count] = 1;
+						pass_count++;
+					}
+					pass[pass_count] = BIG_L180;
+					pass_count++;
+					route_count += 3;
+					big_turn_flag = 1;
+					normal_turn_flag = 0;
+					break;
+				}else if(normal_turn_flag == 1){
+					route_count++;
+					normal_turn_flag = 0;
+					break;
+				}
+
+				j = route_count;
+				while(route[j] == STRAIGHT){
+					if(big_turn_flag == 1){
+						half_straight_count  = 1;
+						big_turn_flag = 0;
+					}else{
+						half_straight_count += 2;
+					}
+					j++;
+				}
+				pass[pass_count] = half_straight_count;
+				pass_count++;
+
+				half_straight_count = 0;
+				route_count = j - 1;
+				normal_turn_flag = 1;
+
+				if(route[route_count+1] == 0xff)	return_flag = 1;
+
+				break;
+
+			case TURN_RIGHT:
+				normal_turn_flag = 0;
+				half_straight_count = 0;
+				pass[pass_count] = R90;
+				pass_count++;
+				route_count++;
+				break;
+
+			case TURN_LEFT:
+				normal_turn_flag = 0;
+				half_straight_count = 0;
+				pass[pass_count] = L90;
+				pass_count++;
+				route_count++;
+				break;
+
+			default:
+				pass_end_count = pass_count;
+				printf("pass_end_count : %d\n",pass_end_count);
+				return;
+				break;
+		}
+		if(return_flag == 1)	break;
+	}
+	pass_end_count = pass_count;
+	printf("pass_end_count : %d\n",pass_end_count);
+	return;
 }
 
-void updateDirection(uint8_t t_pat)
-{
-	mouse_on_map.dir = (mouse_on_map.dir + t_pat) & 0x03;
+void ShowPass(void){
+	uint16_t i;
+
+	for(i=0;i<256;i++){
+		if(route[i] == 0xff) break;
+		printf("route[%d] : %x\n",i,route[i]);
+	}
+	printf("\n");
+
+	for(i=0;i<1024;i++){
+		if(pass[i] == 100) break;
+		printf("pass[%d] : %d\n",i,pass[i]);
+	}
+	printf("End Print\n");
 }
+
