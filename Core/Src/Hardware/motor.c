@@ -105,8 +105,8 @@ void driveMotors(float l_duty, float r_duty){
 	l_duty = dutyConverter(MAX_DUTY, MIN_DUTY, l_duty);
 	r_duty = dutyConverter(MAX_DUTY, MIN_DUTY, r_duty);
 
-	LL_TIM_OC_SetCompareCH1(TIM1, (100-1)*r_duty);
-	LL_TIM_OC_SetCompareCH2(TIM2, (100-1)*l_duty);
+	LL_TIM_OC_SetCompareCH1(TIM1, (100-1)*l_duty);
+	LL_TIM_OC_SetCompareCH2(TIM2, (100-1)*r_duty);
 
 	LL_TIM_SetCounter(TIM1, 0);
 	LL_TIM_SetCounter(TIM2, 0);

@@ -48,12 +48,9 @@ float getAccel(void)
 	return sensor.gyro_accel;
 }
 
-void getWallSensorOffset(void){
-	changeFrontCenterLED(OFF);
-	changeLeftLED(OFF);
-	changeFrontLeftLED(OFF);
-	changeRightLED(OFF);
-	changeFrontRightLED(OFF);
+void getWallSensorOffset(void)
+{
+	changeLEDs(OFF, OFF, OFF, OFF, OFF);
 	waitUs(CHARG_TIME);
 	sensor.wall_fr_offset = getWallADC(WALL_ID_FR);
 	sensor.wall_ff_offset = getWallADC(WALL_ID_FF);
@@ -64,26 +61,16 @@ void getWallSensorOffset(void){
 
 void getWallSensor(void)
 {
-	changeFrontRightLED(ON);
-	changeFrontCenterLED(ON);
-	changeLeftLED(ON);
+	changeLEDs(OFF, ON, ON, OFF, ON);
 	waitUs(CHARG_TIME);
-
 	sensor.wall_fr = getWallADC(WALL_ID_FR);
 	sensor.wall_ff = getWallADC(WALL_ID_FF);
 	sensor.wall_l = getWallADC(WALL_ID_L) ;
-	changeFrontRightLED(OFF);
-	changeFrontCenterLED(OFF);
-	changeLeftLED(OFF);
-
-	changeFrontLeftLED(ON);
-	changeRightLED(ON);
+	changeLEDs(ON, OFF, OFF, ON, OFF);
 	waitUs(CHARG_TIME);
-
 	sensor.wall_fl = getWallADC(WALL_ID_FL);
 	sensor.wall_r = getWallADC(WALL_ID_R) ;
-	changeFrontLeftLED(OFF);
-	changeRightLED(OFF);
+	changeLEDs(OFF, OFF, OFF, OFF, OFF);
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++

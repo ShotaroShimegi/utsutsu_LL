@@ -10,7 +10,6 @@
 
 void driveAccelMotion(float dist, float out_velocity);
 void spinMotion(float angle);
-void slalomMotion(float angle, float out_velocity);
-
+void slalomMotion(float angle);
 
 #endif /* INC_SYSTEM_MOTION_H_ */

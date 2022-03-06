@@ -31,11 +31,11 @@
 #include<stdio.h>
 
 #include"Controller/mode.h"
+#include"Controller/state.h"
 
 #include"System/callback.h"
 #include"System/music.h"
 #include"System/sensing.h"
-#include"System/state.h"
 #include"System/motion.h"
 #include"System/log.h"
 
@@ -179,7 +179,18 @@ int main(void)
 	  		  break;
 
 	  	  case 1:
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  mouse.angle = 0.0f;
+	  		  basicTimerStart();
+	  		  enableMotors();
 
+	  		  tim_counter = 0;
+	  		  driveAccelMotion(90.0f, max.velocity);
+	  		  slalomMotion(90);
+	  		  driveAccelMotion(90.0f, 0.0f);
+	  		  shutdownMotors();
 	  		  break;
 	  	  case 2 :
 	  		  waitStarting();
@@ -231,7 +242,6 @@ int main(void)
 
 	  		  tim_counter = 0;
 	  		  driveAccelMotion(90.0f, 0.0f);
-
 	  		  shutdownMotors();
 	  		  break;
 

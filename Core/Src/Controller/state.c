@@ -4,12 +4,12 @@
  *  Created on: Feb 21, 2022
  *      Author: sssho
  */
+#include"Controller/state.h"
 
-#include"Hardware/motor.h"
-
-#include"System/state.h"
 #include"System/map.h"
 #include"System/sensing.h"
+
+#include"Hardware/motor.h"
 
 State_Typedef mouse;
 State_Typedef target;
@@ -81,8 +81,7 @@ float calculateTagetOmega(void)
 }
 
 State_Typedef setStatus(float angle,float curve,
-									float mileage, float velocity, float accel,
-									uint8_t x, uint8_t y, uint8_t dir )
+									float mileage, float velocity, float accel)
 {
 	State_Typedef instance;
 	instance.angle = angle;
@@ -92,9 +91,6 @@ State_Typedef setStatus(float angle,float curve,
 	instance.mileage = mileage;
 	instance.velocity = velocity;
 	instance.accel = accel;
-	instance.x = x;
-	instance.y = y;
-	instance.dir = dir;
 
 	return instance;
 }
@@ -109,7 +105,36 @@ PID_Typedef setPrameters(float gainP, float gainI, float gainD, float limitI, fl
 	instance.LimitPID = limitPID;
 	return instance;
 }
-
+/**
+* @brief 制御則の選択
+* params 各制御フラグ
+* 1 . 速度
+* 2 . 角速度
+* 3 . 角度
+* 4 . 壁制御
+*/
+void setControlFlags(uint8_t vel, uint8_t omega, uint8_t angle, uint8_t wall)
+{
+	MF.FLAG.VCTRL = vel & 0x01;
+	MF.FLAG.WCTRL = omega & 0x01;
+	MF.FLAG.ACTRL = angle & 0x01;
+	MF.FLAG.CTRL = wall & 0x01;
+}
+/**
+* @brief 加減速の設定
+* params 各制御フラグ
+* 1 . 並進加速
+* 2 . 並進減速
+* 3 . 回転加速
+* 4 . 回転減速
+*/
+void setAccelFlags(uint8_t accel, uint8_t decel, uint8_t omega_accel, uint8_t omega_decel)
+{
+	MF.FLAG.ACCEL = accel & 0x01;
+	MF.FLAG.DECEL = decel & 0x01;
+	MF.FLAG.WACCEL = omega_accel & 0x01;
+	MF.FLAG.WDECEL = omega_decel & 0x01;
+}
 
 /**
  * initStatus
@@ -119,9 +144,9 @@ PID_Typedef setPrameters(float gainP, float gainI, float gainD, float limitI, fl
 void initMouseStatus(void)
 {
 	//State関連
-	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0, 0, 0x00);
-	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0, 0, 0x00);
-	max = setStatus(0.0f, 0.08f, 0.0f, 0.50f, 4.0f, GOAL_X, GOAL_Y, 0x00);
+	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
+	max = setStatus(0.0f, 0.08f, 0.0f, 0.50f, 4.0f);
 
 	//MF
 	MF.FLAGS = 0x00000000;
@@ -131,7 +156,7 @@ void initMouseStatus(void)
 	PID_right_velocity = setPrameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_wall = setPrameters(0.30f, 0.0f, 0.00f, 0.00f, 0.2f);
 	PID_omega = setPrameters(0.06f, 0.002f, 0.0f, 0.1f, 0.2f);
-	PID_angle = setPrameters(0.10f, 0.0f, 0.02f, 0.1f, 0.2f);
+	PID_angle = setPrameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
 
 void updateStatus(void)

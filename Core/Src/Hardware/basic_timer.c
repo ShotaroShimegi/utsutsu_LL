@@ -31,13 +31,17 @@ void basicTimerPause(void)
 
 /**
 * @brief　	特定時間待機する関数
-* @param	ms	待機する時間 [usec]
+* @param	ms	待機する時間 [msec]
 */
 void waitMs(uint16_t ms)
 {
 	LL_mDelay(ms);
 }
 
+/**
+* @brief　	特定時間待機する関数
+* @param	us	待機する時間 [usec]
+*/
 void waitUs(uint16_t us)
 {
 	if(us > 999)	us = 999;

@@ -21,9 +21,6 @@ typedef struct {
 	float mileage;						// Unit [mm]
 	float velocity;						// Unit [m/s] = [mm/ms]
 	float accel;						// Unit [m/s/s]
-	uint8_t x;
-	uint8_t y;
-	uint8_t dir;
 }State_Typedef;
 
 typedef union{
@@ -62,7 +59,8 @@ typedef struct {
 
 float calculatePID(PID_Typedef *instance);
 PID_Typedef setPrameters(float gainP, float gainI, float gainD, float LimitI, float LimitPID);
-
+void setControlFlags(uint8_t vel, uint8_t omega, uint8_t angle, uint8_t wall);
+void setAccelFlags(uint8_t accel, uint8_t decel, uint8_t omega_accel, uint8_t omega_decel);
 void initMouseStatus(void);
 void updateStatus(void);
 

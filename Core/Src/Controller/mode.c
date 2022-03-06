@@ -8,9 +8,9 @@
 #include<math.h>
 
 #include"Controller/mode.h"
+#include"Controller/state.h"
 
 #include"System/music.h"
-#include"System/state.h"
 #include"System/sensing.h"
 
 #include"Hardware/encoder.h"

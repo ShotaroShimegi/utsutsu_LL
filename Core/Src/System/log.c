@@ -5,10 +5,15 @@
  *      Author: sssho
  */
 #include"System/log.h"
-#include"System/state.h"
+#include"Controller/state.h"
 
 LOG_Typedef log[MAX_LOG];
 
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// storeLog
+//	@brief   センサ類の更新、主にタイマ割込みで呼び出す想定
+// @param 記録する配列要素番号、領域外参照に注意
+//+++++++++++++++++++++++++++++++++++++++++++++++
 void storeLog(uint16_t number) {
 	uint16_t count;
 	if(number > MAX_LOG - 1)	count = MAX_LOG - 1;
