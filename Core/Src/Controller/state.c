@@ -18,7 +18,8 @@ State_Typedef max;
 
 PID_Typedef PID_left_velocity;
 PID_Typedef PID_right_velocity;
-PID_Typedef PID_wall;
+PID_Typedef PID_wall_side;
+PID_Typedef PID_wall_front;
 PID_Typedef PID_omega;
 PID_Typedef PID_angle;
 
@@ -96,7 +97,7 @@ State_Typedef setStatus(float angle,float curve,
 	return instance;
 }
 
-PID_Typedef setPrameters(float gainP, float gainI, float gainD, float limitI, float limitPID)
+PID_Typedef setParameters(float gainP, float gainI, float gainD, float limitI, float limitPID)
 {
 	PID_Typedef instance;
 	instance.gainP = gainP;
@@ -117,17 +118,19 @@ void initMouseStatus(void)
 	//State関連
 	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
 	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-	max = setStatus(0.0f, 0.08f, 0.0f, 0.50f, 4.0f);
+	max = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f);
 
 	//MF
 	MF.FLAGS = 0x00000000;
 
 	//PID関連
-	PID_left_velocity = setPrameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
-	PID_right_velocity = setPrameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
-	PID_wall = setPrameters(0.30f, 0.0f, 0.00f, 0.00f, 0.2f);
+	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
+	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
+	PID_wall_side = setParameters(0.30f, 0.0f, 0.00f, 0.00f, 0.2f);
+	PID_wall_front = setParameters(0.02f, 0.0f, 0.002, 0.0f,0.2f);
 	PID_omega = setPrameters(0.06f, 0.002f, 0.0f, 0.1f, 0.2f);
-	PID_angle = setPrameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
+	PID_angle = setPrameters(0.10f, 0.0f, 0.04f 0.1f, 0.2f);
+
 }
 
 void updateStatus(void)
@@ -172,6 +175,9 @@ void updateStatus(void)
 	if(MF.FLAG.VCTRL){
 		output_duty_r += calculatePID(&PID_right_velocity);
 		output_duty_l += calculatePID(&PID_left_velocity);
+	}
+	if(MF.FLAG.FRONT){
+
 	}
 	driveMotors(output_duty_l, output_duty_r);
 }

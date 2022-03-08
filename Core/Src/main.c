@@ -188,9 +188,9 @@ int main(void)
 	  		  enableMotors();
 
 	  		  tim_counter = 0;
-	  		  driveAccelMotion(90.0f, max.velocity);
+	  		  driveAccelMotion(90.0f, max.velocity,OFF);
 	  		  slalomMotion(90);
-	  		  driveAccelMotion(90.0f, 0.0f);
+	  		  driveAccelMotion(90.0f, 0.0f,OFF);
 	  		  shutdownMotors();
 	  		  break;
 	  	  case 2 :
@@ -200,14 +200,39 @@ int main(void)
 	  		  basicTimerStart();
 	  		  enableMotors();
 
+	  		  moveHalfSectionAccel(OFF, OFF);
 	  		  tim_counter = 0;
-	  		  spinMotion(-90.0f);
-	  		  waitMs(500);
-/*	  		  spinMotion(90.0f);
-	  		  waitMs(500);
-	  		  spinMotion(180);
-	  		  waitMs(500);
-*/
+  			  moveSlalomL90();
+  			  moveOneSectionAccel(OFF);
+
+/*	  		  for(uint8_t cnt=0;cnt<16;cnt++){
+	  			  moveSlalomL90();
+	  			  moveOneSectionAccel(OFF);
+	  		  }
+*/	  		  moveHalfSectionDecel(OFF);
+//	  		  spinRight180();
+
+	  		  basicTimerPause();
+	  		  shutdownMotors();
+	  		  break;
+	  	  case 3 :
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  basicTimerStart();
+	  		  enableMotors();
+
+	  		  tim_counter = 0;
+	  		  moveHalfSectionAccel(OFF, OFF);
+	  		  for(uint8_t cnt=0;cnt<16;cnt++){
+	  			  displayBinaryValueWithLEDs(0xff);
+	  			  moveSlalomR90();
+	  			  displayBinaryValueWithLEDs(0x00);
+	  			  moveOneSectionAccel(OFF);
+	  		  }
+	  		  moveHalfSectionDecel(OFF);
+	  		  spinRight180();
+
 	  		  basicTimerPause();
 	  		  shutdownMotors();
 	  		  break;
@@ -242,7 +267,7 @@ int main(void)
 	  		  enableMotors();
 
 	  		  tim_counter = 0;
-	  		  driveAccelMotion(90.0f, 0.0f);
+	  		  driveAccelMotion(90.0f, 0.0f,OFF);
 	  		  shutdownMotors();
 	  		  break;
 

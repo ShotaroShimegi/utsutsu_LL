@@ -5,7 +5,6 @@
  *      Author: sssho
  */
 #include<math.h>
-#include<stdint.h>
 
 #include"Controller/state.h"
 
@@ -14,17 +13,19 @@
 #include "System/flags.h"
 
 #include"Hardware/basic_timer.h"
+#include"Hardware/interface_LED.h"
 
 /**
 * @brief 加減速して前進移動
 * @param1 直進距離 [mm]
 * @param2 出口並進速度 [m/s], 止まりたいなら0.0f
+* @param3 壁制御の有無
 */
-void driveAccelMotion(float dist, float out_velocity)
+void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 {
 	float input_mileage = mouse.mileage;
 	//速度制御、角度制御、壁制御ON
-	setControlFlags(1, 1, 0, 0);
+	setControlFlags(1, 1, 0, wall_ctrl_flag & 0x01);
 
 	//減速区間の計算
 	float error = max.velocity - out_velocity;
@@ -138,4 +139,54 @@ void slalomMotion(float angle_deg)
 	setAccelFlags(1, 0, 0, 0);
 	target.omega = 0.0f;
 	target.angle += angle_deg;
+}
+
+uint8_t moveHalfSectionAccel(uint8_t wall_ctrl_flag,uint8_t wall_read_flag)
+{
+	driveAccelMotion(90.0f, max.velocity, wall_ctrl_flag);
+	if(wall_read_flag & 0x01)		return getWallInfo();
+	else									return 0;
+}
+
+void moveHalfSectionDecel(uint8_t wall_ctrl_flag)
+{
+	driveAccelMotion(90.0f, 0.0f, wall_ctrl_flag);
+}
+
+uint8_t  moveOneSectionAccel(uint8_t wall_ctrl)
+{
+	uint8_t wall_info = 0x00;
+	moveHalfSectionAccel(wall_ctrl & 0x01, OFF);
+	wall_info = moveHalfSectionAccel(wall_ctrl & 0x01,ON);
+	return wall_info;
+}
+
+void fixPostureByWallSensor(void)
+{
+	MF.FLAG.FRONT = 1;
+}
+
+void spinRight180(void)
+{
+	spinMotion(ROT_ANGLE_180);
+}
+
+uint8_t moveSlalomR90(void)
+{
+	uint8_t wall_info = 0x00;
+//	driveAccelMotion(30.0f, max.velocity, OFF);
+	slalomMotion(ROT_ANGLE_R90);
+	driveAccelMotion(20.0f, max.velocity, OFF);
+	wall_info = getWallInfo();
+	return wall_info;
+}
+
+uint8_t moveSlalomL90(void)
+{
+	uint8_t wall_info = 0x00;
+//	driveAccelMotion(30.0f, max.velocity, OFF);
+	slalomMotion(ROT_ANGLE_L90);
+	driveAccelMotion(20.0f, max.velocity, OFF);
+	wall_info = getWallInfo();
+	return wall_info;
 }

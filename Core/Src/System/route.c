@@ -16,7 +16,7 @@
 #include"Hardware/basic_timer.h"
 #include "Hardware/motor.h"
 #include"Hardware/interface_LED.h"
-
+/*
 void ReadPass(void)
 {
 	uint16_t i = 0;
@@ -78,9 +78,9 @@ void ReadPass(void)
 	shutdownMotors();
 	basicTimerPause();
 	MelodyGoal();
-
 }
-
+*/
+/*
 void MakePass(void)
 {
 	uint16_t j = 0;
@@ -116,7 +116,7 @@ void MakePass(void)
 
 	while(1){
 
-/*		printf("route_count : %d\n",route_count);
+		printf("route_count : %d\n",route_count);
 		printf("half_straight_count : %d\n",half_straight_count);
 
 		for(show_counter=0;show_counter<255;show_counter++){
@@ -128,7 +128,7 @@ void MakePass(void)
 				printf("pass[%d] = %d\n",show_counter,pass[show_counter]);
 		}
 		printf("\n");
-*/
+
 		switch(route[route_count]){
 			case STRAIGHT:
 
@@ -256,4 +256,4 @@ void ShowPass(void){
 	}
 	printf("End Print\n");
 }
-
+*/

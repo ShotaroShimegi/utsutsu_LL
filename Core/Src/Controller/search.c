@@ -15,10 +15,11 @@
 #include"System/sensing.h"
 
 #include"Hardware/basic_timer.h"
+#include"Hardware/interface_LED.h"
 
 void SearchSlalom(uint8_t goal_length)
 {
-	uint8_t fix_flag = 0;
+//	uint8_t fix_flag = 0;
 	uint8_t rotate_on_map = 0x00;
 	uint8_t wall_info;
 /*
@@ -40,13 +41,13 @@ void SearchSlalom(uint8_t goal_length)
 		if(wall_ff.val > wall_ff.threshold)		FixPosition(0);
 	}
 */
+
 	MF.FLAG.CTRL = 0;
 
-	if(goal.x == 0 && goal.y == 0)		driveAccelMotion(0.0f, max.velocity);
-	else											driveAccelMotion(SET_MM,max.velocity);
+	if(goal.x == 0 && goal.y == 0)		driveAccelMotion(0.0f, max.velocity,OFF);
+	else											driveAccelMotion(SET_MM,max.velocity,OFF);
 
-	HalfSectionAccel(GET_WALL_ON);
-	wall_info = getWallInfo();
+	wall_info = moveHalfSectionAccel(0, 1);
 	advancePosition();
 	map_count.route++;
 	ConfRoute_NESW(goal_length,wall_info);
@@ -55,46 +56,42 @@ void SearchSlalom(uint8_t goal_length)
 	do{
 		switch(route[map_count.route++]){								//route配列によって進行を決定。経路カウンタを進める
 			case STRAIGHT:
-//				GoOneSectionContinuous();                                //このプログラムには無い関数、他のプログラムと比べて類似の関数を探してピッタリなのを作れ　標
-				wall_info = getWallInfo();
+				wall_info = moveOneSectionAccel(ON);
 				rotate_on_map = 0x00;
-
 				break;
 
 			case TURN_RIGHT:
-				SlalomR90();
+				wall_info = moveSlalomR90();
 				rotate_on_map = DIR_SPIN_R90;
-				wall_info = getWallInfo();
 				break;
 
 			case TURN_BACK:
-				if(wall_ff.val > WALL_TURN_VALUE)		fix_flag = 1;
-				HalfSectionDecel();
-				Spin180();
+//				if(wall_ff.val > WALL_TURN_VALUE)		fix_flag = 1;
+				moveHalfSectionDecel(0);
+				spinRight180();
 				waitMs(100);
 				rotate_on_map = DIR_SPIN_180;
-				if(fix_flag == 1){
+/*				if(fix_flag == 1){
 					FixPosition(0);
 					fix_flag = 0;
 				}
-				HalfSectionAccel(GET_WALL_ON);
-				wall_info = getWallInfo();
+*/
+				wall_info = moveHalfSectionAccel(OFF, ON);
 				break;
 			case TURN_LEFT:
-				SlalomL90();
-				wall_info = getWallInfo();
+				wall_info = moveSlalomL90();
 				rotate_on_map = DIR_SPIN_L90;
 				break;
 		}
 		changeDirection(rotate_on_map);
-		updatePosition();
+		advancePosition();
 		ConfRoute_NESW(goal_length,wall_info);
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 
-	HalfSectionDecel();
+	moveHalfSectionDecel(OFF);
 	basicTimerPause();
 	waitMs(100);
-	if(MF.FLAG.SCND == 0)  SaveMapInEeprom();
+//	if(MF.FLAG.SCND == 0)  SaveMapInEeprom();
 	waitMs(100);
 	MelodyGoal();
 }

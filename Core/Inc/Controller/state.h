@@ -36,7 +36,7 @@ typedef struct {
 }PID_Typedef;
 
 float calculatePID(PID_Typedef *instance);
-PID_Typedef setPrameters(float gainP, float gainI, float gainD, float LimitI, float LimitPID);
+PID_Typedef setParameters(float gainP, float gainI, float gainD, float LimitI, float LimitPID);
 void initMouseStatus(void);
 void updateStatus(void);
 

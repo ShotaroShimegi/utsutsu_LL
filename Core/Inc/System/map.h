@@ -15,6 +15,11 @@
 #define MAZE_SIZE 16
 #define MAX_NODE 256
 
+#define STRAIGHT 0x88
+#define TURN_RIGHT 0x44
+#define TURN_BACK 0x22
+#define TURN_LEFT 0x11
+
 //忘れた、意味
 #define NORTH 0x00
 #define EAST 	0x01
