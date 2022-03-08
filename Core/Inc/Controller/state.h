@@ -13,6 +13,9 @@
 #define CONVERT_TO_RAD 0.01745f	// Unit Convert [deg/s] -> [rad/s]
 #define CONVERT_TO_DEG 57.2957f
 
+#define		FRONT_BASE_FL 280
+#define 	FRONT_BASE_FR 240
+
 typedef struct {
 	float angle;						// Unit [deg]
 	float omega;						// Unit [rad/s]

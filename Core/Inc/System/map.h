@@ -67,6 +67,9 @@ void ConfRoute_NESW(uint8_t goal_size, uint8_t wall_data);
 void advancePosition();
 void changeDirection(uint8_t rotate_hex);
 
+void saveWallMap(void);
+void loadWallMap(void);
+
 void prepareMapForSearch(void);
 void updateMapAndRoute(void);
 

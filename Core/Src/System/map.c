@@ -10,6 +10,8 @@
 #include"System/sensing.h"
 #include"System/flags.h"
 
+#include"Hardware/flash.h"
+
 MAP_Mouse_Typedef point;
 MAP_Mouse_Typedef goal;
 MAP_Count_Typedef map_count;
@@ -156,12 +158,11 @@ uint16_t MakeStepMap(uint8_t goal_length)
 	}
 
 	//====Set Step Number in Goal Axis====
-	step_map[goal.y][goal.x] = 0;
-
-	if(MF.FLAG.FIRST && goal_length == 2) {
+	if(goal_length == 2) {
 		step_map[goal.y + 1][goal.x] = 0;
 		step_map[goal.y][goal.x + 1] = 0;
 		step_map[goal.y + 1][goal.x + 1] = 0;
+		step_map[goal.y][goal.x] = 0;
 	}else if(goal_length == 1){
 		step_map[goal.y][goal.x] = 0;
 	}
@@ -341,4 +342,27 @@ void prepareMapForSearch(void)
 void updateMapAndRoute(void)
 {
 
+}
+
+void saveWallMap(void)
+{
+	FLASH_Erase();
+
+	uint8_t i,j;
+	  for(i = 0; i < 16; i++){
+	    for(j = 0; j < 16; j++){
+	    	FLASH_WriteData((i*16 + j), wall_map[i][j]);
+	    }
+	  }
+}
+
+void loadWallMap(void)
+{
+	  int i,j;
+
+	  for(i = 0; i < 16; i++){
+	    for(j = 0; j < 16; j++){
+	      wall_map[i][j] = FLASH_ReadData(i*16 + j);
+	    }
+	  }
 }

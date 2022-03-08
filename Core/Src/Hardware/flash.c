@@ -16,15 +16,6 @@ void FLASH_WaitBusy(void)
 	while( ( (FLASH->SR & FLASH_SR_BSY) == FLASH_SR_BSY) == 1 );
 }
 
-
-void FLASH_Erease(void)
-{
-	FLASH->CR |= FLASH_CR_SER;
-	FLASH->CR |= FLASH_SECTOR11 & FLASH_CR_SNB_Msk;
-	FLASH->CR |= FLASH_CR_STRT;
-	FLASH_WaitBusy();
-}
-
 void FLASH_WriteByte(uint32_t address, uint8_t data)
 {
 
@@ -40,20 +31,28 @@ void FLASH_WriteByte(uint32_t address, uint8_t data)
 	FLASH->CR &= ~(FLASH_CR_PG);
 }
 
-void FLASH_WriteData(uint32_t address, uint8_t* data, uint32_t size)
+void FLASH_WriteData(uint32_t address, uint8_t data)
 {
 	FLASH_Unlock();
 
-	FLASH_Erease();
-
-	do {
-		FLASH_WriteByte(address, *data);
-	}while(++address, ++data, --size);
+	FLASH_WriteByte(address+start_address, data);
 
 	FLASH_Lock();
 }
 
-void FLASH_ReadData(uint32_t address, uint8_t* data, uint32_t size)
+uint8_t FLASH_ReadData(uint32_t address)
 {
-  memcpy(data, (uint8_t*)address, size);
+  return *(uint8_t*) (address + start_address);
+}
+
+void FLASH_Erase(void)
+{
+	FLASH_Unlock();
+
+	FLASH->CR |= FLASH_CR_SER;
+	FLASH->CR |= FLASH_SECTOR11 & FLASH_CR_SNB_Msk;
+	FLASH->CR |= FLASH_CR_STRT;
+	FLASH_WaitBusy();
+
+	FLASH_Lock();
 }

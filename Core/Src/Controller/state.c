@@ -127,10 +127,9 @@ void initMouseStatus(void)
 	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_wall_side = setParameters(0.30f, 0.0f, 0.00f, 0.00f, 0.2f);
-	PID_wall_front = setParameters(0.02f, 0.0f, 0.002, 0.0f,0.2f);
-	PID_omega = setPrameters(0.06f, 0.002f, 0.0f, 0.1f, 0.2f);
-	PID_angle = setPrameters(0.10f, 0.0f, 0.04f 0.1f, 0.2f);
-
+	PID_wall_front = setParameters(0.008f, 0.0f, 0.00f, 0.0f,0.4f);
+	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.2f);
+	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
 
 void updateStatus(void)
@@ -155,7 +154,8 @@ void updateStatus(void)
 	PID_left_velocity.error = target.velocity - mouse.velocity;
 	PID_right_velocity.error = target.velocity - mouse.velocity;
 	PID_omega.error = target.omega - mouse.omega;
-	PID_wall.error = (sensor.wall_r - sensor.wall_r_offset) - (sensor.wall_l - sensor.wall_l_offset);
+	PID_wall_side.error = (sensor.wall_r - sensor.wall_r_offset) - (sensor.wall_l - sensor.wall_l_offset);
+	PID_wall_front.error = (sensor.wall_fl - FRONT_BASE_FL) - (sensor.wall_fr - FRONT_BASE_FR);
 
 	//PID計算
 	if(MF.FLAG.ACTRL)	{
@@ -169,15 +169,18 @@ void updateStatus(void)
 		output_duty_l -= tmp;
 	}
 	if(MF.FLAG.CTRL){
-		output_duty_r -= calculatePID(&PID_wall);
-		output_duty_l += calculatePID(&PID_wall);
+		tmp = calculatePID(&PID_wall_side);
+		output_duty_r += tmp;
+		output_duty_l -= tmp;
 	}
 	if(MF.FLAG.VCTRL){
 		output_duty_r += calculatePID(&PID_right_velocity);
 		output_duty_l += calculatePID(&PID_left_velocity);
 	}
 	if(MF.FLAG.FRONT){
-
+		tmp = calculatePID(&PID_wall_front);
+		output_duty_r += tmp;
+		output_duty_l -= tmp;
 	}
 	driveMotors(output_duty_l, output_duty_r);
 }

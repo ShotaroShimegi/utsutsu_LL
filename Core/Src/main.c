@@ -193,7 +193,7 @@ int main(void)
 	  		  driveAccelMotion(90.0f, 0.0f,OFF);
 	  		  shutdownMotors();
 	  		  break;
-	  	  case 2 :
+	  	  case 2 :			//	左無限スラローム
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
@@ -205,17 +205,18 @@ int main(void)
   			  moveSlalomL90();
   			  moveOneSectionAccel(OFF);
 
-/*	  		  for(uint8_t cnt=0;cnt<16;cnt++){
+	  		  for(uint8_t cnt=0;cnt<16;cnt++){
 	  			  moveSlalomL90();
 	  			  moveOneSectionAccel(OFF);
 	  		  }
-*/	  		  moveHalfSectionDecel(OFF);
-//	  		  spinRight180();
+	  		  moveHalfSectionDecel(OFF);
+	  		  spinRight180();
 
 	  		  basicTimerPause();
 	  		  shutdownMotors();
 	  		  break;
-	  	  case 3 :
+
+	  	  case 3 :		//	右無限スラローム
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
@@ -236,6 +237,20 @@ int main(void)
 	  		  basicTimerPause();
 	  		  shutdownMotors();
 	  		  break;
+
+	  	  case 4 :		//	前壁制御
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  basicTimerStart();
+	  		  enableMotors();
+
+	  		  fixPostureByWallSensor();
+
+	  		  basicTimerPause();
+	  		  shutdownMotors();
+	  		  break;
+
 	  	  case 12:
 	  		  waitStarting();
 	  		  getOffsets();
@@ -262,13 +277,17 @@ int main(void)
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
-	  		  MF.FLAG.SAFETY = 1;
+	  		  MF.FLAG.SAFETY = 0;
 	  		  basicTimerStart();
-	  		  enableMotors();
-
-	  		  tim_counter = 0;
-	  		  driveAccelMotion(90.0f, 0.0f,OFF);
 	  		  shutdownMotors();
+	  		printf("--------Wall Sensor Test---------\n");
+	  		  while(1){
+	  			  printf("FL: %4d L: %4d FF: %4d R: %4d FR: %4d\n",
+	  					  sensor.wall_fl,sensor.wall_l,sensor.wall_ff,
+						  sensor.wall_r,sensor.wall_fr);
+	  			  waitMs(500);
+	  		  }
+
 	  		  break;
 
 	  	  default:

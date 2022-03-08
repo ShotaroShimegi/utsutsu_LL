@@ -164,6 +164,9 @@ uint8_t  moveOneSectionAccel(uint8_t wall_ctrl)
 void fixPostureByWallSensor(void)
 {
 	MF.FLAG.FRONT = 1;
+	setControlFlags(OFF, OFF, OFF, OFF);
+	//todo 前壁制御関連
+	while(1);
 }
 
 void spinRight180(void)

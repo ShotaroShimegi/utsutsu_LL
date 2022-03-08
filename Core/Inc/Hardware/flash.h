@@ -30,8 +30,9 @@ __STATIC_INLINE void FLASH_Unlock(void)
 	FLASH->KEYR =  FLASH_KEY2;
 }
 
-void FLASH_ReadData(uint32_t address, uint8_t* data, uint32_t size);
-void FLASH_WriteData(uint32_t address, uint8_t* data, uint32_t size);
+void FLASH_Erase(void);
+void FLASH_WriteData(uint32_t address, uint8_t data);
+uint8_t FLASH_ReadData(uint32_t address);
 
 extern volatile uint32_t start_address;
 extern volatile uint32_t end_adress;
