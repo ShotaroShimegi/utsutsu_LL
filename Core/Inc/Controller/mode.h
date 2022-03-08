@@ -10,10 +10,12 @@
 
 #include<stdint.h>
 
+//モード選択関連の閾値
 #define RIGHT_RESOLUTION 		16
 #define LEFT_RESOLUTION 		3
 #define WALL_START_VALUE 	130
 
+//フェイルセーフ関連
 #define FAIL_ANGLE 			30.0f
 #define FAIL_VELOCITY		2.0f
 

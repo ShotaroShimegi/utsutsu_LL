@@ -17,13 +17,13 @@
 #include"Hardware/basic_timer.h"
 #include"Hardware/interface_LED.h"
 
-void SearchSlalom(uint8_t goal_length)
+void searchMazeBySlalom(uint8_t goal_length)
 {
-//	uint8_t fix_flag = 0;
+	uint8_t fix_flag = 0;
 	uint8_t rotate_on_map = 0x00;
 	uint8_t wall_info;
 /*
-	if(MF.FLAG. == 1)	InitializeMap();
+	if(MF.FLAG.FIRST == 1)	InitializeMap();
 
 	//====歩数等初期化====
 	m_step = route_count = 0;							//歩数と経路カウンタの初期化
@@ -34,13 +34,12 @@ void SearchSlalom(uint8_t goal_length)
 	prepareMapForSearch();
 	basicTimerStart();
 
-/*	if(sensor.wall_ff > WALL_TURN_VALUE){
-		Spin180();
+	if(sensor.wall_ff > WALL_TURN_VALUE){
+		spinRight180();
 		waitMs(100);
-		updateDirection(DIR_SPIN_180);
-		if(wall_ff.val > wall_ff.threshold)		FixPosition(0);
+		changeDirection(DIR_SPIN_180);
 	}
-*/
+
 
 	MF.FLAG.CTRL = 0;
 
@@ -66,7 +65,7 @@ void SearchSlalom(uint8_t goal_length)
 				break;
 
 			case TURN_BACK:
-//				if(wall_ff.val > WALL_TURN_VALUE)		fix_flag = 1;
+				if(sensor.wall_ff > WALL_TURN_VALUE)		fix_flag = 1;
 				moveHalfSectionDecel(0);
 				spinRight180();
 				waitMs(100);
@@ -91,7 +90,7 @@ void SearchSlalom(uint8_t goal_length)
 	moveHalfSectionDecel(OFF);
 	basicTimerPause();
 	waitMs(100);
-//	if(MF.FLAG.SCND == 0)  SaveMapInEeprom();
+	if(MF.FLAG.SCND == 0)  saveWallMap();
 	waitMs(100);
 	MelodyGoal();
 }

@@ -33,12 +33,15 @@
 #include"Controller/mode.h"
 #include"Controller/state.h"
 #include"Controller/callback.h"
+#include"Controller/search.h"
 
 #include"System/music.h"
 #include"System/sensing.h"
 #include"System/motion.h"
 #include"System/log.h"
 #include"System/flags.h"
+#include"System/map.h"
+#include"System/route.h"
 
 #include"Hardware/ICM20689.h"
 #include"Hardware/basic_timer.h"
@@ -180,6 +183,8 @@ int main(void)
 	  		  break;
 
 	  	  case 1:
+	  		  MelodyNatsumatsuri();
+
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
@@ -187,10 +192,17 @@ int main(void)
 	  		  basicTimerStart();
 	  		  enableMotors();
 
-	  		  tim_counter = 0;
-	  		  driveAccelMotion(90.0f, max.velocity,OFF);
-	  		  slalomMotion(90);
-	  		  driveAccelMotion(90.0f, 0.0f,OFF);
+	  		  goal.x = GOAL_X;
+	  		  goal.y = GOAL_Y;
+	  		  searchMazeBySlalom(GOAL_LENGTH);
+	  		  goal.x = 0;
+	  		  goal.y = 0;
+	  		  searchMazeBySlalom(RETURN_GOAL_LENGTH);
+	  		  goal.x = GOAL_X;
+	  		  goal.y = GOAL_Y;
+	  		  spinRight180();
+	  		  changeDirection(ROT_ANGLE_180);
+
 	  		  shutdownMotors();
 	  		  break;
 	  	  case 2 :			//	左無限スラローム

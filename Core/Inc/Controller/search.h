@@ -13,7 +13,9 @@
 #define GOAL_OK 0
 #define GOAL_FAIL 1
 
-void SearchSlalom(uint8_t);
+#define WALL_TURN_VALUE 120
+
+void searchMazeBySlalom(uint8_t);
 uint8_t CheckGoal(uint8_t,uint8_t,uint8_t);
 
 #endif /* INC_SYSTEM_SEARCH_H_ */

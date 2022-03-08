@@ -12,6 +12,7 @@
 #define GOAL_X 7
 #define GOAL_Y 7
 #define GOAL_LENGTH 2
+#define RETURN_GOAL_LENGTH 1
 #define MAZE_SIZE 16
 #define MAX_NODE 256
 
@@ -54,7 +55,7 @@ extern uint16_t step_map[MAZE_SIZE][MAZE_SIZE];
 extern uint8_t route[MAX_NODE];
 
 void deleteWallMap();
-void makeStepMap(uint8_t);
+uint16_t makeStepMap(uint8_t);
 void updateWallMap(uint8_t wall_info);
 
 void PrintWallData();
@@ -71,6 +72,5 @@ void saveWallMap(void);
 void loadWallMap(void);
 
 void prepareMapForSearch(void);
-void updateMapAndRoute(void);
 
 #endif /* INC_SYSTEM_MAP_H_ */

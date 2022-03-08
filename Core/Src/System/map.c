@@ -147,7 +147,7 @@ void updateWallMap(uint8_t wall_info)
 /*
  * @brief 歩数マップ製作
  */
-uint16_t MakeStepMap(uint8_t goal_length)
+uint16_t makeStepMap(uint8_t goal_length)
 {
 	uint8_t x, y;
 	//====Clear Step Map====
@@ -180,7 +180,7 @@ uint16_t MakeStepMap(uint8_t goal_length)
 					wall_temp = wall_map[y][x];						//map配列からマップデータを取り出す
 					if(MF.FLAG.SCND)		wall_temp >>= 4;		//上位4bitを使うので4bit分右にシフトさせる
 					//----北壁についての処理----
-					if(!(wall_temp & 0x08) && y != 0x0f){				//北壁がなく現在最北端でないとき
+					if(!(wall_temp & 0x08) && y != 0x0f){			//北壁がなく現在最北端でないとき
 						if(step_map[y+1][x] == 0xff){					//北側が未記入なら
 							step_map[y+1][x] = step_count + 1;	//次の歩数を書き込む
 						}
@@ -289,8 +289,8 @@ void ConfRoute_NESW(uint8_t goal_size, uint8_t wall_data)
 	updateWallMap(wall_data);
 
 	//----最短経路上に壁があれば進路変更----
-	if(getWallInfo() & route[map_count.route]){
-		MakeStepMap(goal_size);							//歩数マップを更新
+	if(wall_data & route[map_count.route]){
+		makeStepMap(goal_size);							//歩数マップを更新
 		MakeRoute_NESW();								//最短経路を更新
 		map_count.route = 0;
 	}
@@ -335,13 +335,8 @@ void prepareMapForSearch(void)
 	if(MF.FLAG.FIRST)	deleteWallMap();
 	map_count.step = 0;
 	map_count.route = 0;
-	makeStepMap(GOAL_LENGTH);
+	map_count.step = makeStepMap(GOAL_LENGTH);
 	MakeRoute_NESW();
-}
-
-void updateMapAndRoute(void)
-{
-
 }
 
 void saveWallMap(void)
