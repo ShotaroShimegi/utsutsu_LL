@@ -1364,11 +1364,11 @@ LOAD c:/st/stm32cubeide_1.0.2/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000008001726       0x4e Core/Src/Controller/state.o
                 0x0000000008001726                setParameters
  .text.initMouseStatus
-                0x0000000008001774      0x248 Core/Src/Controller/state.o
+                0x0000000008001774      0x244 Core/Src/Controller/state.o
                 0x0000000008001774                initMouseStatus
  .text.updateStatus
-                0x00000000080019bc      0x2c4 Core/Src/Controller/state.o
-                0x00000000080019bc                updateStatus
+                0x00000000080019b8      0x2c8 Core/Src/Controller/state.o
+                0x00000000080019b8                updateStatus
  .text.LL_SPI_Enable
                 0x0000000008001c80       0x20 Core/Src/Hardware/ICM20689.o
  .text.LL_SPI_IsEnabled

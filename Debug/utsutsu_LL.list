@@ -1197,7 +1197,7 @@ Disassembly of section .text:
  8000ea0:	b580      	push	{r7, lr}
  8000ea2:	af00      	add	r7, sp, #0
  8000ea4:	f003 f9f4 	bl	8004290 <updateSensors>
- 8000ea8:	f000 fd88 	bl	80019bc <updateStatus>
+ 8000ea8:	f000 fd86 	bl	80019b8 <updateStatus>
  8000eac:	4b0a      	ldr	r3, [pc, #40]	; (8000ed8 <callbackTIM+0x38>)
  8000eae:	785b      	ldrb	r3, [r3, #1]
  8000eb0:	f003 0304 	and.w	r3, r3, #4
@@ -2156,11 +2156,11 @@ Disassembly of section .text:
  800189e:	602b      	str	r3, [r5, #0]
  80018a0:	4c3d      	ldr	r4, [pc, #244]	; (8001998 <initMouseStatus+0x224>)
  80018a2:	463b      	mov	r3, r7
- 80018a4:	ed9f 2a3d 	vldr	s4, [pc, #244]	; 800199c <initMouseStatus+0x228>
+ 80018a4:	ed9f 2a3a 	vldr	s4, [pc, #232]	; 8001990 <initMouseStatus+0x21c>
  80018a8:	eddf 1a2e 	vldr	s3, [pc, #184]	; 8001964 <initMouseStatus+0x1f0>
- 80018ac:	ed9f 1a2d 	vldr	s2, [pc, #180]	; 8001964 <initMouseStatus+0x1f0>
+ 80018ac:	ed9f 1a3b 	vldr	s2, [pc, #236]	; 800199c <initMouseStatus+0x228>
  80018b0:	eddf 0a2c 	vldr	s1, [pc, #176]	; 8001964 <initMouseStatus+0x1f0>
- 80018b4:	ed9f 0a3a 	vldr	s0, [pc, #232]	; 80019a0 <initMouseStatus+0x22c>
+ 80018b4:	ed9f 0a39 	vldr	s0, [pc, #228]	; 800199c <initMouseStatus+0x228>
  80018b8:	4618      	mov	r0, r3
  80018ba:	f7ff ff34 	bl	8001726 <setParameters>
  80018be:	4625      	mov	r5, r4
@@ -2171,13 +2171,13 @@ Disassembly of section .text:
  80018c8:	c50f      	stmia	r5!, {r0, r1, r2, r3}
  80018ca:	6823      	ldr	r3, [r4, #0]
  80018cc:	602b      	str	r3, [r5, #0]
- 80018ce:	4c35      	ldr	r4, [pc, #212]	; (80019a4 <initMouseStatus+0x230>)
+ 80018ce:	4c34      	ldr	r4, [pc, #208]	; (80019a0 <initMouseStatus+0x22c>)
  80018d0:	463b      	mov	r3, r7
- 80018d2:	ed9f 2a32 	vldr	s4, [pc, #200]	; 800199c <initMouseStatus+0x228>
+ 80018d2:	ed9f 2a2f 	vldr	s4, [pc, #188]	; 8001990 <initMouseStatus+0x21c>
  80018d6:	eddf 1a23 	vldr	s3, [pc, #140]	; 8001964 <initMouseStatus+0x1f0>
- 80018da:	ed9f 1a22 	vldr	s2, [pc, #136]	; 8001964 <initMouseStatus+0x1f0>
+ 80018da:	ed9f 1a30 	vldr	s2, [pc, #192]	; 800199c <initMouseStatus+0x228>
  80018de:	eddf 0a21 	vldr	s1, [pc, #132]	; 8001964 <initMouseStatus+0x1f0>
- 80018e2:	ed9f 0a2f 	vldr	s0, [pc, #188]	; 80019a0 <initMouseStatus+0x22c>
+ 80018e2:	ed9f 0a30 	vldr	s0, [pc, #192]	; 80019a4 <initMouseStatus+0x230>
  80018e6:	4618      	mov	r0, r3
  80018e8:	f7ff ff1d 	bl	8001726 <setParameters>
  80018ec:	4625      	mov	r5, r4
@@ -2193,8 +2193,8 @@ Disassembly of section .text:
  8001900:	ed9f 2a23 	vldr	s4, [pc, #140]	; 8001990 <initMouseStatus+0x21c>
  8001904:	eddf 1a1e 	vldr	s3, [pc, #120]	; 8001980 <initMouseStatus+0x20c>
  8001908:	ed9f 1a16 	vldr	s2, [pc, #88]	; 8001964 <initMouseStatus+0x1f0>
- 800190c:	eddf 0a27 	vldr	s1, [pc, #156]	; 80019ac <initMouseStatus+0x238>
- 8001910:	ed9f 0a27 	vldr	s0, [pc, #156]	; 80019b0 <initMouseStatus+0x23c>
+ 800190c:	eddf 0a23 	vldr	s1, [pc, #140]	; 800199c <initMouseStatus+0x228>
+ 8001910:	ed9f 0a26 	vldr	s0, [pc, #152]	; 80019ac <initMouseStatus+0x238>
  8001914:	4618      	mov	r0, r3
  8001916:	f7ff ff06 	bl	8001726 <setParameters>
  800191a:	4625      	mov	r5, r4
@@ -2205,11 +2205,11 @@ Disassembly of section .text:
  8001924:	c50f      	stmia	r5!, {r0, r1, r2, r3}
  8001926:	6823      	ldr	r3, [r4, #0]
  8001928:	602b      	str	r3, [r5, #0]
- 800192a:	4c22      	ldr	r4, [pc, #136]	; (80019b4 <initMouseStatus+0x240>)
+ 800192a:	4c21      	ldr	r4, [pc, #132]	; (80019b0 <initMouseStatus+0x23c>)
  800192c:	463b      	mov	r3, r7
  800192e:	ed9f 2a18 	vldr	s4, [pc, #96]	; 8001990 <initMouseStatus+0x21c>
  8001932:	eddf 1a13 	vldr	s3, [pc, #76]	; 8001980 <initMouseStatus+0x20c>
- 8001936:	ed9f 1a20 	vldr	s2, [pc, #128]	; 80019b8 <initMouseStatus+0x244>
+ 8001936:	ed9f 1a1f 	vldr	s2, [pc, #124]	; 80019b4 <initMouseStatus+0x240>
  800193a:	eddf 0a0a 	vldr	s1, [pc, #40]	; 8001964 <initMouseStatus+0x1f0>
  800193e:	ed9f 0a10 	vldr	s0, [pc, #64]	; 8001980 <initMouseStatus+0x20c>
  8001942:	4618      	mov	r0, r3
@@ -2241,128 +2241,127 @@ Disassembly of section .text:
  8001990:	3e4ccccd 	.word	0x3e4ccccd
  8001994:	3e99999a 	.word	0x3e99999a
  8001998:	2000020c 	.word	0x2000020c
- 800199c:	3ecccccd 	.word	0x3ecccccd
- 80019a0:	3c03126f 	.word	0x3c03126f
- 80019a4:	20000254 	.word	0x20000254
+ 800199c:	3b03126f 	.word	0x3b03126f
+ 80019a0:	20000254 	.word	0x20000254
+ 80019a4:	3a03126f 	.word	0x3a03126f
  80019a8:	20000300 	.word	0x20000300
- 80019ac:	3b03126f 	.word	0x3b03126f
- 80019b0:	3d75c28f 	.word	0x3d75c28f
- 80019b4:	20000230 	.word	0x20000230
- 80019b8:	3d23d70a 	.word	0x3d23d70a
+ 80019ac:	3d75c28f 	.word	0x3d75c28f
+ 80019b0:	20000230 	.word	0x20000230
+ 80019b4:	3d23d70a 	.word	0x3d23d70a
 
-080019bc <updateStatus>:
- 80019bc:	b580      	push	{r7, lr}
- 80019be:	b084      	sub	sp, #16
- 80019c0:	af00      	add	r7, sp, #0
- 80019c2:	f04f 0300 	mov.w	r3, #0
- 80019c6:	60fb      	str	r3, [r7, #12]
- 80019c8:	f04f 0300 	mov.w	r3, #0
- 80019cc:	60bb      	str	r3, [r7, #8]
- 80019ce:	f04f 0300 	mov.w	r3, #0
- 80019d2:	607b      	str	r3, [r7, #4]
- 80019d4:	4b9e      	ldr	r3, [pc, #632]	; (8001c50 <updateStatus+0x294>)
- 80019d6:	edd3 7a00 	vldr	s15, [r3]
- 80019da:	eeb0 0a67 	vmov.f32	s0, s15
- 80019de:	f002 faef 	bl	8003fc0 <addAngle>
- 80019e2:	eef0 7a40 	vmov.f32	s15, s0
- 80019e6:	4b9a      	ldr	r3, [pc, #616]	; (8001c50 <updateStatus+0x294>)
- 80019e8:	edc3 7a00 	vstr	s15, [r3]
- 80019ec:	f002 fb22 	bl	8004034 <getOmega>
- 80019f0:	eef0 7a40 	vmov.f32	s15, s0
- 80019f4:	ed9f 7a97 	vldr	s14, [pc, #604]	; 8001c54 <updateStatus+0x298>
- 80019f8:	ee67 7a87 	vmul.f32	s15, s15, s14
- 80019fc:	4b94      	ldr	r3, [pc, #592]	; (8001c50 <updateStatus+0x294>)
- 80019fe:	edc3 7a01 	vstr	s15, [r3, #4]
- 8001a02:	f002 fa83 	bl	8003f0c <getCenterMileage>
- 8001a06:	eef0 7a40 	vmov.f32	s15, s0
- 8001a0a:	4b91      	ldr	r3, [pc, #580]	; (8001c50 <updateStatus+0x294>)
- 8001a0c:	edc3 7a04 	vstr	s15, [r3, #16]
- 8001a10:	f002 faf2 	bl	8003ff8 <getCenterVelocity>
- 8001a14:	eef0 7a40 	vmov.f32	s15, s0
- 8001a18:	4b8d      	ldr	r3, [pc, #564]	; (8001c50 <updateStatus+0x294>)
- 8001a1a:	edc3 7a05 	vstr	s15, [r3, #20]
- 8001a1e:	f7ff fd87 	bl	8001530 <calculateTargetVelocity>
- 8001a22:	eef0 7a40 	vmov.f32	s15, s0
- 8001a26:	4b8c      	ldr	r3, [pc, #560]	; (8001c58 <updateStatus+0x29c>)
- 8001a28:	edc3 7a05 	vstr	s15, [r3, #20]
- 8001a2c:	f7ff fde2 	bl	80015f4 <calculateTagetOmega>
- 8001a30:	eef0 7a40 	vmov.f32	s15, s0
- 8001a34:	4b88      	ldr	r3, [pc, #544]	; (8001c58 <updateStatus+0x29c>)
- 8001a36:	edc3 7a01 	vstr	s15, [r3, #4]
- 8001a3a:	4b87      	ldr	r3, [pc, #540]	; (8001c58 <updateStatus+0x29c>)
- 8001a3c:	ed93 7a00 	vldr	s14, [r3]
- 8001a40:	4b83      	ldr	r3, [pc, #524]	; (8001c50 <updateStatus+0x294>)
- 8001a42:	edd3 7a00 	vldr	s15, [r3]
- 8001a46:	ee77 7a67 	vsub.f32	s15, s14, s15
- 8001a4a:	4b84      	ldr	r3, [pc, #528]	; (8001c5c <updateStatus+0x2a0>)
- 8001a4c:	edc3 7a00 	vstr	s15, [r3]
- 8001a50:	4b81      	ldr	r3, [pc, #516]	; (8001c58 <updateStatus+0x29c>)
- 8001a52:	ed93 7a05 	vldr	s14, [r3, #20]
- 8001a56:	4b7e      	ldr	r3, [pc, #504]	; (8001c50 <updateStatus+0x294>)
- 8001a58:	edd3 7a05 	vldr	s15, [r3, #20]
- 8001a5c:	ee77 7a67 	vsub.f32	s15, s14, s15
- 8001a60:	4b7f      	ldr	r3, [pc, #508]	; (8001c60 <updateStatus+0x2a4>)
- 8001a62:	edc3 7a00 	vstr	s15, [r3]
- 8001a66:	4b7c      	ldr	r3, [pc, #496]	; (8001c58 <updateStatus+0x29c>)
- 8001a68:	ed93 7a05 	vldr	s14, [r3, #20]
- 8001a6c:	4b78      	ldr	r3, [pc, #480]	; (8001c50 <updateStatus+0x294>)
- 8001a6e:	edd3 7a05 	vldr	s15, [r3, #20]
- 8001a72:	ee77 7a67 	vsub.f32	s15, s14, s15
- 8001a76:	4b7b      	ldr	r3, [pc, #492]	; (8001c64 <updateStatus+0x2a8>)
- 8001a78:	edc3 7a00 	vstr	s15, [r3]
- 8001a7c:	4b76      	ldr	r3, [pc, #472]	; (8001c58 <updateStatus+0x29c>)
- 8001a7e:	ed93 7a01 	vldr	s14, [r3, #4]
- 8001a82:	4b73      	ldr	r3, [pc, #460]	; (8001c50 <updateStatus+0x294>)
- 8001a84:	edd3 7a01 	vldr	s15, [r3, #4]
- 8001a88:	ee77 7a67 	vsub.f32	s15, s14, s15
- 8001a8c:	4b76      	ldr	r3, [pc, #472]	; (8001c68 <updateStatus+0x2ac>)
- 8001a8e:	edc3 7a00 	vstr	s15, [r3]
- 8001a92:	4b76      	ldr	r3, [pc, #472]	; (8001c6c <updateStatus+0x2b0>)
- 8001a94:	8e5b      	ldrh	r3, [r3, #50]	; 0x32
- 8001a96:	461a      	mov	r2, r3
- 8001a98:	4b74      	ldr	r3, [pc, #464]	; (8001c6c <updateStatus+0x2b0>)
- 8001a9a:	8f9b      	ldrh	r3, [r3, #60]	; 0x3c
- 8001a9c:	1ad2      	subs	r2, r2, r3
- 8001a9e:	4b73      	ldr	r3, [pc, #460]	; (8001c6c <updateStatus+0x2b0>)
- 8001aa0:	8ddb      	ldrh	r3, [r3, #46]	; 0x2e
- 8001aa2:	4619      	mov	r1, r3
- 8001aa4:	4b71      	ldr	r3, [pc, #452]	; (8001c6c <updateStatus+0x2b0>)
- 8001aa6:	8f1b      	ldrh	r3, [r3, #56]	; 0x38
- 8001aa8:	1acb      	subs	r3, r1, r3
- 8001aaa:	1ad3      	subs	r3, r2, r3
- 8001aac:	ee07 3a90 	vmov	s15, r3
- 8001ab0:	eef8 7ae7 	vcvt.f32.s32	s15, s15
- 8001ab4:	4b6e      	ldr	r3, [pc, #440]	; (8001c70 <updateStatus+0x2b4>)
- 8001ab6:	edc3 7a00 	vstr	s15, [r3]
- 8001aba:	4b6c      	ldr	r3, [pc, #432]	; (8001c6c <updateStatus+0x2b0>)
- 8001abc:	8d9b      	ldrh	r3, [r3, #44]	; 0x2c
- 8001abe:	f5a3 728c 	sub.w	r2, r3, #280	; 0x118
- 8001ac2:	4b6a      	ldr	r3, [pc, #424]	; (8001c6c <updateStatus+0x2b0>)
- 8001ac4:	8e9b      	ldrh	r3, [r3, #52]	; 0x34
- 8001ac6:	3bf0      	subs	r3, #240	; 0xf0
- 8001ac8:	1ad3      	subs	r3, r2, r3
- 8001aca:	ee07 3a90 	vmov	s15, r3
- 8001ace:	eef8 7ae7 	vcvt.f32.s32	s15, s15
- 8001ad2:	4b68      	ldr	r3, [pc, #416]	; (8001c74 <updateStatus+0x2b8>)
- 8001ad4:	edc3 7a00 	vstr	s15, [r3]
- 8001ad8:	4b64      	ldr	r3, [pc, #400]	; (8001c6c <updateStatus+0x2b0>)
- 8001ada:	8d9b      	ldrh	r3, [r3, #44]	; 0x2c
- 8001adc:	f5a3 728c 	sub.w	r2, r3, #280	; 0x118
- 8001ae0:	4b62      	ldr	r3, [pc, #392]	; (8001c6c <updateStatus+0x2b0>)
- 8001ae2:	8e9b      	ldrh	r3, [r3, #52]	; 0x34
- 8001ae4:	3bf0      	subs	r3, #240	; 0xf0
+080019b8 <updateStatus>:
+ 80019b8:	b580      	push	{r7, lr}
+ 80019ba:	b084      	sub	sp, #16
+ 80019bc:	af00      	add	r7, sp, #0
+ 80019be:	f04f 0300 	mov.w	r3, #0
+ 80019c2:	60fb      	str	r3, [r7, #12]
+ 80019c4:	f04f 0300 	mov.w	r3, #0
+ 80019c8:	60bb      	str	r3, [r7, #8]
+ 80019ca:	f04f 0300 	mov.w	r3, #0
+ 80019ce:	607b      	str	r3, [r7, #4]
+ 80019d0:	4b9f      	ldr	r3, [pc, #636]	; (8001c50 <updateStatus+0x298>)
+ 80019d2:	edd3 7a00 	vldr	s15, [r3]
+ 80019d6:	eeb0 0a67 	vmov.f32	s0, s15
+ 80019da:	f002 faf1 	bl	8003fc0 <addAngle>
+ 80019de:	eef0 7a40 	vmov.f32	s15, s0
+ 80019e2:	4b9b      	ldr	r3, [pc, #620]	; (8001c50 <updateStatus+0x298>)
+ 80019e4:	edc3 7a00 	vstr	s15, [r3]
+ 80019e8:	f002 fb24 	bl	8004034 <getOmega>
+ 80019ec:	eef0 7a40 	vmov.f32	s15, s0
+ 80019f0:	ed9f 7a98 	vldr	s14, [pc, #608]	; 8001c54 <updateStatus+0x29c>
+ 80019f4:	ee67 7a87 	vmul.f32	s15, s15, s14
+ 80019f8:	4b95      	ldr	r3, [pc, #596]	; (8001c50 <updateStatus+0x298>)
+ 80019fa:	edc3 7a01 	vstr	s15, [r3, #4]
+ 80019fe:	f002 fa85 	bl	8003f0c <getCenterMileage>
+ 8001a02:	eef0 7a40 	vmov.f32	s15, s0
+ 8001a06:	4b92      	ldr	r3, [pc, #584]	; (8001c50 <updateStatus+0x298>)
+ 8001a08:	edc3 7a04 	vstr	s15, [r3, #16]
+ 8001a0c:	f002 faf4 	bl	8003ff8 <getCenterVelocity>
+ 8001a10:	eef0 7a40 	vmov.f32	s15, s0
+ 8001a14:	4b8e      	ldr	r3, [pc, #568]	; (8001c50 <updateStatus+0x298>)
+ 8001a16:	edc3 7a05 	vstr	s15, [r3, #20]
+ 8001a1a:	f7ff fd89 	bl	8001530 <calculateTargetVelocity>
+ 8001a1e:	eef0 7a40 	vmov.f32	s15, s0
+ 8001a22:	4b8d      	ldr	r3, [pc, #564]	; (8001c58 <updateStatus+0x2a0>)
+ 8001a24:	edc3 7a05 	vstr	s15, [r3, #20]
+ 8001a28:	f7ff fde4 	bl	80015f4 <calculateTagetOmega>
+ 8001a2c:	eef0 7a40 	vmov.f32	s15, s0
+ 8001a30:	4b89      	ldr	r3, [pc, #548]	; (8001c58 <updateStatus+0x2a0>)
+ 8001a32:	edc3 7a01 	vstr	s15, [r3, #4]
+ 8001a36:	4b88      	ldr	r3, [pc, #544]	; (8001c58 <updateStatus+0x2a0>)
+ 8001a38:	ed93 7a00 	vldr	s14, [r3]
+ 8001a3c:	4b84      	ldr	r3, [pc, #528]	; (8001c50 <updateStatus+0x298>)
+ 8001a3e:	edd3 7a00 	vldr	s15, [r3]
+ 8001a42:	ee77 7a67 	vsub.f32	s15, s14, s15
+ 8001a46:	4b85      	ldr	r3, [pc, #532]	; (8001c5c <updateStatus+0x2a4>)
+ 8001a48:	edc3 7a00 	vstr	s15, [r3]
+ 8001a4c:	4b82      	ldr	r3, [pc, #520]	; (8001c58 <updateStatus+0x2a0>)
+ 8001a4e:	ed93 7a05 	vldr	s14, [r3, #20]
+ 8001a52:	4b7f      	ldr	r3, [pc, #508]	; (8001c50 <updateStatus+0x298>)
+ 8001a54:	edd3 7a05 	vldr	s15, [r3, #20]
+ 8001a58:	ee77 7a67 	vsub.f32	s15, s14, s15
+ 8001a5c:	4b80      	ldr	r3, [pc, #512]	; (8001c60 <updateStatus+0x2a8>)
+ 8001a5e:	edc3 7a00 	vstr	s15, [r3]
+ 8001a62:	4b7d      	ldr	r3, [pc, #500]	; (8001c58 <updateStatus+0x2a0>)
+ 8001a64:	ed93 7a05 	vldr	s14, [r3, #20]
+ 8001a68:	4b79      	ldr	r3, [pc, #484]	; (8001c50 <updateStatus+0x298>)
+ 8001a6a:	edd3 7a05 	vldr	s15, [r3, #20]
+ 8001a6e:	ee77 7a67 	vsub.f32	s15, s14, s15
+ 8001a72:	4b7c      	ldr	r3, [pc, #496]	; (8001c64 <updateStatus+0x2ac>)
+ 8001a74:	edc3 7a00 	vstr	s15, [r3]
+ 8001a78:	4b77      	ldr	r3, [pc, #476]	; (8001c58 <updateStatus+0x2a0>)
+ 8001a7a:	ed93 7a01 	vldr	s14, [r3, #4]
+ 8001a7e:	4b74      	ldr	r3, [pc, #464]	; (8001c50 <updateStatus+0x298>)
+ 8001a80:	edd3 7a01 	vldr	s15, [r3, #4]
+ 8001a84:	ee77 7a67 	vsub.f32	s15, s14, s15
+ 8001a88:	4b77      	ldr	r3, [pc, #476]	; (8001c68 <updateStatus+0x2b0>)
+ 8001a8a:	edc3 7a00 	vstr	s15, [r3]
+ 8001a8e:	4b77      	ldr	r3, [pc, #476]	; (8001c6c <updateStatus+0x2b4>)
+ 8001a90:	8e5b      	ldrh	r3, [r3, #50]	; 0x32
+ 8001a92:	461a      	mov	r2, r3
+ 8001a94:	4b75      	ldr	r3, [pc, #468]	; (8001c6c <updateStatus+0x2b4>)
+ 8001a96:	8f9b      	ldrh	r3, [r3, #60]	; 0x3c
+ 8001a98:	1ad2      	subs	r2, r2, r3
+ 8001a9a:	4b74      	ldr	r3, [pc, #464]	; (8001c6c <updateStatus+0x2b4>)
+ 8001a9c:	8ddb      	ldrh	r3, [r3, #46]	; 0x2e
+ 8001a9e:	4619      	mov	r1, r3
+ 8001aa0:	4b72      	ldr	r3, [pc, #456]	; (8001c6c <updateStatus+0x2b4>)
+ 8001aa2:	8f1b      	ldrh	r3, [r3, #56]	; 0x38
+ 8001aa4:	1acb      	subs	r3, r1, r3
+ 8001aa6:	1ad3      	subs	r3, r2, r3
+ 8001aa8:	ee07 3a90 	vmov	s15, r3
+ 8001aac:	eef8 7ae7 	vcvt.f32.s32	s15, s15
+ 8001ab0:	4b6f      	ldr	r3, [pc, #444]	; (8001c70 <updateStatus+0x2b8>)
+ 8001ab2:	edc3 7a00 	vstr	s15, [r3]
+ 8001ab6:	4b6d      	ldr	r3, [pc, #436]	; (8001c6c <updateStatus+0x2b4>)
+ 8001ab8:	8d9b      	ldrh	r3, [r3, #44]	; 0x2c
+ 8001aba:	f5a3 728c 	sub.w	r2, r3, #280	; 0x118
+ 8001abe:	4b6b      	ldr	r3, [pc, #428]	; (8001c6c <updateStatus+0x2b4>)
+ 8001ac0:	8e9b      	ldrh	r3, [r3, #52]	; 0x34
+ 8001ac2:	f5a3 7382 	sub.w	r3, r3, #260	; 0x104
+ 8001ac6:	1ad3      	subs	r3, r2, r3
+ 8001ac8:	ee07 3a90 	vmov	s15, r3
+ 8001acc:	eef8 7ae7 	vcvt.f32.s32	s15, s15
+ 8001ad0:	4b68      	ldr	r3, [pc, #416]	; (8001c74 <updateStatus+0x2bc>)
+ 8001ad2:	edc3 7a00 	vstr	s15, [r3]
+ 8001ad6:	4b65      	ldr	r3, [pc, #404]	; (8001c6c <updateStatus+0x2b4>)
+ 8001ad8:	8d9b      	ldrh	r3, [r3, #44]	; 0x2c
+ 8001ada:	f5a3 728c 	sub.w	r2, r3, #280	; 0x118
+ 8001ade:	4b63      	ldr	r3, [pc, #396]	; (8001c6c <updateStatus+0x2b4>)
+ 8001ae0:	8e9b      	ldrh	r3, [r3, #52]	; 0x34
+ 8001ae2:	f5a3 7382 	sub.w	r3, r3, #260	; 0x104
  8001ae6:	4413      	add	r3, r2
  8001ae8:	ee07 3a90 	vmov	s15, r3
  8001aec:	eef8 7ae7 	vcvt.f32.s32	s15, s15
- 8001af0:	4b61      	ldr	r3, [pc, #388]	; (8001c78 <updateStatus+0x2bc>)
+ 8001af0:	4b61      	ldr	r3, [pc, #388]	; (8001c78 <updateStatus+0x2c0>)
  8001af2:	edc3 7a00 	vstr	s15, [r3]
- 8001af6:	4b61      	ldr	r3, [pc, #388]	; (8001c7c <updateStatus+0x2c0>)
+ 8001af6:	4b61      	ldr	r3, [pc, #388]	; (8001c7c <updateStatus+0x2c4>)
  8001af8:	785b      	ldrb	r3, [r3, #1]
  8001afa:	f003 0308 	and.w	r3, r3, #8
  8001afe:	b2db      	uxtb	r3, r3
  8001b00:	2b00      	cmp	r3, #0
- 8001b02:	d014      	beq.n	8001b2e <updateStatus+0x172>
- 8001b04:	4855      	ldr	r0, [pc, #340]	; (8001c5c <updateStatus+0x2a0>)
+ 8001b02:	d014      	beq.n	8001b2e <updateStatus+0x176>
+ 8001b04:	4855      	ldr	r0, [pc, #340]	; (8001c5c <updateStatus+0x2a4>)
  8001b06:	f7ff fc87 	bl	8001418 <calculatePID>
  8001b0a:	ed87 0a01 	vstr	s0, [r7, #4]
  8001b0e:	ed97 7a03 	vldr	s14, [r7, #12]
@@ -2373,13 +2372,13 @@ Disassembly of section .text:
  8001b22:	edd7 7a01 	vldr	s15, [r7, #4]
  8001b26:	ee77 7a67 	vsub.f32	s15, s14, s15
  8001b2a:	edc7 7a02 	vstr	s15, [r7, #8]
- 8001b2e:	4b53      	ldr	r3, [pc, #332]	; (8001c7c <updateStatus+0x2c0>)
+ 8001b2e:	4b53      	ldr	r3, [pc, #332]	; (8001c7c <updateStatus+0x2c4>)
  8001b30:	785b      	ldrb	r3, [r3, #1]
  8001b32:	f003 0302 	and.w	r3, r3, #2
  8001b36:	b2db      	uxtb	r3, r3
  8001b38:	2b00      	cmp	r3, #0
- 8001b3a:	d014      	beq.n	8001b66 <updateStatus+0x1aa>
- 8001b3c:	484a      	ldr	r0, [pc, #296]	; (8001c68 <updateStatus+0x2ac>)
+ 8001b3a:	d014      	beq.n	8001b66 <updateStatus+0x1ae>
+ 8001b3c:	484a      	ldr	r0, [pc, #296]	; (8001c68 <updateStatus+0x2b0>)
  8001b3e:	f7ff fc6b 	bl	8001418 <calculatePID>
  8001b42:	ed87 0a01 	vstr	s0, [r7, #4]
  8001b46:	ed97 7a03 	vldr	s14, [r7, #12]
@@ -2390,13 +2389,13 @@ Disassembly of section .text:
  8001b5a:	edd7 7a01 	vldr	s15, [r7, #4]
  8001b5e:	ee77 7a67 	vsub.f32	s15, s14, s15
  8001b62:	edc7 7a02 	vstr	s15, [r7, #8]
- 8001b66:	4b45      	ldr	r3, [pc, #276]	; (8001c7c <updateStatus+0x2c0>)
+ 8001b66:	4b45      	ldr	r3, [pc, #276]	; (8001c7c <updateStatus+0x2c4>)
  8001b68:	781b      	ldrb	r3, [r3, #0]
  8001b6a:	f003 0308 	and.w	r3, r3, #8
  8001b6e:	b2db      	uxtb	r3, r3
  8001b70:	2b00      	cmp	r3, #0
- 8001b72:	d014      	beq.n	8001b9e <updateStatus+0x1e2>
- 8001b74:	483e      	ldr	r0, [pc, #248]	; (8001c70 <updateStatus+0x2b4>)
+ 8001b72:	d014      	beq.n	8001b9e <updateStatus+0x1e6>
+ 8001b74:	483e      	ldr	r0, [pc, #248]	; (8001c70 <updateStatus+0x2b8>)
  8001b76:	f7ff fc4f 	bl	8001418 <calculatePID>
  8001b7a:	ed87 0a01 	vstr	s0, [r7, #4]
  8001b7e:	ed97 7a03 	vldr	s14, [r7, #12]
@@ -2407,31 +2406,31 @@ Disassembly of section .text:
  8001b92:	edd7 7a01 	vldr	s15, [r7, #4]
  8001b96:	ee77 7a67 	vsub.f32	s15, s14, s15
  8001b9a:	edc7 7a02 	vstr	s15, [r7, #8]
- 8001b9e:	4b37      	ldr	r3, [pc, #220]	; (8001c7c <updateStatus+0x2c0>)
+ 8001b9e:	4b37      	ldr	r3, [pc, #220]	; (8001c7c <updateStatus+0x2c4>)
  8001ba0:	785b      	ldrb	r3, [r3, #1]
  8001ba2:	f003 0301 	and.w	r3, r3, #1
  8001ba6:	b2db      	uxtb	r3, r3
  8001ba8:	2b00      	cmp	r3, #0
- 8001baa:	d015      	beq.n	8001bd8 <updateStatus+0x21c>
- 8001bac:	482d      	ldr	r0, [pc, #180]	; (8001c64 <updateStatus+0x2a8>)
+ 8001baa:	d015      	beq.n	8001bd8 <updateStatus+0x220>
+ 8001bac:	482d      	ldr	r0, [pc, #180]	; (8001c64 <updateStatus+0x2ac>)
  8001bae:	f7ff fc33 	bl	8001418 <calculatePID>
  8001bb2:	eeb0 7a40 	vmov.f32	s14, s0
  8001bb6:	edd7 7a03 	vldr	s15, [r7, #12]
  8001bba:	ee77 7a87 	vadd.f32	s15, s15, s14
  8001bbe:	edc7 7a03 	vstr	s15, [r7, #12]
- 8001bc2:	4827      	ldr	r0, [pc, #156]	; (8001c60 <updateStatus+0x2a4>)
+ 8001bc2:	4827      	ldr	r0, [pc, #156]	; (8001c60 <updateStatus+0x2a8>)
  8001bc4:	f7ff fc28 	bl	8001418 <calculatePID>
  8001bc8:	eeb0 7a40 	vmov.f32	s14, s0
  8001bcc:	edd7 7a02 	vldr	s15, [r7, #8]
  8001bd0:	ee77 7a87 	vadd.f32	s15, s15, s14
  8001bd4:	edc7 7a02 	vstr	s15, [r7, #8]
- 8001bd8:	4b28      	ldr	r3, [pc, #160]	; (8001c7c <updateStatus+0x2c0>)
+ 8001bd8:	4b28      	ldr	r3, [pc, #160]	; (8001c7c <updateStatus+0x2c4>)
  8001bda:	785b      	ldrb	r3, [r3, #1]
  8001bdc:	f003 0310 	and.w	r3, r3, #16
  8001be0:	b2db      	uxtb	r3, r3
  8001be2:	2b00      	cmp	r3, #0
- 8001be4:	d029      	beq.n	8001c3a <updateStatus+0x27e>
- 8001be6:	4823      	ldr	r0, [pc, #140]	; (8001c74 <updateStatus+0x2b8>)
+ 8001be4:	d029      	beq.n	8001c3a <updateStatus+0x282>
+ 8001be6:	4823      	ldr	r0, [pc, #140]	; (8001c74 <updateStatus+0x2bc>)
  8001be8:	f7ff fc16 	bl	8001418 <calculatePID>
  8001bec:	ed87 0a01 	vstr	s0, [r7, #4]
  8001bf0:	ed97 7a03 	vldr	s14, [r7, #12]
@@ -2442,7 +2441,7 @@ Disassembly of section .text:
  8001c04:	edd7 7a01 	vldr	s15, [r7, #4]
  8001c08:	ee77 7a67 	vsub.f32	s15, s14, s15
  8001c0c:	edc7 7a02 	vstr	s15, [r7, #8]
- 8001c10:	4819      	ldr	r0, [pc, #100]	; (8001c78 <updateStatus+0x2bc>)
+ 8001c10:	4819      	ldr	r0, [pc, #100]	; (8001c78 <updateStatus+0x2c0>)
  8001c12:	f7ff fc01 	bl	8001418 <calculatePID>
  8001c16:	ed87 0a01 	vstr	s0, [r7, #4]
  8001c1a:	ed97 7a03 	vldr	s14, [r7, #12]
