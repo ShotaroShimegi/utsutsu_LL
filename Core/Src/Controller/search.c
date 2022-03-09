@@ -24,15 +24,8 @@ void searchMazeBySlalom(uint8_t goal_length)
 {
 	uint8_t rotate_on_map = 0x00;
 	uint8_t wall_info;
-/*
-	if(MF.FLAG.FIRST == 1)	InitializeMap();
+	uint8_t set_flag = 0x00;
 
-	//====歩数等初期化====
-	m_step = route_count = 0;							//歩数と経路カウンタの初期化
-	WriteMap();											//地図の初期化
-	MakeStepMap(goal_length);						//歩数図の初期化
-	MakeRoute_NESW();								//最短経路探索(route配列に動作が格納される)
-*/
 	prepareMapForSearch();
 //	printf("Initializing Finish\n");
 	basicTimerStart();
@@ -68,6 +61,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 				break;
 
 			case TURN_BACK:
+				if(sensor.wall_ff > WALL_BORDE_FF)	set_flag = 1;
 				moveHalfSectionDecel(0);
 
 /*				if(sensor.wall_ff > WALL_TURN_VALUE)	{
@@ -86,6 +80,12 @@ void searchMazeBySlalom(uint8_t goal_length)
 				}
 */				spinRight180();
 				waitMs(100);
+				mouse.angle = 0.0f;
+				if(set_flag == 1){
+					set_flag = 0;
+					backMotion(SET_MM);
+					driveAccelMotion(SET_MM,max.velocity,OFF);
+				}
 				rotate_on_map = DIR_SPIN_180;
 				wall_info = moveHalfSectionAccel(OFF, ON);
 				break;
@@ -104,6 +104,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 	shutdownMotors();
 	waitMs(100);
 	if(MF.FLAG.SCND == 0)  saveWallMap();
+	MF.FLAG.FIRST = 0;
 	waitMs(100);
 	MelodyGoal();
 }

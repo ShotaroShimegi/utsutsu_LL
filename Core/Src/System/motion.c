@@ -171,6 +171,8 @@ void fixPostureByWallSensor(void)
 	waitMs(500);
 	MF.FLAG.FRONT = 0;
 	setControlFlags(ON, ON, OFF, OFF);
+	waitMs(200);
+	setControlFlags(OFF, OFF, OFF, OFF);
 }
 
 void spinRight180(void)
@@ -196,4 +198,30 @@ uint8_t moveSlalomL90(void)
 	driveAccelMotion(20.0f, max.velocity, OFF);
 	wall_info = getWallInfo();
 	return wall_info;
+}
+
+void backMotion(float dist)
+{
+	float input_mileage = mouse.mileage;
+	//速度制御、角度制御、壁制御ON
+	setControlFlags(1, 1, 0, 0);
+
+	//減速区間の計算
+	float offset = dist * 0.5f;
+
+	//加速して減速
+	setAccelFlags(0, 1, 0, 0);
+	while(mouse.mileage > input_mileage - dist + offset);
+	setAccelFlags(1, 0, 0, 0);
+	while(mouse.mileage > input_mileage - dist) {
+		//出口速度に速度が到達したら強制終了
+		if(target.velocity >= 0.0f){
+			target.velocity = 0.0f;
+			break;
+		}
+	}
+	setAccelFlags(0, 0, 0, 0);
+	setControlFlags(1, 0, 0, 0);
+	target.velocity = 0.0f;
+	waitMs(200);
 }

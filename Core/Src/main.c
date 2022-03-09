@@ -198,11 +198,11 @@ int main(void)
 	  		  searchMazeBySlalom(GOAL_LENGTH);
 	  		  goal.x = 0;
 	  		  goal.y = 0;
-/* 	  enableMotors();
+	  		  enableMotors();
 	  		  searchMazeBySlalom(RETURN_GOAL_LENGTH);
 	  		  goal.x = GOAL_X;
 	  		  goal.y = GOAL_Y;
-*/	  		  spinRight180();
+	  		  spinRight180();
 	  		  changeDirection(ROT_ANGLE_180);
 
 	  		  shutdownMotors();
@@ -265,7 +265,7 @@ int main(void)
 	  		  shutdownMotors();
 	  		  break;
 
-	  	  case 5 :		//	前壁制御
+	  	  case 5 :		//	直線壁制御走行
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
@@ -273,8 +273,13 @@ int main(void)
 	  		  enableMotors();
 
 	  		driveAccelMotion(SET_MM,max.velocity,OFF);
-	  		moveHalfSectionAccel(0, 1);
+	  		moveHalfSectionAccel(ON, OFF);
 	  		moveOneSectionAccel(ON);
+	  		moveOneSectionAccel(ON);
+	  		moveOneSectionAccel(ON);
+	  		moveOneSectionAccel(ON);
+	  		moveOneSectionAccel(ON);
+
 	  		moveHalfSectionDecel(OFF);
 	  		basicTimerPause();
 	  		shutdownMotors();

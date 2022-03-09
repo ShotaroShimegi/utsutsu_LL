@@ -344,6 +344,7 @@ void prepareMapForSearch(void)
 	if(MF.FLAG.FIRST == 1)	{
 //		printf("Delete Start\n");
 		deleteWallMap();
+		point = setMapStruct(0, 0, 0x00);
 	}
 
 //	printf("---------Wall Data---------\n");
@@ -351,7 +352,6 @@ void prepareMapForSearch(void)
 
 	map_count.step = 0;
 	map_count.route = 0;
-	point = setMapStruct(0, 0, 0x00);
 
 //	printf("Generate Step Map\n");
 	map_count.step = makeStepMap(GOAL_LENGTH);

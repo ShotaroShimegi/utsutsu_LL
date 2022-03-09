@@ -29,6 +29,6 @@ void fixPostureByWallSensor(void);
 void spinRight180(void);
 uint8_t moveSlalomR90(void);
 uint8_t moveSlalomL90(void);
-
+void backMotion(float dist);
 
 #endif /* INC_SYSTEM_MOTION_H_ */
