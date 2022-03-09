@@ -73,7 +73,7 @@ uint8_t modeSelect(void)
 void waitStarting(void)
 {
 	//安全のためのモータが動かない用の設定
-	MF.FLAGS = 0x0000;
+//	MF.FLAGS = 0x0000;
 	shutdownMotors();
 
 	basicTimerStart();

@@ -16,10 +16,12 @@
 
 #include"Hardware/basic_timer.h"
 #include"Hardware/interface_LED.h"
+#include"Hardware/motor.h"
+
+#include<stdio.h>
 
 void searchMazeBySlalom(uint8_t goal_length)
 {
-	uint8_t fix_flag = 0;
 	uint8_t rotate_on_map = 0x00;
 	uint8_t wall_info;
 /*
@@ -32,6 +34,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 	MakeRoute_NESW();								//最短経路探索(route配列に動作が格納される)
 */
 	prepareMapForSearch();
+//	printf("Initializing Finish\n");
 	basicTimerStart();
 
 	if(sensor.wall_ff > WALL_TURN_VALUE){
@@ -39,13 +42,13 @@ void searchMazeBySlalom(uint8_t goal_length)
 		waitMs(100);
 		changeDirection(DIR_SPIN_180);
 	}
-
-
 	MF.FLAG.CTRL = 0;
+	mouse.mileage = 0.0f;
+	mouse.angle = 0.0f;
 
-	if(goal.x == 0 && goal.y == 0)		driveAccelMotion(0.0f, max.velocity,OFF);
-	else											driveAccelMotion(SET_MM,max.velocity,OFF);
-
+	if(goal.x == GOAL_X && goal.y == GOAL_Y)	{
+		driveAccelMotion(SET_MM,max.velocity,OFF);
+	}
 	wall_info = moveHalfSectionAccel(0, 1);
 	advancePosition();
 	map_count.route++;
@@ -53,7 +56,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 
 	//====探索走行====
 	do{
-		switch(route[map_count.route++]){								//route配列によって進行を決定。経路カウンタを進める
+		switch(route[map_count.route]){								//route配列によって進行を決定。経路カウンタを進める
 			case STRAIGHT:
 				wall_info = moveOneSectionAccel(ON);
 				rotate_on_map = 0x00;
@@ -65,16 +68,25 @@ void searchMazeBySlalom(uint8_t goal_length)
 				break;
 
 			case TURN_BACK:
-				if(sensor.wall_ff > WALL_TURN_VALUE)		fix_flag = 1;
 				moveHalfSectionDecel(0);
-				spinRight180();
+
+/*				if(sensor.wall_ff > WALL_TURN_VALUE)	{
+					fixPostureByWallSensor();
+					if(sensor.wall_r > WALL_BORDE_R){
+						spinMotion(ROT_ANGLE_R90);
+						fixPostureByWallSensor();
+						spinMotion(ROT_ANGLE_R90);
+					}else if(sensor.wall_l > WALL_BORDE_L){
+						spinMotion(ROT_ANGLE_L90);
+						fixPostureByWallSensor();
+						spinMotion(ROT_ANGLE_L90);
+					}else{
+						spinRight180();
+					}
+				}
+*/				spinRight180();
 				waitMs(100);
 				rotate_on_map = DIR_SPIN_180;
-/*				if(fix_flag == 1){
-					FixPosition(0);
-					fix_flag = 0;
-				}
-*/
 				wall_info = moveHalfSectionAccel(OFF, ON);
 				break;
 			case TURN_LEFT:
@@ -82,13 +94,14 @@ void searchMazeBySlalom(uint8_t goal_length)
 				rotate_on_map = DIR_SPIN_L90;
 				break;
 		}
+		map_count.route++;
 		changeDirection(rotate_on_map);
 		advancePosition();
 		ConfRoute_NESW(goal_length,wall_info);
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
-
 	moveHalfSectionDecel(OFF);
 	basicTimerPause();
+	shutdownMotors();
 	waitMs(100);
 	if(MF.FLAG.SCND == 0)  saveWallMap();
 	waitMs(100);

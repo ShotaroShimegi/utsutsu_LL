@@ -189,18 +189,20 @@ int main(void)
 	  		  getOffsets();
 	  		  enableEncoder();
 	  		  mouse.angle = 0.0f;
-	  		  basicTimerStart();
+//	  		  basicTimerStart();
 	  		  enableMotors();
+	  		  MF.FLAG.FIRST = 1;
 
 	  		  goal.x = GOAL_X;
 	  		  goal.y = GOAL_Y;
 	  		  searchMazeBySlalom(GOAL_LENGTH);
 	  		  goal.x = 0;
 	  		  goal.y = 0;
+/* 	  enableMotors();
 	  		  searchMazeBySlalom(RETURN_GOAL_LENGTH);
 	  		  goal.x = GOAL_X;
 	  		  goal.y = GOAL_Y;
-	  		  spinRight180();
+*/	  		  spinRight180();
 	  		  changeDirection(ROT_ANGLE_180);
 
 	  		  shutdownMotors();
@@ -263,6 +265,27 @@ int main(void)
 	  		  shutdownMotors();
 	  		  break;
 
+	  	  case 5 :		//	前壁制御
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  basicTimerStart();
+	  		  enableMotors();
+
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(0, 1);
+	  		moveOneSectionAccel(ON);
+	  		moveHalfSectionDecel(OFF);
+	  		basicTimerPause();
+	  		shutdownMotors();
+	  		while(1){
+	  			printf("dist: %.2f, angle: %.2f \n",mouse.mileage,mouse.angle);
+	  			waitMs(1000);
+	  		}
+
+	  		  basicTimerPause();
+	  		  shutdownMotors();
+	  		  break;
 	  	  case 12:
 	  		  waitStarting();
 	  		  getOffsets();
@@ -292,14 +315,16 @@ int main(void)
 	  		  MF.FLAG.SAFETY = 0;
 	  		  basicTimerStart();
 	  		  shutdownMotors();
+	  		  uint8_t wall_info = 0x00;
 	  		printf("--------Wall Sensor Test---------\n");
 	  		  while(1){
 	  			  printf("FL: %4d L: %4d FF: %4d R: %4d FR: %4d\n",
 	  					  sensor.wall_fl,sensor.wall_l,sensor.wall_ff,
 						  sensor.wall_r,sensor.wall_fr);
 	  			  waitMs(500);
+	  			  wall_info = getWallInfo();
+	  			  displayBinaryValueWithLEDs(wall_info);
 	  		  }
-
 	  		  break;
 
 	  	  default:

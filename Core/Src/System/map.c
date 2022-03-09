@@ -11,6 +11,7 @@
 #include"System/flags.h"
 
 #include"Hardware/flash.h"
+#include"Hardware/basic_timer.h"
 
 MAP_Mouse_Typedef point;
 MAP_Mouse_Typedef goal;
@@ -26,7 +27,9 @@ void ConvertMapIntoWall() {
 	uint8_t x,y;
 	//絶対壁を配置
 	wall_horizontal[MAZE_SIZE] = 0xffff;
+//	wall_horizontal[0] = 0xffff;
 	wall_vertical[MAZE_SIZE] = 0xffff;
+//	wall_vertical[0] = 0xffff;
 
 	for(y=0;y<MAZE_SIZE;y++){
 		for(x=0;x<MAZE_SIZE;x++){
@@ -105,8 +108,6 @@ void deleteWallMap()
 	//スタート壁の配置
 	wall_map[0][0] = 0xf7;
 	wall_map[0][1] = 0xf3;
-	//ゴール座標の設定
-	setMapStruct(GOAL_X, GOAL_Y, 0x01);
 }
 
 /*
@@ -219,15 +220,17 @@ void MakeRoute_NESW()
 	uint8_t wall_temp;
 	uint8_t dir_temp =  point.dir;
 
+//	uint8_t cnt = 0;
+
 	//====最短経路を初期化====
 	do{
 		route[i++] = 0xff;										//routeを初期化、iをインクリメント
-	}while(i < MAX_NODE);												//iが0でない間実行(iがオーバーフローして0になるまで実行？)
-
+	}while(i < MAX_NODE - 1);									//iが0でない間実行(iがオーバーフローして0になるまで実行？)
 	//====現在地情報を保存====
 	uint8_t step_count = step_map[point.y][point.x];
 	uint8_t x = point.x;
 	uint8_t y = point.y;
+	i=0;
 
 	//====最短経路を導出====
 	do{
@@ -257,7 +260,7 @@ void MakeRoute_NESW()
 			step_count = step_map[y][x-1];								//最大歩数マップ値を更新
 			x--;												//西に進んだのでX座標をデクリメント
 		}
-
+//		printf("i: %d, x:%d, y:%d,route: 0x%x,step: %d\n",i,x,y,route[i],step_count);
 		//----格納データ形式変更----
 		switch(route[i]){										//route配列に格納した要素値で分岐
 		case 0x00:												//前進する場合
@@ -282,6 +285,12 @@ void MakeRoute_NESW()
 		i++;
 	}while( step_map[y][x] != 0);					//進んだ先の歩数マップ値が0(=ゴール)になるまで実行
 	point.dir = dir_temp;				//方向を始めの状態に戻す
+
+/*	for(cnt=0;cnt<i;cnt++){
+		printf("route[%d]: 0x%x\n",cnt,route[cnt]);
+		waitMs(1);
+	}
+*/
 }
 
 void ConfRoute_NESW(uint8_t goal_size, uint8_t wall_data)
@@ -332,17 +341,28 @@ MAP_Mouse_Typedef setMapStruct(uint8_t x, uint8_t y, uint8_t dir)
 
 void prepareMapForSearch(void)
 {
-	if(MF.FLAG.FIRST)	deleteWallMap();
+	if(MF.FLAG.FIRST == 1)	{
+//		printf("Delete Start\n");
+		deleteWallMap();
+	}
+
+//	printf("---------Wall Data---------\n");
+//	printWallData();
+
 	map_count.step = 0;
 	map_count.route = 0;
+	point = setMapStruct(0, 0, 0x00);
+
+//	printf("Generate Step Map\n");
 	map_count.step = makeStepMap(GOAL_LENGTH);
+//	printf("Calculate Route \n");
 	MakeRoute_NESW();
+//	printf("Preparing Finish \n");
 }
 
 void saveWallMap(void)
 {
 	FLASH_Erase();
-
 	uint8_t i,j;
 	  for(i = 0; i < 16; i++){
 	    for(j = 0; j < 16; j++){
@@ -353,8 +373,7 @@ void saveWallMap(void)
 
 void loadWallMap(void)
 {
-	  int i,j;
-
+	  uint8_t i,j;
 	  for(i = 0; i < 16; i++){
 	    for(j = 0; j < 16; j++){
 	      wall_map[i][j] = FLASH_ReadData(i*16 + j);

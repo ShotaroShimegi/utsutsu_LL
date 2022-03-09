@@ -37,15 +37,17 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 
 	//加速して減速
 	setAccelFlags(1, 0, 0, 0);
-	while(mouse.mileage < input_mileage +dist - offset);
-	setAccelFlags(0, 1, 0, 0);
-	while(mouse.mileage < input_mileage +dist) {
-		//出口速度に速度が到達したら強制終了
-		if(target.velocity <= out_velocity){
-			target.velocity = out_velocity;
-			break;
+	while(mouse.mileage < input_mileage + dist - offset);
+	if(out_velocity != max.velocity){
+		setAccelFlags(0, 1, 0, 0);
+		while(mouse.mileage < input_mileage +dist) {
+			//出口速度に速度が到達したら強制終了
+			if(target.velocity <= out_velocity){
+				target.velocity = out_velocity;
+				break;
 		}
 	}
+}
 	setAccelFlags(0, 0, 0, 0);
 	setControlFlags(1, 0, 0, 0);
 	target.velocity = out_velocity;
@@ -166,7 +168,9 @@ void fixPostureByWallSensor(void)
 	MF.FLAG.FRONT = 1;
 	setControlFlags(OFF, OFF, OFF, OFF);
 	//todo 前壁制御関連
-	while(1);
+	waitMs(500);
+	MF.FLAG.FRONT = 0;
+	setControlFlags(ON, ON, OFF, OFF);
 }
 
 void spinRight180(void)
