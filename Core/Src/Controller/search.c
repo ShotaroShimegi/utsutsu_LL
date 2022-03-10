@@ -94,6 +94,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 		map_count.route++;
 		changeDirection(rotate_on_map);
 		advancePosition();
+		displayBinaryValueWithLEDs(wall_info);
 		ConfRoute_NESW(goal_length,wall_info);
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 	moveHalfSectionDecel(OFF);

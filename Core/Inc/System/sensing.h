@@ -31,7 +31,7 @@
 #define WALL_BORDE_FR	50
 #define WALL_BORDE_R	30
 #define WALL_BORDE_FF	40
-#define WALL_BORDE_L		40
+#define WALL_BORDE_L		30
 #define WALL_BORDE_FL	50
 
 #define WALL_BACK_FR 230

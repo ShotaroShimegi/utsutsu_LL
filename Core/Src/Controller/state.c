@@ -12,6 +12,8 @@
 
 #include"Hardware/motor.h"
 
+#include<math.h>
+
 State_Typedef mouse;
 State_Typedef target;
 State_Typedef max;

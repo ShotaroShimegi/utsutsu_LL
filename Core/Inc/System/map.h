@@ -10,7 +10,7 @@
 #define INC_SYSTEM_MAP_H_
 
 #define GOAL_X 0
-#define GOAL_Y 10
+#define GOAL_Y 14
 #define GOAL_LENGTH 2
 #define RETURN_GOAL_LENGTH 1
 #define MAZE_SIZE 16

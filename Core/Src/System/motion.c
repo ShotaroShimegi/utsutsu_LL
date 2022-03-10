@@ -48,10 +48,11 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 			}
 		}
 	}else {
-		while(mouse.mileage < input_mileage + dist);
-		if(target.velocity <= out_velocity){
-			target.velocity = out_velocity;
-			break;
+		while(mouse.mileage < input_mileage + dist){
+			if(target.velocity <= out_velocity){
+				target.velocity = out_velocity;
+				break;
+			}
 		}
 	}
 	setAccelFlags(0, 0, 0, 0);

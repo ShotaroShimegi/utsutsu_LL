@@ -214,6 +214,7 @@ int main(void)
 	  		  break;
 
 	  	  case 2:
+	  		  MelodyUrara();
 	  		  MF.FLAG.SCND = ON;
 	  		  MF.FLAG.FIRST = OFF;
 	  		  loadWallMap();
