@@ -21,7 +21,7 @@ typedef struct{
 	float angle;
 }LOG_Typedef;
 
-void storeLog(uint16_t number);
+uint16_t storeLog(uint16_t number);
 
 extern LOG_Typedef log[MAX_LOG];
 

@@ -345,6 +345,7 @@ void prepareMapForSearch(void)
 //		printf("Delete Start\n");
 		deleteWallMap();
 		point = setMapStruct(0, 0, 0x00);
+
 	}
 
 //	printf("---------Wall Data---------\n");

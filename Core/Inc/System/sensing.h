@@ -28,11 +28,14 @@
 #define WALL_ID_FF		2
 #define WALL_ID_L		3
 #define WALL_ID_FL		4
-#define WALL_BORDE_FR	100
+#define WALL_BORDE_FR	50
 #define WALL_BORDE_R	30
-#define WALL_BORDE_FF	60
-#define WALL_BORDE_L		60
-#define WALL_BORDE_FL	100
+#define WALL_BORDE_FF	40
+#define WALL_BORDE_L		40
+#define WALL_BORDE_FL	50
+
+#define WALL_BACK_FR 230
+#define WALL_BACK_FL 230
 
 typedef struct{
 	float encoder_vel_r;		// Unit m/s

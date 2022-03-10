@@ -45,6 +45,7 @@
 
 #include"Hardware/ICM20689.h"
 #include"Hardware/basic_timer.h"
+#include"Hardware/battery.h"
 #include"Hardware/buzzer.h"
 #include"Hardware/encoder.h"
 #include"Hardware/interface_LED.h"
@@ -155,7 +156,8 @@ int main(void)
 
   initSensors();
   initMouseStatus();
-  judgeFailSafe();
+  if(readBatteryCheck()==0)		errorFunctions(1);
+  MF.FLAG.FIRST = 1;
 
   uint8_t mode;
 
@@ -191,7 +193,6 @@ int main(void)
 	  		  mouse.angle = 0.0f;
 //	  		  basicTimerStart();
 	  		  enableMotors();
-	  		  MF.FLAG.FIRST = 1;
 
 	  		  goal.x = GOAL_X;
 	  		  goal.y = GOAL_Y;
@@ -202,16 +203,29 @@ int main(void)
 	  		  searchMazeBySlalom(RETURN_GOAL_LENGTH);
 	  		  goal.x = GOAL_X;
 	  		  goal.y = GOAL_Y;
-	  		  spinRight180();
-	  		  changeDirection(ROT_ANGLE_180);
 
+	  		  basicTimerStart();
+	  		  enableMotors();
+
+	  		  rotateSafteyR180();
+	  		  changeDirection(DIR_SPIN_180);
+	  		  basicTimerPause();
 	  		  shutdownMotors();
 	  		  break;
-	  	  case 2 :			//	左無限スラローム
+
+	  	  case 2:
+	  		  MF.FLAG.SCND = ON;
+	  		  MF.FLAG.FIRST = OFF;
+	  		  loadWallMap();
+
+	  		  break;
+
+	  	  case 8 :			//	左無限スラローム
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
 	  		  basicTimerStart();
+	  		  MF.FLAG.SAFETY = 1;
 	  		  enableMotors();
 
 	  		  moveHalfSectionAccel(OFF, OFF);

@@ -97,23 +97,25 @@ void judgeFailSafe(void)
 	float error_velocity_l = target.velocity - sensor.encoder_vel_l;
 	uint8_t error_code = 0;
 
-	if(readBatteryCheck() == 0)							error_code = 1;
-	if(MF.FLAG.WCTRL != 1 && fabs(error_angle) > FAIL_ANGLE) 	error_code =2;
+//	if(readBatteryCheck() == 0)							error_code = 1;
+	if( fabs(error_angle) > FAIL_ANGLE) 			error_code = 2;
 	if(fabs(error_velocity_l) > FAIL_VELOCITY)	error_code = 3;
 	if(fabs(error_velocity_r) > FAIL_VELOCITY)	error_code = 4;
 
-	if(error_code != 0){
-		shutdownMotors();
-		basicTimerPause();
-		displayBinaryValueWithLEDs(0x00);
-		changeLEDs(OFF, OFF, OFF, OFF, OFF);
-		waitMs(500);
-		MelodyMrLawrence();
-		while(1){
-			printf("Error Code : %d\n", error_code);
-			waitMs(1000);
-		}
-	}
-
+	if(error_code != 0)		errorFunctions(error_code);
 }
 
+void errorFunctions(uint8_t error_code)
+{
+	shutdownMotors();
+	basicTimerPause();
+	displayBinaryValueWithLEDs(0x00);
+	changeLEDs(OFF, OFF, OFF, OFF, OFF);
+	waitMs(500);
+	MelodyMrLawrence();
+	while(1){
+		printf("Error Code : %d, target: %f, angle: %f\n",
+				error_code,target.angle,mouse.angle);
+		waitMs(1000);
+	}
+}

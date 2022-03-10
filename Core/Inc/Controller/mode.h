@@ -13,10 +13,10 @@
 //モード選択関連の閾値
 #define RIGHT_RESOLUTION 		16
 #define LEFT_RESOLUTION 		3
-#define WALL_START_VALUE 	130
+#define WALL_START_VALUE 	80
 
 //フェイルセーフ関連
-#define FAIL_ANGLE 			30.0f
+#define FAIL_ANGLE 			20.0f
 #define FAIL_VELOCITY		2.0f
 
 uint8_t modeSelect(void);
@@ -25,5 +25,6 @@ void waitStarting(void);
 void judgeFailSafe(void);
 void testWallSensors(void);
 void testEstimationSensors(void);
+void errorFunctions(uint8_t);
 
 #endif /* INC_SYSTEM_MODE_H_ */

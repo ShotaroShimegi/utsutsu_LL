@@ -24,7 +24,7 @@
 void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 {
 	float input_mileage = mouse.mileage;
-	//速度制御、角度制御、壁制御ON
+	//速度制御、角度制御、壁制御
 	setControlFlags(1, 1, 0, wall_ctrl_flag & 0x01);
 
 	//減速区間の計算
@@ -45,9 +45,15 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 			if(target.velocity <= out_velocity){
 				target.velocity = out_velocity;
 				break;
+			}
+		}
+	}else {
+		while(mouse.mileage < input_mileage + dist);
+		if(target.velocity <= out_velocity){
+			target.velocity = out_velocity;
+			break;
 		}
 	}
-}
 	setAccelFlags(0, 0, 0, 0);
 	setControlFlags(1, 0, 0, 0);
 	target.velocity = out_velocity;
@@ -106,7 +112,7 @@ void slalomMotion(float angle_deg)
 	float input_angle = mouse.angle;
 
 	//角速度制御、ON
-	setControlFlags(1, 1, 0, 0);
+	setControlFlags(ON, ON, OFF, OFF);
 
 	//減速区間の計算
 	float offset = max.omega*max.omega *0.50f
@@ -177,15 +183,18 @@ void fixPostureByWallSensor(void)
 
 void spinRight180(void)
 {
-	spinMotion(ROT_ANGLE_180);
+	spinMotion(ROT_ANGLE_R180);
+	waitMs(100);
 }
 
 uint8_t moveSlalomR90(void)
 {
 	uint8_t wall_info = 0x00;
+	MF.FLAG.SAFETY = OFF;
 //	driveAccelMotion(30.0f, max.velocity, OFF);
 	slalomMotion(ROT_ANGLE_R90);
-	driveAccelMotion(20.0f, max.velocity, OFF);
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(20.0f, max.velocity, ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -193,9 +202,13 @@ uint8_t moveSlalomR90(void)
 uint8_t moveSlalomL90(void)
 {
 	uint8_t wall_info = 0x00;
+
+	MF.FLAG.SAFETY = OFF;
 //	driveAccelMotion(30.0f, max.velocity, OFF);
 	slalomMotion(ROT_ANGLE_L90);
-	driveAccelMotion(20.0f, max.velocity, OFF);
+	MF.FLAG.SAFETY = ON;
+
+	driveAccelMotion(18.0f, max.velocity, ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -203,11 +216,13 @@ uint8_t moveSlalomL90(void)
 void backMotion(float dist)
 {
 	float input_mileage = mouse.mileage;
-	//速度制御、角度制御、壁制御ON
+	float max_tmp = max.velocity;
+	//速度制御、角度制御、壁制御OFF
 	setControlFlags(1, 1, 0, 0);
 
 	//減速区間の計算
-	float offset = dist * 0.5f;
+	max.velocity = 0.20f;
+	float offset = max.velocity*max.velocity *0.50f / max.accel * 1000;
 
 	//加速して減速
 	setAccelFlags(0, 1, 0, 0);
@@ -223,5 +238,49 @@ void backMotion(float dist)
 	setAccelFlags(0, 0, 0, 0);
 	setControlFlags(1, 0, 0, 0);
 	target.velocity = 0.0f;
+	max.velocity = max_tmp;
 	waitMs(200);
 }
+/*
+void BigSlalomR90()
+{
+	MF.FLAG.CTRL = 1;
+	DriveAccel(params_now.big90_before,FRONT_CONTROL_FLAG);
+	MF.FLAG.CTRL = 0;
+	DriveSlalomFree(-90,params_now.big90_omega_max, params_now.big90_omega_accel, big90_omega_accel_time);
+	MF.FLAG.CTRL = 1;
+	DriveAccel(params_now.big90_after,0);
+}
+
+void BigSlalomL90()
+{
+	MF.FLAG.CTRL = 1;
+	DriveAccel(params_now.big90_before,FRONT_CONTROL_FLAG);
+	MF.FLAG.CTRL = 0;
+	DriveSlalomFree(90,params_now.big90_omega_max, params_now.big90_omega_accel, big90_omega_accel_time);
+	MF.FLAG.CTRL = 1;
+	DriveAccel(params_now.big90_after,0);
+}
+
+void BigSlalomR180()
+{
+	MF.FLAG.CTRL = 1;
+	DriveAccel(params_now.big180_before,FRONT_CONTROL_FLAG);
+	MF.FLAG.CTRL = 0;
+	DriveSlalomFree(-180,params_now.big180_omega_max, params_now.big180_omega_accel, big180_omega_accel_time);
+	MF.FLAG.CTRL = 1;
+	DriveAccel(params_now.big180_after,0);
+}
+
+void BigSlalomL180()
+{
+	MF.FLAG.CTRL = 1;
+	SetMotionDirection(FORWARD);
+	DriveAccel(params_now.big180_before,FRONT_CONTROL_FLAG);
+	MF.FLAG.CTRL = 0;
+	DriveSlalomFree(180,params_now.big180_omega_max, params_now.big180_omega_accel, big180_omega_accel_time);
+	MF.FLAG.CTRL = 1;
+	DriveAccel(params_now.big180_after,0);
+	GetWallData();
+}
+*/

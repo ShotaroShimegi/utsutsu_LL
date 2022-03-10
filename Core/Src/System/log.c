@@ -14,10 +14,11 @@ LOG_Typedef log[MAX_LOG];
 // storeLog
 //	@brief   センサ類の更新、主にタイマ割込みで呼び出す想定
 // @param 記録する配列要素番号、領域外参照に注意
+// @return カウントがオーバーフローしてたら0を返す、正常ならインクリメント
 //+++++++++++++++++++++++++++++++++++++++++++++++
-void storeLog(uint16_t number) {
+uint16_t storeLog(uint16_t number) {
 	uint16_t count;
-	if(number > MAX_LOG - 1)	count = MAX_LOG - 1;
+	if(number > MAX_LOG - 1)	return 0;
 	else									count = number;
 
 	log[count].target_velocity = target.velocity;
@@ -27,4 +28,5 @@ void storeLog(uint16_t number) {
 	log[count].mileage = mouse.mileage;
 	log[count].angle = mouse.angle;
 
+	return count + 1;
 }

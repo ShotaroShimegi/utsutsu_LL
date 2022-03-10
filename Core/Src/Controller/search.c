@@ -20,6 +20,26 @@
 
 #include<stdio.h>
 
+void rotateSafteyR180(void){
+	MF.FLAG.SAFETY = OFF;
+	spinRight180();
+	mouse.angle = 0.0f;
+	target.angle = 0.0f;
+	MF.FLAG.SAFETY = ON;
+}
+
+void prepareStateForSearching(void)
+{
+	if(MF.FLAG.FIRST){
+		MF.FLAG.CTRL = OFF;
+		mouse.mileage = 0.0f;
+		MF.FLAG.SAFETY = OFF;
+		target.angle = 0.0f;
+		mouse.angle = 0.0f;
+		MF.FLAG.SAFETY = ON;
+	}
+}
+
 void searchMazeBySlalom(uint8_t goal_length)
 {
 	uint8_t rotate_on_map = 0x00;
@@ -27,22 +47,16 @@ void searchMazeBySlalom(uint8_t goal_length)
 	uint8_t set_flag = 0x00;
 
 	prepareMapForSearch();
-//	printf("Initializing Finish\n");
+	prepareStateForSearching();
 	basicTimerStart();
 
 	if(sensor.wall_ff > WALL_TURN_VALUE){
-		spinRight180();
-		waitMs(100);
+		rotateSafteyR180();
 		changeDirection(DIR_SPIN_180);
 	}
-	MF.FLAG.CTRL = 0;
-	mouse.mileage = 0.0f;
-	mouse.angle = 0.0f;
 
-	if(goal.x == GOAL_X && goal.y == GOAL_Y)	{
-		driveAccelMotion(SET_MM,max.velocity,OFF);
-	}
-	wall_info = moveHalfSectionAccel(0, 1);
+	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,OFF);
+	wall_info = moveHalfSectionAccel(0, ON);
 	advancePosition();
 	map_count.route++;
 	ConfRoute_NESW(goal_length,wall_info);
@@ -61,33 +75,16 @@ void searchMazeBySlalom(uint8_t goal_length)
 				break;
 
 			case TURN_BACK:
-				if(sensor.wall_ff > WALL_BORDE_FF)	set_flag = 1;
-				moveHalfSectionDecel(0);
-
-/*				if(sensor.wall_ff > WALL_TURN_VALUE)	{
-					fixPostureByWallSensor();
-					if(sensor.wall_r > WALL_BORDE_R){
-						spinMotion(ROT_ANGLE_R90);
-						fixPostureByWallSensor();
-						spinMotion(ROT_ANGLE_R90);
-					}else if(sensor.wall_l > WALL_BORDE_L){
-						spinMotion(ROT_ANGLE_L90);
-						fixPostureByWallSensor();
-						spinMotion(ROT_ANGLE_L90);
-					}else{
-						spinRight180();
-					}
-				}
-*/				spinRight180();
-				waitMs(100);
-				mouse.angle = 0.0f;
+				moveHalfSectionDecel(OFF);
+				if(sensor.wall_fl > WALL_BACK_FL && sensor.wall_fr_offset > WALL_BACK_FR)	set_flag = 1;
+				rotateSafteyR180();
 				if(set_flag == 1){
 					set_flag = 0;
 					backMotion(SET_MM);
-					driveAccelMotion(SET_MM,max.velocity,OFF);
+					driveAccelMotion(SET_MM,max.velocity,ON);
 				}
 				rotate_on_map = DIR_SPIN_180;
-				wall_info = moveHalfSectionAccel(OFF, ON);
+				wall_info = moveHalfSectionAccel(OFF, OFF);
 				break;
 			case TURN_LEFT:
 				wall_info = moveSlalomL90();
@@ -145,3 +142,4 @@ uint8_t CheckGoal(uint8_t x, uint8_t y, uint8_t length)
 		return GOAL_FAIL;
 	}
 }
+

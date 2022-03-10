@@ -128,7 +128,7 @@ void initMouseStatus(void)
 	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.00f, 0.00f, 0.2f);
-	PID_wall_side = setParameters(0.000f, 0.0f, 0.00f, 0.00f, 0.2f);
+	PID_wall_side = setParameters(0.001f, 0.0f, 0.00f, 0.00f, 0.2f);
 	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
 	PID_wall_front_distance = setParameters(0.0005f, 0.0f, 0.002f, 0.0f,0.2f);
 	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.2f);
@@ -157,7 +157,14 @@ void updateStatus(void)
 	PID_left_velocity.error = target.velocity - mouse.velocity;
 	PID_right_velocity.error = target.velocity - mouse.velocity;
 	PID_omega.error = target.omega - mouse.omega;
-	PID_wall_side.error = (sensor.wall_r - sensor.wall_r_offset) - (sensor.wall_l - sensor.wall_l_offset);
+
+	float error_right = (sensor.wall_r - sensor.wall_r_offset);
+	float error_left = (sensor.wall_l - sensor.wall_l_offset);
+	if(fabs(error_right) > SENSOR_DIF_BORDER)	error_right = 0.0f;
+	if(fabs(error_left) > SENSOR_DIF_BORDER)		error_left = 0.0f;
+
+
+	PID_wall_side.error = error_right - error_left;
 	PID_wall_front_posture.error = (sensor.wall_fl - FRONT_BASE_FL) - (sensor.wall_fr - FRONT_BASE_FR);
 	PID_wall_front_distance.error = (sensor.wall_fl - FRONT_BASE_FL) + (sensor.wall_fr - FRONT_BASE_FR);
 
@@ -172,7 +179,7 @@ void updateStatus(void)
 		output_duty_r += tmp;
 		output_duty_l -= tmp;
 	}
-	if(MF.FLAG.CTRL){
+	if(MF.FLAG.CTRL && target.velocity > 0.20f){
 		tmp = calculatePID(&PID_wall_side);
 		output_duty_r += tmp;
 		output_duty_l -= tmp;

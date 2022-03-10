@@ -50,13 +50,14 @@ float getAccel(void)
 
 void getWallSensorOffset(void)
 {
-	changeLEDs(OFF, OFF, OFF, OFF, OFF);
+	changeLEDs(ON, ON, ON, ON, ON);
 	waitUs(CHARG_TIME);
 	sensor.wall_fr_offset = getWallADC(WALL_ID_FR);
 	sensor.wall_ff_offset = getWallADC(WALL_ID_FF);
 	sensor.wall_l_offset = getWallADC(WALL_ID_L);
 	sensor.wall_fl_offset = getWallADC(WALL_ID_FL);
 	sensor.wall_r_offset = getWallADC(WALL_ID_R);
+	changeLEDs(OFF, OFF, OFF, OFF, OFF);
 }
 
 void getWallSensor(void)
@@ -116,7 +117,8 @@ uint8_t getWallInfo(void)
 {
 	uint8_t val = 0x00;
 	//----Check Front----
-	if(sensor.wall_ff > WALL_BORDE_FF)	val |= 0x88;
+	if(sensor.wall_ff > WALL_BORDE_FF || sensor.wall_fr > WALL_BORDE_FR ||
+			sensor.wall_fl > WALL_BORDE_FL)	val |= 0x88;
 	//----Check Right----
 	if(sensor.wall_r > WALL_BORDE_R)		val |= 0x44;
 	//----Check Left----

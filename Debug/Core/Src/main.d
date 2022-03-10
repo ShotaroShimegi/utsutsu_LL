@@ -30,9 +30,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/System/route.h ../Core/Inc/Hardware/ICM20689.h \
  ../Core/Inc/Hardware/basic_timer.h \
  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h \
- ../Core/Inc/Hardware/buzzer.h ../Core/Inc/Hardware/encoder.h \
- ../Core/Inc/Hardware/interface_LED.h ../Core/Inc/Hardware/motor.h \
- ../Core/Inc/Hardware/wall_sensor.h
+ ../Core/Inc/Hardware/battery.h ../Core/Inc/Hardware/buzzer.h \
+ ../Core/Inc/Hardware/encoder.h ../Core/Inc/Hardware/interface_LED.h \
+ ../Core/Inc/Hardware/motor.h ../Core/Inc/Hardware/wall_sensor.h
 
 ../Core/Inc/main.h:
 
@@ -119,6 +119,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/Hardware/basic_timer.h:
 
 ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h:
+
+../Core/Inc/Hardware/battery.h:
 
 ../Core/Inc/Hardware/buzzer.h:
 
