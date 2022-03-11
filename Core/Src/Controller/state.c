@@ -130,10 +130,10 @@ void initMouseStatus(void)
 	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.00f, 0.00f, 0.2f);
-	PID_wall_side = setParameters(0.001f, 0.0f, 0.00f, 0.00f, 0.2f);
+	PID_wall_side = setParameters(0.000f, 0.0f, 0.00f, 0.00f, 0.2f);
 	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
 	PID_wall_front_distance = setParameters(0.0005f, 0.0f, 0.002f, 0.0f,0.2f);
-	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.2f);
+	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.3f);
 	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
 

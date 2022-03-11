@@ -117,8 +117,7 @@ uint8_t getWallInfo(void)
 {
 	uint8_t val = 0x00;
 	//----Check Front----
-	if(sensor.wall_ff > WALL_BORDE_FF || sensor.wall_fr > WALL_BORDE_FR ||
-			sensor.wall_fl > WALL_BORDE_FL)	val |= 0x88;
+	if(sensor.wall_fr > WALL_BORDE_FR || sensor.wall_fl > WALL_BORDE_FL)	val |= 0x88;
 	//----Check Right----
 	if(sensor.wall_r > WALL_BORDE_R)		val |= 0x44;
 	//----Check Left----

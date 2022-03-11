@@ -21,6 +21,6 @@ void callbackTIM(void)
 	updateSensors();
 	updateStatus();
 	if(MF.FLAG.SAFETY)		judgeFailSafe();
-	tim_counter = storeLog(tim_counter);
+//	tim_counter = storeLog(tim_counter);
 	tim_counter++;
 }

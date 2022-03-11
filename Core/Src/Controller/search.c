@@ -72,30 +72,33 @@ void searchMazeBySlalom(uint8_t goal_length)
 			case TURN_RIGHT:
 				wall_info = moveSlalomR90();
 				rotate_on_map = DIR_SPIN_R90;
+				changeDirection(rotate_on_map);
 				break;
 
 			case TURN_BACK:
 				moveHalfSectionDecel(OFF);
-				if(sensor.wall_fl > WALL_BACK_FL && sensor.wall_fr_offset > WALL_BACK_FR)	set_flag = 1;
+				if(sensor.wall_fl > WALL_BACK_FL && sensor.wall_fr > WALL_BACK_FR)	set_flag = 1;
 				rotateSafteyR180();
 				if(set_flag == 1){
 					set_flag = 0;
-					backMotion(SET_MM);
-					driveAccelMotion(SET_MM,max.velocity,ON);
+					backMotion(SET_MM * 0.9f);
+					driveAccelMotion(SET_MM,max.velocity,OFF);
 				}
 				rotate_on_map = DIR_SPIN_180;
-				wall_info = moveHalfSectionAccel(OFF, OFF);
+				changeDirection(rotate_on_map);
+				wall_info = moveHalfSectionAccel(OFF, ON);
 				break;
 			case TURN_LEFT:
 				wall_info = moveSlalomL90();
 				rotate_on_map = DIR_SPIN_L90;
+				changeDirection(rotate_on_map);
 				break;
 		}
 		map_count.route++;
-		changeDirection(rotate_on_map);
 		advancePosition();
 		displayBinaryValueWithLEDs(wall_info);
 		ConfRoute_NESW(goal_length,wall_info);
+
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 	moveHalfSectionDecel(OFF);
 	basicTimerPause();

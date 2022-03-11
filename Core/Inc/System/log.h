@@ -10,7 +10,7 @@
 #ifndef INC_SYSTEM_LOG_H_
 #define INC_SYSTEM_LOG_H_
 
-#define MAX_LOG	4000
+#define MAX_LOG	2000
 
 typedef struct{
 	float target_velocity;

@@ -177,10 +177,10 @@ int main(void)
 	  		 MF.FLAG.SAFETY= 0;
 	  		waitStarting();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
-	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf,%.3lf, %.3lf \n",
+/*	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf,%.3lf, %.3lf \n",
 	  					log[i].target_velocity, log[i].target_omega,log[i].real_velocity, log[i].real_omega,
 						log[i].mileage, log[i].angle);
-	  			  waitMs(1);
+*/	  			  waitMs(1);
 	  		  }
 	  		  break;
 
