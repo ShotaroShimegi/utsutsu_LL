@@ -70,6 +70,9 @@ uint8_t modeSelect(void)
 	return mode;
 }
 
+/*
+ * @brief 前壁センサに手をかざすまで待機
+ */
 void waitStarting(void)
 {
 	//安全のためのモータが動かない用の設定
@@ -89,7 +92,9 @@ void waitStarting(void)
 	}
 	basicTimerPause();
 }
-
+/*
+ * @brief 各種フェイルセーフをチェック、場合によっては呼び出す
+ */
 void judgeFailSafe(void)
 {
 	float error_angle = target.angle - mouse.angle;
@@ -104,7 +109,9 @@ void judgeFailSafe(void)
 
 	if(error_code != 0)		errorFunctions(error_code);
 }
-
+/*
+ * @brief フェイルセーフ関数、呼び出されれば無限ループで終了
+ */
 void errorFunctions(uint8_t error_code)
 {
 	shutdownMotors();

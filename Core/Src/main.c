@@ -34,6 +34,7 @@
 #include"Controller/state.h"
 #include"Controller/callback.h"
 #include"Controller/search.h"
+#include"Controller/test.h"
 
 #include"System/music.h"
 #include"System/sensing.h"
@@ -177,10 +178,10 @@ int main(void)
 	  		 MF.FLAG.SAFETY= 0;
 	  		waitStarting();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
-/*	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf,%.3lf, %.3lf \n",
+	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf,%.3lf, %.3lf \n",
 	  					log[i].target_velocity, log[i].target_omega,log[i].real_velocity, log[i].real_omega,
 						log[i].mileage, log[i].angle);
-*/	  			  waitMs(1);
+	  			  waitMs(1);
 	  		  }
 	  		  break;
 
@@ -221,30 +222,6 @@ int main(void)
 
 	  		  break;
 
-	  	  case 8 :			//	左無限スラローム
-	  		  waitStarting();
-	  		  getOffsets();
-	  		  enableEncoder();
-	  		  basicTimerStart();
-	  		  MF.FLAG.SAFETY = 1;
-	  		  enableMotors();
-
-	  		  moveHalfSectionAccel(OFF, OFF);
-	  		  tim_counter = 0;
-  			  moveSlalomL90();
-  			  moveOneSectionAccel(OFF);
-
-	  		  for(uint8_t cnt=0;cnt<16;cnt++){
-	  			  moveSlalomL90();
-	  			  moveOneSectionAccel(OFF);
-	  		  }
-	  		  moveHalfSectionDecel(OFF);
-	  		  spinRight180();
-
-	  		  basicTimerPause();
-	  		  shutdownMotors();
-	  		  break;
-
 	  	  case 3 :		//	右無限スラローム
 	  		  waitStarting();
 	  		  getOffsets();
@@ -281,33 +258,40 @@ int main(void)
 	  		  break;
 
 	  	  case 5 :		//	直線壁制御走行
-	  		  waitStarting();
+/*	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
 	  		  basicTimerStart();
 	  		  enableMotors();
+*/
+	  		  break;
 
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
-	  		moveHalfSectionAccel(ON, OFF);
-	  		moveOneSectionAccel(ON);
-	  		moveOneSectionAccel(ON);
-	  		moveOneSectionAccel(ON);
-	  		moveOneSectionAccel(ON);
-	  		moveOneSectionAccel(ON);
+	  	  case 8 :			//	左無限スラローム
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  basicTimerStart();
+	  		  MF.FLAG.SAFETY = 1;
+	  		  enableMotors();
 
-	  		moveHalfSectionDecel(OFF);
-	  		basicTimerPause();
-	  		shutdownMotors();
-	  		while(1){
-	  			printf("dist: %.2f, angle: %.2f \n",mouse.mileage,mouse.angle);
-	  			waitMs(1000);
-	  		}
+	  		  moveHalfSectionAccel(OFF, OFF);
+	  		  tim_counter = 0;
+  			  moveSlalomL90();
+  			  moveOneSectionAccel(OFF);
+
+	  		  for(uint8_t cnt=0;cnt<16;cnt++){
+	  			  moveSlalomL90();
+	  			  moveOneSectionAccel(OFF);
+	  		  }
+	  		  moveHalfSectionDecel(OFF);
+	  		  spinRight180();
 
 	  		  basicTimerPause();
 	  		  shutdownMotors();
 	  		  break;
+
 	  	  case 12:
-	  		  waitStarting();
+/*	  		  waitStarting();
 	  		  getOffsets();
 	  		  basicTimerStart();
 	  		  MF.FLAG.SAFETY = 0;
@@ -315,44 +299,38 @@ int main(void)
 		  		printf("Angle : %lf\n", mouse.angle);
 		  		waitMs(500);
 	  		  }
+*/
+	  		  printf("--------IMU Test---------\n");
+	  		  testIMU();
 	  		  break;
 
 	  	  case 13:
-	  		  waitStarting();
+	  		  printf("--------Encoders Test---------\n");
+
+/*	  		  waitStarting();
 	  		  enableEncoder();
 	  		  basicTimerStart();
 	  		  MF.FLAG.SAFETY = 0;
-	  		  while(1){
-	  			printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n", mouse.mileage,sensor.mileage_l_mm,sensor.mileage_r_mm);
-	  			waitMs(500);
-	  		  }
+*/
+	  		  testEncoders();
 	  		  break;
 
 	  	  case 14:
-	  		  waitStarting();
+/*	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
 	  		  MF.FLAG.SAFETY = 0;
 	  		  basicTimerStart();
 	  		  shutdownMotors();
-	  		  uint8_t wall_info = 0x00;
-	  		printf("--------Wall Sensor Test---------\n");
-	  		  while(1){
-	  			  printf("FL: %4d L: %4d FF: %4d R: %4d FR: %4d\n",
-	  					  sensor.wall_fl,sensor.wall_l,sensor.wall_ff,
-						  sensor.wall_r,sensor.wall_fr);
-	  			  waitMs(500);
-	  			  wall_info = getWallInfo();
-	  			  displayBinaryValueWithLEDs(wall_info);
-	  		  }
+*/
+
+	  		  printf("--------Wall Sensor Test---------\n");
+	  		  testWallSensors();
 	  		  break;
 
 	  	  default:
 	  		  break;
 	  }
-
-//	  shutdownMotors();
-
   }
   /* USER CODE END 3 */
 }

@@ -2,6 +2,7 @@
 "Core/Src/Controller/mode.o"
 "Core/Src/Controller/search.o"
 "Core/Src/Controller/state.o"
+"Core/Src/Controller/test.o"
 "Core/Src/Hardware/ICM20689.o"
 "Core/Src/Hardware/basic_timer.o"
 "Core/Src/Hardware/battery.o"

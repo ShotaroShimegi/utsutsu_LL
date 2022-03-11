@@ -8,7 +8,7 @@
 
 #include"System/log.h"
 
-LOG_Typedef log[MAX_LOG];
+LOG_Typedef log [MAX_LOG];
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
 // storeLog
