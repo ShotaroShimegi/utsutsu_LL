@@ -165,7 +165,6 @@ void updateStatus(void)
 	if(fabs(error_right) > SENSOR_DIF_BORDER)	error_right = 0.0f;
 	if(fabs(error_left) > SENSOR_DIF_BORDER)		error_left = 0.0f;
 
-
 	PID_wall_side.error = error_right - error_left;
 	PID_wall_front_posture.error = (sensor.wall_fl - FRONT_BASE_FL) - (sensor.wall_fr - FRONT_BASE_FR);
 	PID_wall_front_distance.error = (sensor.wall_fl - FRONT_BASE_FL) + (sensor.wall_fr - FRONT_BASE_FR);
@@ -191,10 +190,10 @@ void updateStatus(void)
 		output_duty_l += calculatePID(&PID_left_velocity);
 	}
 	if(MF.FLAG.FRONT){
-		tmp = calculatePID(&PID_wall_front_posture);
+/*		tmp = calculatePID(&PID_wall_front_posture);
 		output_duty_r += tmp;
 		output_duty_l -= tmp;
-		tmp = calculatePID(&PID_wall_front_distance);
+*/		tmp = calculatePID(&PID_wall_front_distance);
 		output_duty_r -= tmp;
 		output_duty_l -= tmp;
 	}

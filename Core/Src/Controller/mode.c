@@ -110,7 +110,7 @@ void judgeFailSafe(void)
 	if(error_code != 0)		errorFunctions(error_code);
 }
 /*
- * @brief フェイルセーフ関数、呼び出されれば無限ループで終了
+ * @brief フェイルセーフ関数、呼び出されたら無限ループで終了
  */
 void errorFunctions(uint8_t error_code)
 {

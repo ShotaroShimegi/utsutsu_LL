@@ -7,6 +7,7 @@
 #include"Controller/test.h"
 #include"Controller/mode.h"
 #include"Controller/state.h"
+#include"Controller/callback.h"
 
 #include"System/flags.h"
 #include"System/sensing.h"
@@ -22,6 +23,7 @@
 /*
  * @brief 	テストモードに向けた準備、無限待機編
  * @params1 フェイルセーフ動作のON/OFF,
+ * @params2 モータ駆動のON/OFF
  */
 void prepareForTest(uint8_t safety_flag,uint8_t motor_enable)
 {
@@ -34,6 +36,9 @@ void prepareForTest(uint8_t safety_flag,uint8_t motor_enable)
 	  else if(motor_enable == 0) 	shutdownMotors();
 }
 
+/*
+ * @brief 	壁センサの動作確認、printfでリアルタイム表示する仕様
+ */
 void testWallSensors(void)
 {
 	 prepareForTest(OFF, OFF);
@@ -48,22 +53,30 @@ void testWallSensors(void)
 	  }
 }
 
+/*
+ * @brief 	エンコーダの動作確認、printfでリアルタイム表示する仕様
+ */
 void testEncoders(void)
 {
 	prepareForTest(OFF, OFF);
 	  while(1){
-			printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n", mouse.mileage,sensor.mileage_l_mm,sensor.mileage_r_mm);
+			printf("dist : %.2lf,  L :%.2lf, R : %.2lf \n",
+					mouse.mileage,
+					sensor.mileage_l_mm,sensor.mileage_r_mm);
 			waitMs(500);
 	  }
 }
 
+/*
+ * @brief 	IMUの動作確認（角度）、printfでリアルタイム表示する仕様
+ */
 void testIMU(void)
 {
 	prepareForTest(OFF,OFF);
-	  while(1){
+	while(1){
 		printf("Angle : %lf\n", mouse.angle);
 		waitMs(500);
-	  }
+	 }
 }
 
 void testMotions(void)
@@ -72,7 +85,8 @@ void testMotions(void)
 	displayBinaryValueWithLEDs(mode);
 	prepareForTest(ON, ON);
 	switch(mode){
-		case 1://6区画直線
+		case 1:
+			//6区画直線
 	  		driveAccelMotion(SET_MM,max.velocity,OFF);
 	  		moveHalfSectionAccel(ON, ON);
 	  		moveOneSectionAccel(ON);
@@ -89,6 +103,40 @@ void testMotions(void)
 	  		}
 			break;
 		case 2:
+			//左無限スラローム
+	  		  moveHalfSectionAccel(OFF, OFF);
+	  		  tim_counter = 0;
+			  moveSlalomL90();
+			  moveOneSectionAccel(OFF);
+	  		  for(uint8_t cnt=0;cnt<16;cnt++){
+	  			  moveSlalomL90();
+	  			  moveOneSectionAccel(OFF);
+	  		  }
+	  		  moveHalfSectionDecel(OFF);
+	  		  spinRight180();
+
+	  		  basicTimerPause();
+	  		  shutdownMotors();
+			break;
+
+		case 3:
+			//	右無限スラローム
+	  		  moveHalfSectionAccel(OFF, OFF);
+	  		  tim_counter = 0;
+	  		  for(uint8_t cnt=0;cnt<16;cnt++){
+	  			  displayBinaryValueWithLEDs(0xff);
+	  			  moveSlalomR90();
+	  			  displayBinaryValueWithLEDs(0x00);
+	  			  moveOneSectionAccel(OFF);
+	  		  }
+	  		  moveHalfSectionDecel(OFF);
+	  		  spinRight180();
+
+	  		  basicTimerPause();
+	  		  shutdownMotors();
+
+
+		default:
 			break;
 	}
 

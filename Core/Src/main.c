@@ -191,9 +191,9 @@ int main(void)
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
-	  		  mouse.angle = 0.0f;
 //	  		  basicTimerStart();
 	  		  enableMotors();
+	  		  mouse.angle = 0.0f;
 
 	  		  goal.x = GOAL_X;
 	  		  goal.y = GOAL_Y;
@@ -222,26 +222,7 @@ int main(void)
 
 	  		  break;
 
-	  	  case 3 :		//	右無限スラローム
-	  		  waitStarting();
-	  		  getOffsets();
-	  		  enableEncoder();
-	  		  basicTimerStart();
-	  		  enableMotors();
-
-	  		  tim_counter = 0;
-	  		  moveHalfSectionAccel(OFF, OFF);
-	  		  for(uint8_t cnt=0;cnt<16;cnt++){
-	  			  displayBinaryValueWithLEDs(0xff);
-	  			  moveSlalomR90();
-	  			  displayBinaryValueWithLEDs(0x00);
-	  			  moveOneSectionAccel(OFF);
-	  		  }
-	  		  moveHalfSectionDecel(OFF);
-	  		  spinRight180();
-
-	  		  basicTimerPause();
-	  		  shutdownMotors();
+	  	  case 3 :
 	  		  break;
 
 	  	  case 4 :		//	前壁制御
@@ -257,73 +238,25 @@ int main(void)
 	  		  shutdownMotors();
 	  		  break;
 
-	  	  case 5 :		//	直線壁制御走行
-/*	  		  waitStarting();
-	  		  getOffsets();
-	  		  enableEncoder();
-	  		  basicTimerStart();
-	  		  enableMotors();
-*/
+	  	  case 5 :		//	新制御方式の走行テスト
+	  		 printf("--------Test Motions---------\n");
+	  		  testMotions();
 	  		  break;
 
 	  	  case 8 :			//	左無限スラローム
-	  		  waitStarting();
-	  		  getOffsets();
-	  		  enableEncoder();
-	  		  basicTimerStart();
-	  		  MF.FLAG.SAFETY = 1;
-	  		  enableMotors();
-
-	  		  moveHalfSectionAccel(OFF, OFF);
-	  		  tim_counter = 0;
-  			  moveSlalomL90();
-  			  moveOneSectionAccel(OFF);
-
-	  		  for(uint8_t cnt=0;cnt<16;cnt++){
-	  			  moveSlalomL90();
-	  			  moveOneSectionAccel(OFF);
-	  		  }
-	  		  moveHalfSectionDecel(OFF);
-	  		  spinRight180();
-
-	  		  basicTimerPause();
-	  		  shutdownMotors();
 	  		  break;
 
 	  	  case 12:
-/*	  		  waitStarting();
-	  		  getOffsets();
-	  		  basicTimerStart();
-	  		  MF.FLAG.SAFETY = 0;
-	  		  while(1){
-		  		printf("Angle : %lf\n", mouse.angle);
-		  		waitMs(500);
-	  		  }
-*/
 	  		  printf("--------IMU Test---------\n");
 	  		  testIMU();
 	  		  break;
 
 	  	  case 13:
 	  		  printf("--------Encoders Test---------\n");
-
-/*	  		  waitStarting();
-	  		  enableEncoder();
-	  		  basicTimerStart();
-	  		  MF.FLAG.SAFETY = 0;
-*/
 	  		  testEncoders();
 	  		  break;
 
 	  	  case 14:
-/*	  		  waitStarting();
-	  		  getOffsets();
-	  		  enableEncoder();
-	  		  MF.FLAG.SAFETY = 0;
-	  		  basicTimerStart();
-	  		  shutdownMotors();
-*/
-
 	  		  printf("--------Wall Sensor Test---------\n");
 	  		  testWallSensors();
 	  		  break;
