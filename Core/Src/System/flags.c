@@ -10,7 +10,7 @@ Flags_Typedef MF;
 
 /**
 * @brief 制御則の選択
-* params 各制御フラグ
+* params 各制御フラグのON / OFFの切替
 * 1 . 速度
 * 2 . 角速度
 * 3 . 角度

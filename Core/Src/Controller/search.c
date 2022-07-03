@@ -48,8 +48,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 
 	prepareMapForSearch();
 	prepareStateForSearching();
-	basicTimerStart();
-
+	MF.FLAG.CALLBACK = 1;
 	if(sensor.wall_ff > WALL_TURN_VALUE){
 		rotateSafteyR180();
 		changeDirection(DIR_SPIN_180);
@@ -63,7 +62,8 @@ void searchMazeBySlalom(uint8_t goal_length)
 
 	//====探索走行====
 	do{
-		switch(route[map_count.route]){								//route配列によって進行を決定。経路カウンタを進める
+		switch(route[map_count.route]){
+		//route配列によって進行を決定。経路カウンタを進める
 			case STRAIGHT:
 				wall_info = moveOneSectionAccel(ON);
 				rotate_on_map = 0x00;
@@ -101,12 +101,11 @@ void searchMazeBySlalom(uint8_t goal_length)
 
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 	moveHalfSectionDecel(OFF);
-	basicTimerPause();
+	 MF.FLAG.CALLBACK = OFF;
 	shutdownMotors();
-	waitMs(100);
+	waitMs(200);
 	if(MF.FLAG.SCND == 0)  saveWallMap();
 	MF.FLAG.FIRST = 0;
-	waitMs(100);
 	MelodyGoal();
 }
 
@@ -142,7 +141,7 @@ uint8_t CheckGoal(uint8_t x, uint8_t y, uint8_t length)
 		MF.FLAG.FIRST = 0;
 		return GOAL_OK;
 	}
-	else		{
+	else{
 		return GOAL_FAIL;
 	}
 }

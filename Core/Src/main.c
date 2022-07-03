@@ -158,6 +158,8 @@ int main(void)
   initMouseStatus();
   if(readBatteryCheck()==0)		errorFunctions(1);
   MF.FLAG.FIRST = 1;
+  MF.FLAG.CALLBACK = 1;
+  basicTimerStart();
 
   uint8_t mode;
 
@@ -174,14 +176,17 @@ int main(void)
 	  waitMs(500);
 	  switch(mode){
 	  	  case 0:		//		ログの吐き出し
-	  		 MF.FLAG.SAFETY= 0;
+	  		 MF.FLAG.SAFETY= OFF;
 	  		waitStarting();
+	  		basicTimerPause();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
 	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf,%.3lf, %.3lf \n",
-	  					log[i].target_velocity, log[i].target_omega,log[i].real_velocity, log[i].real_omega,
+	  					log[i].target_velocity, log[i].target_omega,
+						log[i].real_velocity, log[i].real_omega,
 						log[i].mileage, log[i].angle);
 	  			  waitMs(1);
 	  		  }
+	  		  basicTimerStart();
 	  		  break;
 
 	  	  case 1:		//		探索走行
@@ -204,12 +209,12 @@ int main(void)
 	  		  goal.x = GOAL_X;
 	  		  goal.y = GOAL_Y;
 
-	  		  basicTimerStart();
+	  		  MF.FLAG.CALLBACK = 1;
 	  		  enableMotors();
 
 	  		  rotateSafteyR180();
 	  		  changeDirection(DIR_SPIN_180);
-	  		  basicTimerPause();
+	  		 MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
 
@@ -219,7 +224,6 @@ int main(void)
 	  		  MF.FLAG.SCND = ON;
 	  		  MF.FLAG.FIRST = OFF;
 	  		  loadWallMap();
-
 	  		  break;
 
 	  	  case 3 :
@@ -229,12 +233,12 @@ int main(void)
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
-	  		  basicTimerStart();
+	  		  MF.FLAG.CALLBACK = ON;
 	  		  enableMotors();
 
 	  		  fixPostureByWallSensor();
 
-	  		  basicTimerPause();
+	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
 

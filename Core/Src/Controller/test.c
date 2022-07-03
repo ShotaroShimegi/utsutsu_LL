@@ -31,7 +31,8 @@ void prepareForTest(uint8_t safety_flag,uint8_t motor_enable)
 	  getOffsets();
 	  enableEncoder();
 	  MF.FLAG.SAFETY = safety_flag & 0x01;
-	  basicTimerStart();
+//	  basicTimerStart();
+	  MF.FLAG.CALLBACK = 1;
 	  if(motor_enable & 0x01)		enableMotors();
 	  else if(motor_enable == 0) 	shutdownMotors();
 }
@@ -97,7 +98,8 @@ void testMotions(void)
 	  		moveOneSectionAccel(ON);
 	  		moveOneSectionAccel(ON);
 	  		moveHalfSectionDecel(OFF);
-	  		basicTimerPause();
+//	  		basicTimerPause();
+	  		 MF.FLAG.CALLBACK = OFF;
 	  		shutdownMotors();
 	  		while(1){
 	  			printf("dist: %.2f, angle: %.2f \n",mouse.mileage,mouse.angle);
@@ -116,7 +118,8 @@ void testMotions(void)
 	  		  moveHalfSectionDecel(OFF);
 	  		  spinRight180();
 
-	  		  basicTimerPause();
+//	  		  basicTimerPause();
+	  		 MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 			break;
 
@@ -133,7 +136,7 @@ void testMotions(void)
 	  		  moveHalfSectionDecel(OFF);
 	  		  spinRight180();
 
-	  		  basicTimerPause();
+	  		 MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
 		case 4:
@@ -141,7 +144,8 @@ void testMotions(void)
 	  		driveAccelMotion(SET_MM,max.velocity,OFF);
 	  		moveHalfSectionAccel(ON, ON);
 	  		moveHalfSectionDecel(OFF);
-	  		basicTimerPause();
+
+	  		 MF.FLAG.CALLBACK = OFF;
 	  		shutdownMotors();
 			MF.FLAG.NEW = 1;
 

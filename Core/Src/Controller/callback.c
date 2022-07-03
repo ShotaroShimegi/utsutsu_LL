@@ -18,9 +18,10 @@ extern uint16_t tim_counter;
 
 void callbackTIM(void)
 {
-	updateSensors();
-	updateStatus();
-	if(MF.FLAG.SAFETY)		judgeFailSafe();
-	tim_counter = storeLog(tim_counter);
-	tim_counter++;
+	if(MF.FLAG.CALLBACK){	//	割込み処理フラグが無かったら計算はしない
+		updateSensors();
+		updateStatus();
+		if(MF.FLAG.SAFETY)		judgeFailSafe();
+		tim_counter = storeLog(tim_counter);
+	}
 }

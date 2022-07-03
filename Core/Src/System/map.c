@@ -342,23 +342,17 @@ MAP_Mouse_Typedef setMapStruct(uint8_t x, uint8_t y, uint8_t dir)
 void prepareMapForSearch(void)
 {
 	if(MF.FLAG.FIRST == 1)	{
-//		printf("Delete Start\n");
+		//迷路の初期化処理
 		deleteWallMap();
 		point = setMapStruct(0, 0, 0x00);
-
 	}
-
-//	printf("---------Wall Data---------\n");
-//	printWallData();
-
 	map_count.step = 0;
 	map_count.route = 0;
 
-//	printf("Generate Step Map\n");
+//	歩数マップの生成
 	map_count.step = makeStepMap(GOAL_LENGTH);
-//	printf("Calculate Route \n");
+//	経路配列の生成
 	MakeRoute_NESW();
-//	printf("Preparing Finish \n");
 }
 
 void saveWallMap(void)

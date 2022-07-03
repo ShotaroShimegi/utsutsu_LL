@@ -36,7 +36,7 @@ uint8_t modeSelect(void)
 	uint8_t enter = 0;
 
 	//入力に使うエンコーダ用の初期化
-	basicTimerPause();
+	 MF.FLAG.CALLBACK = OFF;
 	TIM3->CNT = 0;
 	TIM4->CNT = 0;
 	enableEncoder();
@@ -76,10 +76,9 @@ uint8_t modeSelect(void)
 void waitStarting(void)
 {
 	//安全のためのモータが動かない用の設定
-//	MF.FLAGS = 0x0000;
 	shutdownMotors();
 
-	basicTimerStart();
+	MF.FLAG.CALLBACK = 1;
 	printf("Ready???\n");
 	while(1){
 		if(sensor.wall_ff > WALL_START_VALUE){
@@ -90,7 +89,7 @@ void waitStarting(void)
 			break;
 		}
 	}
-	basicTimerPause();
+	 MF.FLAG.CALLBACK = OFF;
 }
 /*
  * @brief 各種フェイルセーフをチェック、場合によっては呼び出す
