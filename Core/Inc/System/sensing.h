@@ -11,8 +11,9 @@
 #include<stdint.h>
 
 //For IMU
-#define SAMPLE_NUMBER 100
+#define SAMPLE_NUMBER_OFFSET 100
 #define TIME_STEP 0.001f
+#define NUM_SAMPLE_ACCEL 4
 
 //For Encoder
 #define RAD_WHEEL_mm 12.25f

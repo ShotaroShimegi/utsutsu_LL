@@ -45,7 +45,26 @@ float getOmega(void)
 
 float getAccel(void)
 {
-	return sensor.gyro_accel;
+	static uint8_t i = 0;
+	static float log[NUM_SAMPLE_ACCEL];
+	float filtered_accel = 0.0f;
+	if(i < NUM_SAMPLE_ACCEL-1){
+		log[i] = sensor.gyro_accel;
+		i++;
+		return -sensor.gyro_accel;
+	}
+
+	if(i == NUM_SAMPLE_ACCEL-1){
+		log[i] = sensor.gyro_accel;
+		for(uint8_t j=0; j <NUM_SAMPLE_ACCEL;j++){
+			filtered_accel += log[j];
+		}
+		filtered_accel /= NUM_SAMPLE_ACCEL;
+		log[0] = log[1];
+		log[1] = log[2];
+		log[2] = log[3];
+	}
+	return -filtered_accel;
 }
 
 void getWallSensorOffset(void)
@@ -110,8 +129,7 @@ float getAccelOffset(uint16_t num)
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
 // getWallInfo
-//	@brief 加速度のオフセット用平均値を取得する
-// @param num　取得するサンプル数
+//	@brief 壁情報を2進数で出力
 //+++++++++++++++++++++++++++++++++++++++++++++++
 uint8_t getWallInfo(void)
 {
@@ -165,7 +183,7 @@ void updateSensors(void)
 //+++++++++++++++++++++++++++++++++++++++++++++++
 void getOffsets(void)
 {
-	sensor.gyro_accel_offset = getAccelOffset(SAMPLE_NUMBER);
-	sensor.gyro_omega_offset = getOmegaOffset(SAMPLE_NUMBER);
+	sensor.gyro_accel_offset = getAccelOffset(SAMPLE_NUMBER_OFFSET);
+	sensor.gyro_omega_offset = getOmegaOffset(SAMPLE_NUMBER_OFFSET);
 	getWallSensorOffset();
 }
