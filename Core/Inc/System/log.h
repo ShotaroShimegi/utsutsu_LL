@@ -15,8 +15,10 @@
 typedef struct{
 	float target_velocity;
 	float target_omega;
+	float target_accel;
 	float real_velocity;
 	float real_omega;
+	float real_accel;
 	float mileage;
 	float angle;
 }LOG_Typedef;

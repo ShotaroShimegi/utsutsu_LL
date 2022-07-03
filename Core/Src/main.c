@@ -180,9 +180,11 @@ int main(void)
 	  		waitStarting();
 	  		basicTimerPause();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
-	  			  printf("%.3lf, %.3lf, %.3lf, %.3lf,%.3lf, %.3lf \n",
+	  			  printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",
 	  					log[i].target_velocity, log[i].target_omega,
+						log[i].target_accel,
 						log[i].real_velocity, log[i].real_omega,
+						log[i].real_accel,
 						log[i].mileage, log[i].angle);
 	  			  waitMs(1);
 	  		  }
@@ -214,7 +216,7 @@ int main(void)
 
 	  		  rotateSafteyR180();
 	  		  changeDirection(DIR_SPIN_180);
-	  		 MF.FLAG.CALLBACK = OFF;
+	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
 

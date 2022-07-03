@@ -26,6 +26,7 @@ typedef struct {
 	float mileage;						// Unit [mm]
 	float velocity;						// Unit [m/s] = [mm/ms]
 	float accel;						// Unit [m/s/s]
+	float jerk;							// Unit [m/s/s/s]
 }State_Typedef;
 
 typedef struct {

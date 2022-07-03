@@ -52,7 +52,7 @@ float calculatePID(PID_Typedef *instance)
 }
 /**
  * calculateTargetVelocity
-* @brief MFの値から並進加速度の目標値を計算する
+* @brief 　並進加速度の目標値を計算する
 * @return 計算後の目標値
 */
 float calculateTargetVelocity(void)
@@ -69,7 +69,7 @@ float calculateTargetVelocity(void)
 }
 /**
  * calculateTargetOmega
-* @brief MFの値から並進加速度の目標値を計算する
+* @brief MFの値から並進速度の目標値を計算する
 * @return 計算後の目標値
 */
 float calculateTagetOmega(void)
@@ -85,8 +85,36 @@ float calculateTagetOmega(void)
 	return target_val;
 }
 
+/**
+ * calculateTargetAccelAndVelocity
+* @brief 　並進加速度、並進速度の目標値を計算する
+* @return 計算後の目標値
+*/
+float calculateTargetAccelAndVelocity(void)
+{
+	float target_velocity = target.velocity;
+//	float target_accel = target.accel;
+
+	if(MF.FLAG.WACCEL || MF.FLAG.WDECEL)	return target.velocity;
+
+	/*
+	 * 加速度をフィードフォワード的に計算する式
+	 */
+
+	if(MF.FLAG.ACCEL == 1) 			target.accel = max.accel;
+	else if(MF.FLAG.DECEL == 1)	target.accel = -max.accel;
+
+	target_velocity += target.accel * 0.001f;
+
+	if(target_velocity > max.velocity)			target_velocity = max.velocity;
+	else if(target_velocity < -max.velocity)	target_velocity = -max.velocity;
+
+	return target_velocity;
+}
+
 State_Typedef setStatus(float angle,float curve,
-									float mileage, float velocity, float accel)
+									float mileage, float velocity,
+									float accel, float jerk)
 {
 	State_Typedef instance;
 	instance.angle = angle;
@@ -96,6 +124,7 @@ State_Typedef setStatus(float angle,float curve,
 	instance.mileage = mileage;
 	instance.velocity = velocity;
 	instance.accel = accel;
+	instance.jerk = jerk;
 
 	return instance;
 }
@@ -119,9 +148,9 @@ PID_Typedef setParameters(float gainP, float gainI, float gainD, float limitI, f
 void initMouseStatus(void)
 {
 	//State関連
-	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f);
-	max = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f);
+	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	max = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f, 0.05);
 
 	//MF
 	MF.FLAGS = 0x00000000;
@@ -147,6 +176,7 @@ void updateStatus(void)
 	//センサ値からステータス
 	mouse.angle = addAngle(mouse.angle);
 	mouse.omega = getOmega()*CONVERT_TO_RAD;
+	mouse.accel = getAccel();
 	mouse.mileage = getCenterMileage();
 	mouse.velocity = getCenterVelocity();
 
@@ -191,10 +221,7 @@ void updateStatus(void)
 			output_duty_l += calculatePID(&PID_left_velocity);
 		}
 		if(MF.FLAG.FRONT){
-	/*		tmp = calculatePID(&PID_wall_front_posture);
-			output_duty_r += tmp;
-			output_duty_l -= tmp;
-	*/		tmp = calculatePID(&PID_wall_front_distance);
+			tmp = calculatePID(&PID_wall_front_distance);
 			output_duty_r -= tmp;
 			output_duty_l -= tmp;
 		}

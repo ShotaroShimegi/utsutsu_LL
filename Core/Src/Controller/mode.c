@@ -90,6 +90,7 @@ void waitStarting(void)
 		}
 	}
 	 MF.FLAG.CALLBACK = OFF;
+	 mouse.angle = 0.0f;
 }
 /*
  * @brief 各種フェイルセーフをチェック、場合によっては呼び出す
