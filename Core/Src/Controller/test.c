@@ -79,14 +79,16 @@ void testIMU(void)
 	 }
 }
 
+/*
+ * @brief 	モータ関連のテスト全般
+ */
 void testMotions(void)
 {
 	uint8_t mode = modeSelect();
 	displayBinaryValueWithLEDs(mode);
 	prepareForTest(ON, ON);
 	switch(mode){
-		case 1:
-			//6区画直線
+		case 1:		//		6区画直線
 	  		driveAccelMotion(SET_MM,max.velocity,OFF);
 	  		moveHalfSectionAccel(ON, ON);
 	  		moveOneSectionAccel(ON);
@@ -102,8 +104,7 @@ void testMotions(void)
 	  			waitMs(1000);
 	  		}
 			break;
-		case 2:
-			//左無限スラローム
+		case 2:		//		左無限スラローム
 	  		  moveHalfSectionAccel(OFF, OFF);
 	  		  tim_counter = 0;
 			  moveSlalomL90();
@@ -134,7 +135,17 @@ void testMotions(void)
 
 	  		  basicTimerPause();
 	  		  shutdownMotors();
+	  		  break;
+		case 4:
+			tim_counter = 0;
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(ON, ON);
+	  		moveHalfSectionDecel(OFF);
+	  		basicTimerPause();
+	  		shutdownMotors();
+			MF.FLAG.NEW = 1;
 
+			break;
 
 		default:
 			break;

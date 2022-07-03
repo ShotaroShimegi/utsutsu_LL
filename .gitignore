@@ -12,3 +12,5 @@
 *.o
 *.su
 *.o
+Debug/Core/Src/main.o
+*.o

@@ -153,7 +153,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   enableMelody();
   waitMs(1);
-  MelodySummer();
 
   initSensors();
   initMouseStatus();
@@ -174,7 +173,7 @@ int main(void)
 	  mode = modeSelect();
 	  waitMs(500);
 	  switch(mode){
-	  	  case 0:
+	  	  case 0:		//		ログの吐き出し
 	  		 MF.FLAG.SAFETY= 0;
 	  		waitStarting();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
@@ -185,7 +184,7 @@ int main(void)
 	  		  }
 	  		  break;
 
-	  	  case 1:
+	  	  case 1:		//		探索走行
 	  		  MelodyNatsumatsuri();
 
 	  		  waitStarting();
@@ -215,6 +214,7 @@ int main(void)
 	  		  break;
 
 	  	  case 2:
+	  		  //記憶された迷路を読み出す、付け焼刃の疑似最短モード、
 	  		  MelodyUrara();
 	  		  MF.FLAG.SCND = ON;
 	  		  MF.FLAG.FIRST = OFF;
@@ -240,10 +240,11 @@ int main(void)
 
 	  	  case 5 :		//	新制御方式の走行テスト
 	  		 printf("--------Test Motions---------\n");
-	  		  testMotions();
+	  		 MelodySummer();
+	  		 testMotions();
 	  		  break;
 
-	  	  case 8 :			//	左無限スラローム
+	  	  case 8 :
 	  		  break;
 
 	  	  case 12:

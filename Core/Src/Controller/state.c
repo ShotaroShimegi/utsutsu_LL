@@ -150,52 +150,57 @@ void updateStatus(void)
 	mouse.mileage = getCenterMileage();
 	mouse.velocity = getCenterVelocity();
 
-	//目標値生成
-	target.velocity = calculateTargetVelocity();
-	target.omega = calculateTagetOmega();
+	if(MF.FLAG.NEW == 0){
+		//目標値生成
+		target.velocity = calculateTargetVelocity();
+		target.omega = calculateTagetOmega();
 
-	//偏差計算
-	PID_angle.error = target.angle - mouse.angle;
-	PID_left_velocity.error = target.velocity - mouse.velocity;
-	PID_right_velocity.error = target.velocity - mouse.velocity;
-	PID_omega.error = target.omega - mouse.omega;
+		//偏差計算
+		PID_angle.error = target.angle - mouse.angle;
+		PID_left_velocity.error = target.velocity - mouse.velocity;
+		PID_right_velocity.error = target.velocity - mouse.velocity;
+		PID_omega.error = target.omega - mouse.omega;
 
-	float error_right = (sensor.wall_r - sensor.wall_r_offset);
-	float error_left = (sensor.wall_l - sensor.wall_l_offset);
-	if(fabs(error_right) > SENSOR_DIF_BORDER)	error_right = 0.0f;
-	if(fabs(error_left) > SENSOR_DIF_BORDER)		error_left = 0.0f;
+		float error_right = (sensor.wall_r - sensor.wall_r_offset);
+		float error_left = (sensor.wall_l - sensor.wall_l_offset);
+		if(fabs(error_right) > SENSOR_DIF_BORDER)	error_right = 0.0f;
+		if(fabs(error_left) > SENSOR_DIF_BORDER)		error_left = 0.0f;
 
-	PID_wall_side.error = error_right - error_left;
-	PID_wall_front_posture.error = (sensor.wall_fl - FRONT_BASE_FL) - (sensor.wall_fr - FRONT_BASE_FR);
-	PID_wall_front_distance.error = (sensor.wall_fl - FRONT_BASE_FL) + (sensor.wall_fr - FRONT_BASE_FR);
+		PID_wall_side.error = error_right - error_left;
+		PID_wall_front_posture.error = (sensor.wall_fl - FRONT_BASE_FL) - (sensor.wall_fr - FRONT_BASE_FR);
+		PID_wall_front_distance.error = (sensor.wall_fl - FRONT_BASE_FL) + (sensor.wall_fr - FRONT_BASE_FR);
 
-	//PID計算
-	if(MF.FLAG.ACTRL)	{
-		tmp = calculatePID(&PID_angle);
-		output_duty_r += tmp;
-		output_duty_l -= tmp;
+		//PID計算
+		if(MF.FLAG.ACTRL)	{
+			tmp = calculatePID(&PID_angle);
+			output_duty_r += tmp;
+			output_duty_l -= tmp;
+		}
+		if(MF.FLAG.WCTRL){
+			tmp = calculatePID(&PID_omega);
+			output_duty_r += tmp;
+			output_duty_l -= tmp;
+		}
+		if(MF.FLAG.CTRL && target.velocity > 0.20f){
+			tmp = calculatePID(&PID_wall_side);
+			output_duty_r += tmp;
+			output_duty_l -= tmp;
+		}
+		if(MF.FLAG.VCTRL){
+			output_duty_r += calculatePID(&PID_right_velocity);
+			output_duty_l += calculatePID(&PID_left_velocity);
+		}
+		if(MF.FLAG.FRONT){
+	/*		tmp = calculatePID(&PID_wall_front_posture);
+			output_duty_r += tmp;
+			output_duty_l -= tmp;
+	*/		tmp = calculatePID(&PID_wall_front_distance);
+			output_duty_r -= tmp;
+			output_duty_l -= tmp;
+		}
+	}else if(MF.FLAG.NEW == 1){
+
 	}
-	if(MF.FLAG.WCTRL){
-		tmp = calculatePID(&PID_omega);
-		output_duty_r += tmp;
-		output_duty_l -= tmp;
-	}
-	if(MF.FLAG.CTRL && target.velocity > 0.20f){
-		tmp = calculatePID(&PID_wall_side);
-		output_duty_r += tmp;
-		output_duty_l -= tmp;
-	}
-	if(MF.FLAG.VCTRL){
-		output_duty_r += calculatePID(&PID_right_velocity);
-		output_duty_l += calculatePID(&PID_left_velocity);
-	}
-	if(MF.FLAG.FRONT){
-/*		tmp = calculatePID(&PID_wall_front_posture);
-		output_duty_r += tmp;
-		output_duty_l -= tmp;
-*/		tmp = calculatePID(&PID_wall_front_distance);
-		output_duty_r -= tmp;
-		output_duty_l -= tmp;
-	}
+
 	driveMotors(output_duty_l, output_duty_r);
 }

@@ -25,7 +25,7 @@ typedef union{
 		uint8_t SAFETY :1;		//安全解析フラグ(B10)
 		uint8_t ACTRL :1;		//角度制御フラグ(B11)
 		uint8_t FRONT :1;		//前制御フラグ　(B12)
-		uint8_t RESV13 :1;		//予備フラグ　　(B13)
+		uint8_t NEW :1;		//予備フラグ　　(B13)
 		uint8_t RESV14 :1;		//予備フラグ　　(B14)
 		uint8_t RESV15 :1;		//予備フラグ　　(B15)
 	}FLAG;
