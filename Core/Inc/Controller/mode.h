@@ -16,7 +16,7 @@
 #define WALL_START_VALUE 	80
 
 //フェイルセーフ関連
-#define FAIL_ANGLE 			20.0f
+#define FAIL_ANGLE 			30.0f//20.0f
 #define FAIL_VELOCITY		2.0f
 
 uint8_t modeSelect(void);

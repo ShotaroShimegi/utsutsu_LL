@@ -158,8 +158,8 @@ void initMouseStatus(void)
 	//PID関連
 	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
-//	PID_wall_side = setParameters(0.003f, 0.0f, 0.00f, 0.00f, 0.2f);
-	PID_wall_side = setParameters(0.01f, 0.0f, 0.00f, 0.00f, 0.2f);
+	PID_wall_side = setParameters(0.003f, 0.0f, 0.10f, 0.00f, 0.2f);
+//	PID_wall_side = setParameters(0.01f, 0.0f, 0.40f, 0.00f, 0.2f);
 	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
 	PID_wall_front_distance = setParameters(0.0005f, 0.0f, 0.002f, 0.0f,0.2f);
 	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.3f);
@@ -193,6 +193,7 @@ void updateStatus(void)
 
 		float error_right = (sensor.wall_r - sensor.wall_r_offset);
 		float error_left = (sensor.wall_l - sensor.wall_l_offset);
+
 		if(fabs(error_right) > SENSOR_DIF_BORDER)	error_right = 0.0f;
 		if(fabs(error_left) > SENSOR_DIF_BORDER)		error_left = 0.0f;
 

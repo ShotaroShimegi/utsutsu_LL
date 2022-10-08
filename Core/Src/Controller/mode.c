@@ -102,7 +102,7 @@ void judgeFailSafe(void)
 	float error_velocity_l = target.velocity - sensor.encoder_vel_l;
 	uint8_t error_code = 0;
 
-	if(readBatteryCheck() == 0)							error_code = 1;
+//	if(readBatteryCheck() == 0)							error_code = 1;
 	if( fabs(error_angle) > FAIL_ANGLE) 			error_code = 2;
 	if(fabs(error_velocity_l) > FAIL_VELOCITY)	error_code = 3;
 	if(fabs(error_velocity_r) > FAIL_VELOCITY)	error_code = 4;

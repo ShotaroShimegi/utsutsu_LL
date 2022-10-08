@@ -16,7 +16,7 @@
 #define		FRONT_BASE_FL 280
 #define 	FRONT_BASE_FR 260
 
-#define SENSOR_DIF_BORDER 10.0f
+#define SENSOR_DIF_BORDER 15.0f
 
 typedef struct {
 	float angle;						// Unit [deg]

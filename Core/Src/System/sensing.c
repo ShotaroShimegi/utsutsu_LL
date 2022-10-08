@@ -48,13 +48,13 @@ float getAccel(void)
 	static uint8_t i = 0;
 	static float log[NUM_SAMPLE_ACCEL];
 	float filtered_accel = 0.0f;
-	if(i < NUM_SAMPLE_ACCEL-1){
+	if(i < NUM_SAMPLE_ACCEL - 1){
 		log[i] = sensor.gyro_accel;
 		i++;
 		return -sensor.gyro_accel;
 	}
 
-	if(i == NUM_SAMPLE_ACCEL-1){
+	if(i == NUM_SAMPLE_ACCEL - 1){
 		log[i] = sensor.gyro_accel;
 		for(uint8_t j=0; j <NUM_SAMPLE_ACCEL;j++){
 			filtered_accel += log[j];

@@ -219,7 +219,7 @@ void backMotion(float dist)
 	float input_mileage = mouse.mileage;
 	float max_tmp = max.velocity;
 	//速度制御、角度制御、壁制御OFF
-	setControlFlags(1, 1, 0, 0);
+	setControlFlags(1, 0, 0, 0);
 
 	//減速区間の計算
 	max.velocity = 0.20f;
