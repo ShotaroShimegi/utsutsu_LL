@@ -55,8 +55,8 @@ void searchMazeBySlalom(uint8_t goal_length)
 		changeDirection(DIR_SPIN_180);
 	}
 
-	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,OFF);
-	wall_info = moveHalfSectionAccel(0, ON);
+	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,ON);
+	wall_info = moveHalfSectionAccel(ON, ON);
 	advancePosition();
 	map_count.route++;
 	ConfRoute_NESW(goal_length,wall_info);
@@ -83,11 +83,11 @@ void searchMazeBySlalom(uint8_t goal_length)
 				if(set_flag == 1){
 					set_flag = 0;
 					backMotion(SET_MM * 0.9f);
-					driveAccelMotion(SET_MM,max.velocity,OFF);
+					driveAccelMotion(SET_MM,max.velocity,ON);
 				}
 				rotate_on_map = DIR_SPIN_180;
 				changeDirection(rotate_on_map);
-				wall_info = moveHalfSectionAccel(OFF, ON);
+				wall_info = moveHalfSectionAccel(ON, ON);
 				break;
 			case TURN_LEFT:
 				wall_info = moveSlalomL90();

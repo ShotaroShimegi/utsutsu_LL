@@ -17,10 +17,10 @@
 #define 	FRONT_BASE_FR 260
 
 //新しい壁制御用のサムシング
-#define SENSOR_DIF_BORDER 0.0f
-#define GAIN_FIXER 			100.0f
-#define GAIN_WALL_P		0.5f
-#define GAIN_WALL_D		10.0f
+#define SENSOR_DIF_BORDER 100.0f
+#define GAIN_FIXER 			300.0f
+#define GAIN_WALL_P		0.005f
+#define GAIN_WALL_D		1000.0f
 #define ERROR_MAX 			1.0f
 
 typedef struct {

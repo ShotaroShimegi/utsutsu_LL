@@ -99,7 +99,7 @@ float fixTargetOmegaFromWallSensor(float error)
 	if(fix_error > ERROR_MAX)				fix_error = ERROR_MAX;
 	else if(fix_error < -ERROR_MAX)		fix_error = -ERROR_MAX;
 
-	float fix_val = GAIN_WALL_P * fix_error - GAIN_WALL_D * (fix_error - pre_fix_error);
+	float fix_val = GAIN_WALL_P * fix_error + GAIN_WALL_D * (fix_error - pre_fix_error);
 
 	pre_fix_error = fix_error;
 	return fix_val;
@@ -209,14 +209,12 @@ void updateStatus(void)
 		target.omega = calculateTagetOmega();
 
 		//壁制御と姿勢制御の合体
-		if(MF.FLAG.CTRL && target.velocity > 0.05f) {
+		if(MF.FLAG.CTRL && (target.velocity > 0.20f)) {
 			fix_omega =  fixTargetOmegaFromWallSensor(PID_wall_side.error);
 		} else {
 			fix_omega = 0.0f;
 		}
-//============ 壁センサ試験用に強制0
-		fix_omega = 0.0f;
-//============ 壁センサ試験用に強制0
+
 		target.omega += fix_omega;
 
 		//偏差計算

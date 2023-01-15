@@ -197,7 +197,7 @@ void updateSensors(void)
 {
 	//IMU
 	sensor.gyro_omega = readGyroOmegaZ() - sensor.gyro_omega_offset;
-	sensor.gyro_accel = readGyroAccelX() - sensor.gyro_accel_offset;
+	sensor.gyro_accel = (readGyroAccelX() - sensor.gyro_accel_offset) *9.806f;
 	//Encoder
 	sensor.pulse_l = (-1) * getEncoderData(LEFT);
 	sensor.pulse_r = getEncoderData(RIGHT);
