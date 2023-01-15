@@ -81,7 +81,7 @@ void waitStarting(void)
 	MF.FLAG.CALLBACK = 1;
 	printf("Ready???\n");
 	while(1){
-		if(sensor.wall_ff > WALL_START_VALUE){
+		if(sensor.wall_val[FF] > WALL_START_VALUE){
 			Melody(e6,300);
 			Melody(f6,300);
 			Melody(g6,300);

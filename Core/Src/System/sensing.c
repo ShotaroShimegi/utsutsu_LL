@@ -71,11 +71,11 @@ void getWallSensorOffset(void)
 {
 	changeLEDs(ON, ON, ON, ON, ON);
 	waitUs(CHARG_TIME);
-	sensor.wall_fr_offset = getWallADC(WALL_ID_FR);
-	sensor.wall_ff_offset = getWallADC(WALL_ID_FF);
-	sensor.wall_l_offset = getWallADC(WALL_ID_L);
-	sensor.wall_fl_offset = getWallADC(WALL_ID_FL);
-	sensor.wall_r_offset = getWallADC(WALL_ID_R);
+	sensor.wall_offset[FR] = getWallADC(FR);
+	sensor.wall_offset[FF] = getWallADC(FF);
+	sensor.wall_offset[L] = getWallADC(L);
+	sensor.wall_offset[FL] = getWallADC(FL);
+	sensor.wall_offset[R] = getWallADC(R);
 	changeLEDs(OFF, OFF, OFF, OFF, OFF);
 }
 
@@ -83,13 +83,13 @@ void getWallSensor(void)
 {
 	changeLEDs(OFF, ON, ON, OFF, ON);
 	waitUs(CHARG_TIME);
-	sensor.wall_fr = getWallADC(WALL_ID_FR);
-	sensor.wall_ff = getWallADC(WALL_ID_FF);
-	sensor.wall_l = getWallADC(WALL_ID_L) ;
+	sensor.wall_val[FR] = getWallADC(FR);
+	sensor.wall_val[FF] = getWallADC(FF);
+	sensor.wall_val[L] = getWallADC(L) ;
 	changeLEDs(ON, OFF, OFF, ON, OFF);
 	waitUs(CHARG_TIME);
-	sensor.wall_fl = getWallADC(WALL_ID_FL);
-	sensor.wall_r = getWallADC(WALL_ID_R) ;
+	sensor.wall_val[FL] = getWallADC(FL);
+	sensor.wall_val[R] = getWallADC(R) ;
 	changeLEDs(OFF, OFF, OFF, OFF, OFF);
 }
 
@@ -135,12 +135,44 @@ uint8_t getWallInfo(void)
 {
 	uint8_t val = 0x00;
 	//----Check Front----
-	if(sensor.wall_fr > WALL_BORDE_FR || sensor.wall_fl > WALL_BORDE_FL)	val |= 0x88;
+	if(sensor.wall_val[FR] > WALL_BORDE_FR || sensor.wall_val[FL] > WALL_BORDE_FL)	val |= 0x88;
 	//----Check Right----
-	if(sensor.wall_r > WALL_BORDE_R)		val |= 0x44;
+	if(sensor.wall_val[R] > WALL_BORDE_R)		val |= 0x44;
 	//----Check Left----
-	if(sensor.wall_l > WALL_BORDE_L)		val |= 0x11;
+	if(sensor.wall_val[L] > WALL_BORDE_L)		val |= 0x11;
 	return val;
+}
+
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// filterWallSensors
+//	@brief 横壁センサの値に移動平均フィルタを掛ける
+//+++++++++++++++++++++++++++++++++++++++++++++++
+void filterWallSensors(){
+	static uint16_t sensor_buff_right[FILTER_SAMPLE],sensor_buff_left[FILTER_SAMPLE];
+	static uint8_t sample_count = 0;
+	uint16_t sum_l,sum_r;
+
+	if(sample_count < FILTER_SAMPLE){
+// ==== 最初に配列の値を埋めるフェイズ ====
+		sensor_buff_left[sample_count] = sensor.wall_val[L];
+		sensor_buff_right[sample_count] = sensor.wall_val[R];
+		sample_count++;
+	}else{
+// ==== 実際に移動平均フィルタの値を計算し代入====
+		sum_l = sensor.wall_val[L],sum_r = sensor.wall_val[R];
+		for (int i=0;i<FILTER_SAMPLE;i++) {
+			sum_l += sensor_buff_left[i], sum_r += sensor_buff_right[i];
+		}
+		sensor.wall_val[L] = sum_l / (FILTER_SAMPLE + 1);
+		sensor.wall_val[R] = sum_r /( FILTER_SAMPLE + 1);
+// ==== 配列内の過去データを更新====
+		for (int i=0;i<FILTER_SAMPLE - 1;i++) {
+			sensor_buff_left[i] = sensor_buff_left[i+1];
+			sensor_buff_right[i] = sensor_buff_right[i+1];
+		}
+		sensor_buff_left[FILTER_SAMPLE - 1] = sensor.wall_val[L];
+		sensor_buff_right[FILTER_SAMPLE - 1] = sensor.wall_val[R];
+	}
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
@@ -175,6 +207,7 @@ void updateSensors(void)
 	sensor.encoder_vel_r = getEncoderVelocity(sensor.pulse_r);
 	//Wall Sensor
 	getWallSensor();
+	filterWallSensors();				// 横壁センサのみ移動平均フィルタ
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
@@ -187,3 +220,4 @@ void getOffsets(void)
 	sensor.gyro_omega_offset = getOmegaOffset(SAMPLE_NUMBER_OFFSET);
 	getWallSensorOffset();
 }
+

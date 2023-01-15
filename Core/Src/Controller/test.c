@@ -46,8 +46,8 @@ void testWallSensors(void)
 	 uint8_t wall_info = 0x00;
 	  while(1){
 		  printf("FL: %4d L: %4d FF: %4d R: %4d FR: %4d\n",
-				  sensor.wall_fl,sensor.wall_l,sensor.wall_ff,
-				  sensor.wall_r,sensor.wall_fr);
+				  sensor.wall_val[FL],sensor.wall_val[L],sensor.wall_val[FF],
+				  sensor.wall_val[R],sensor.wall_val[FR]);
 		  waitMs(500);
 		  wall_info = getWallInfo();
 		  displayBinaryValueWithLEDs(wall_info);

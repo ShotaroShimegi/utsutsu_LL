@@ -24,20 +24,22 @@
 
 //For Wall Sensor
 #define CHARG_TIME		40
-#define WALL_ID_FR		0
-#define WALL_ID_R		1
-#define WALL_ID_FF		2
-#define WALL_ID_L		3
-#define WALL_ID_FL		4
 #define WALL_BORDE_FR	50
 #define WALL_BORDE_R	20
 #define WALL_BORDE_FF	40
-#define WALL_BORDE_L		40
+#define WALL_BORDE_L		30
 #define WALL_BORDE_FL	50
 
 #define WALL_BACK_FR 230
 #define WALL_BACK_FL 230
 
+#define FILTER_SAMPLE 6
+
+enum WALL_ID{
+	FR,R,FF,L,FL
+};
+
+// センサデータ統合
 typedef struct{
 	float encoder_vel_r;		// Unit m/s
 	float encoder_vel_l;
@@ -51,19 +53,11 @@ typedef struct{
 	float gyro_accel;
 	float gyro_omega_offset;
 	float gyro_accel_offset;
-	uint16_t wall_fl;
-	uint16_t wall_l;
-	uint16_t wall_ff;
-	uint16_t wall_r;
-	uint16_t wall_fr;
-	uint16_t wall_fl_offset;
-	uint16_t wall_l_offset;;
-	uint16_t wall_ff_offset;;
-	uint16_t wall_r_offset;;
-	uint16_t wall_fr_offset;;
+	uint16_t wall_val[5];
+	uint16_t wall_offset[5];
 } Sensing_Typedef;
 
-
+//　関数のプロトタイプ宣言
 void initSensors(void);
 void updateSensors(void);
 void getOffsets(void);

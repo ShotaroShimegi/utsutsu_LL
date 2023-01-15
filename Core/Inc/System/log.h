@@ -21,6 +21,8 @@ typedef struct{
 	float real_accel;
 	float mileage;
 	float angle;
+	uint16_t left_sensor;
+	uint16_t right_sensor;
 }LOG_Typedef;
 
 uint16_t storeLog(uint16_t number);

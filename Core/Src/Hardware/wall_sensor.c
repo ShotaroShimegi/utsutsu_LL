@@ -68,7 +68,7 @@ void changeLEDs(uint8_t fl,uint8_t l, uint8_t ff, uint8_t r,uint8_t fr)
 /**
 * @brief			壁センサの値取得
 * @params 	欲しい壁センサの配列番号、0 : FL ~ 4 : FR
-* @return		ADCの値、MAX4096
+* @return		ADCの値、最大値4096
 */
 uint16_t getWallADC(uint8_t number)
 {

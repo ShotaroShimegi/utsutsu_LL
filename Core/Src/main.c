@@ -180,13 +180,14 @@ int main(void)
 	  		waitStarting();
 	  		basicTimerPause();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
-	  			  printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f\n",
+	  			  printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%4d,%4d\n",
 	  					log[i].target_velocity, log[i].target_omega,
 						log[i].target_accel,
 						log[i].real_velocity, log[i].real_omega,
 						log[i].real_accel,
-						log[i].mileage, log[i].angle);
-	  			  waitMs(1);
+						log[i].mileage, log[i].angle,
+						log[i].left_sensor, log[i].right_sensor);
+	  			  	    waitMs(1);
 	  		  }
 	  		  basicTimerStart();
 	  		  break;
@@ -197,7 +198,7 @@ int main(void)
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
-//	  		  basicTimerStart();
+
 	  		  enableMotors();
 	  		  mouse.angle = 0.0f;
 
@@ -229,6 +230,21 @@ int main(void)
 	  		  break;
 
 	  	  case 3 :
+	  		  // 走行テスト用、片道探索
+	  		  MelodyRayearth();
+
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  enableMotors();
+	  		  mouse.angle = 0.0f;
+
+	  		  goal.x = GOAL_X;
+	  		  goal.y = GOAL_Y;
+	  		  searchMazeBySlalom(GOAL_LENGTH);
+
+	  		  MF.FLAG.CALLBACK = OFF;
+	  		  shutdownMotors();
 	  		  break;
 
 	  	  case 4 :		//	前壁制御

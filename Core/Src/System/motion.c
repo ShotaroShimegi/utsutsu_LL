@@ -62,8 +62,8 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 }
 
 /**
-* @brief その場で超信地旋回する
-* @param1 回転角度 [deg], 正方向はCCW
+* @brief 	その場で超信地旋回する
+* @param 	回転角度 [deg], 正方向はCCW
 */
 void spinMotion(float angle_deg)
 {
@@ -97,7 +97,7 @@ void spinMotion(float angle_deg)
 		while(mouse.angle > input_angle + angle_deg + offset);
 		setAccelFlags(0, 0, 1, 0);
 		while(mouse.angle > input_angle + angle_deg) {
-			if(target.omega >= 0.0f){
+			if(target.omega >= 0.0f) {
 				target.omega = 0.0f;
 				break;
 			}

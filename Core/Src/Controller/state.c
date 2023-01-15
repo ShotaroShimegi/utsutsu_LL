@@ -69,7 +69,7 @@ float calculateTargetVelocity(void)
 }
 /**
  * calculateTargetOmega
-* @brief MFの値から並進速度の目標値を計算する
+* @brief 	MFの値から回転速度の目標値を計算する
 * @return 計算後の目標値
 */
 float calculateTagetOmega(void)
@@ -83,6 +83,26 @@ float calculateTagetOmega(void)
 	else if(target_val < -max.omega)	target_val = -max.omega;
 
 	return target_val;
+}
+
+/**
+* calculateTargetOmega
+* @brief 	MFの値から回転速度の目標値を計算する
+* @param target -> 目標値、error -> 偏差
+* @return 計算後の目標値
+*/
+float fixTargetOmegaFromWallSensor(float error)
+{
+	float fix_error = error / GAIN_FIXER;
+	static float pre_fix_error = 0.0f;
+
+	if(fix_error > ERROR_MAX)				fix_error = ERROR_MAX;
+	else if(fix_error < -ERROR_MAX)		fix_error = -ERROR_MAX;
+
+	float fix_val = GAIN_WALL_P * fix_error - GAIN_WALL_D * (fix_error - pre_fix_error);
+
+	pre_fix_error = fix_error;
+	return fix_val;
 }
 
 /**
@@ -114,7 +134,7 @@ float calculateTargetAccelAndVelocity(void)
 
 State_Typedef setStatus(float angle,float curve,
 									float mileage, float velocity,
-									float accel, float jerk)
+									float accel, float jerk, uint8_t state)
 {
 	State_Typedef instance;
 	instance.angle = angle;
@@ -125,6 +145,7 @@ State_Typedef setStatus(float angle,float curve,
 	instance.velocity = velocity;
 	instance.accel = accel;
 	instance.jerk = jerk;
+	instance.run_state = state;
 
 	return instance;
 }
@@ -148,9 +169,9 @@ PID_Typedef setParameters(float gainP, float gainI, float gainD, float limitI, f
 void initMouseStatus(void)
 {
 	//State関連
-	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	max = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f, 0.05);
+	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
+	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
+	max = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f, 0.05,0);
 
 	//MF
 	MF.FLAGS = 0x00000000;
@@ -172,6 +193,7 @@ void updateStatus(void)
 	float output_duty_r = 0.0f;
 	float output_duty_l = 0.0f;
 	float tmp = 0.0f;
+	float fix_omega = 0.0f;
 
 	//センサ値からステータス
 	mouse.angle = addAngle(mouse.angle);
@@ -180,10 +202,22 @@ void updateStatus(void)
 	mouse.mileage = getCenterMileage();
 	mouse.velocity = getCenterVelocity();
 
+// ==== 現行の制御体制====
 	if(MF.FLAG.NEW == 0){
 		//目標値生成
 		target.velocity = calculateTargetVelocity();
 		target.omega = calculateTagetOmega();
+
+		//壁制御と姿勢制御の合体
+		if(MF.FLAG.CTRL && target.velocity > 0.05f) {
+			fix_omega =  fixTargetOmegaFromWallSensor(PID_wall_side.error);
+		} else {
+			fix_omega = 0.0f;
+		}
+//============ 壁センサ試験用に強制0
+		fix_omega = 0.0f;
+//============ 壁センサ試験用に強制0
+		target.omega += fix_omega;
 
 		//偏差計算
 		PID_angle.error = target.angle - mouse.angle;
@@ -191,15 +225,15 @@ void updateStatus(void)
 		PID_right_velocity.error = target.velocity - mouse.velocity;
 		PID_omega.error = target.omega - mouse.omega;
 
-		float error_right = (sensor.wall_r - sensor.wall_r_offset);
-		float error_left = (sensor.wall_l - sensor.wall_l_offset);
+		float error_right = (sensor.wall_val[R] - sensor.wall_offset[R]);
+		float error_left = (sensor.wall_val[L] - sensor.wall_offset[L]);
 
 		if(fabs(error_right) > SENSOR_DIF_BORDER)	error_right = 0.0f;
 		if(fabs(error_left) > SENSOR_DIF_BORDER)		error_left = 0.0f;
 
 		PID_wall_side.error = error_right - error_left;
-		PID_wall_front_posture.error = (sensor.wall_fl - FRONT_BASE_FL) - (sensor.wall_fr - FRONT_BASE_FR);
-		PID_wall_front_distance.error = (sensor.wall_fl - FRONT_BASE_FL) + (sensor.wall_fr - FRONT_BASE_FR);
+		PID_wall_front_posture.error = (sensor.wall_val[FL] - FRONT_BASE_FL) - (sensor.wall_val[FR] - FRONT_BASE_FR);
+		PID_wall_front_distance.error = (sensor.wall_val[FL] - FRONT_BASE_FL) + (sensor.wall_val[FR] - FRONT_BASE_FR);
 
 		//PID計算
 		if(MF.FLAG.ACTRL)	{
@@ -207,28 +241,26 @@ void updateStatus(void)
 			output_duty_r += tmp;
 			output_duty_l -= tmp;
 		}
+
 		if(MF.FLAG.WCTRL){
 			tmp = calculatePID(&PID_omega);
 			output_duty_r += tmp;
 			output_duty_l -= tmp;
 		}
-		if(MF.FLAG.CTRL && target.velocity > 0.20f){
-			tmp = calculatePID(&PID_wall_side);
-			output_duty_r += tmp;
-			output_duty_l -= tmp;
-		}
+
 		if(MF.FLAG.VCTRL){
 			output_duty_r += calculatePID(&PID_right_velocity);
 			output_duty_l += calculatePID(&PID_left_velocity);
 		}
+
 		if(MF.FLAG.FRONT){
 			tmp = calculatePID(&PID_wall_front_distance);
 			output_duty_r -= tmp;
 			output_duty_l -= tmp;
 		}
+
 	}else if(MF.FLAG.NEW == 1){
-
+		// 新制御用の項目、工事中
 	}
-
 	driveMotors(output_duty_l, output_duty_r);
 }

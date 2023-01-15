@@ -5,6 +5,8 @@
  *      Author: sssho
  */
 #include"Controller/state.h"
+#include"System/sensing.h"
+
 
 #include"System/log.h"
 
@@ -29,6 +31,8 @@ uint16_t storeLog(uint16_t number) {
 	log[count].real_accel = mouse.accel;
 	log[count].mileage = mouse.mileage;
 	log[count].angle = mouse.angle;
+	log[count].left_sensor = sensor.wall_val[L];
+	log[count].right_sensor = sensor.wall_val[R];
 
 	return count + 1;
 }

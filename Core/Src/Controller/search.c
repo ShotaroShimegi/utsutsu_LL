@@ -49,7 +49,8 @@ void searchMazeBySlalom(uint8_t goal_length)
 	prepareMapForSearch();
 	prepareStateForSearching();
 	MF.FLAG.CALLBACK = 1;
-	if(sensor.wall_ff > WALL_TURN_VALUE){
+	mouse.run_state = 1;
+	if(sensor.wall_val[FF] > WALL_TURN_VALUE){
 		rotateSafteyR180();
 		changeDirection(DIR_SPIN_180);
 	}
@@ -77,7 +78,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 
 			case TURN_BACK:
 				moveHalfSectionDecel(OFF);
-				if(sensor.wall_fl > WALL_BACK_FL && sensor.wall_fr > WALL_BACK_FR)	set_flag = 1;
+				if(sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR)	set_flag = 1;
 				rotateSafteyR180();
 				if(set_flag == 1){
 					set_flag = 0;
@@ -100,8 +101,11 @@ void searchMazeBySlalom(uint8_t goal_length)
 		ConfRoute_NESW(goal_length,wall_info);
 
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
+
+//	＝＝＝＝ゴール処理＝＝＝＝
 	moveHalfSectionDecel(OFF);
-	 MF.FLAG.CALLBACK = OFF;
+	MF.FLAG.CALLBACK = OFF;
+	mouse.run_state = OFF;
 	shutdownMotors();
 	waitMs(200);
 	if(MF.FLAG.SCND == 0)  saveWallMap();

@@ -16,7 +16,12 @@
 #define		FRONT_BASE_FL 280
 #define 	FRONT_BASE_FR 260
 
-#define SENSOR_DIF_BORDER 15.0f
+//新しい壁制御用のサムシング
+#define SENSOR_DIF_BORDER 0.0f
+#define GAIN_FIXER 			100.0f
+#define GAIN_WALL_P		0.5f
+#define GAIN_WALL_D		10.0f
+#define ERROR_MAX 			1.0f
 
 typedef struct {
 	float angle;						// Unit [deg]
@@ -27,6 +32,7 @@ typedef struct {
 	float velocity;						// Unit [m/s] = [mm/ms]
 	float accel;						// Unit [m/s/s]
 	float jerk;							// Unit [m/s/s/s]
+	uint8_t run_state;
 }State_Typedef;
 
 typedef struct {
@@ -45,6 +51,7 @@ float calculatePID(PID_Typedef *instance);
 PID_Typedef setParameters(float gainP, float gainI, float gainD, float LimitI, float LimitPID);
 void initMouseStatus(void);
 void updateStatus(void);
+float fixTargetOmegaFromWallSensor(float);
 
 extern State_Typedef mouse;
 extern State_Typedef target;
