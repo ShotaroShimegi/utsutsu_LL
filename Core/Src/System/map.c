@@ -23,6 +23,10 @@ uint8_t wall_map[MAZE_SIZE][MAZE_SIZE];
 uint16_t step_map[MAZE_SIZE][MAZE_SIZE];
 uint8_t route[MAX_NODE];
 
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// ConvertMapIntoWall
+//	@brief 旧式壁データを新式に変更
+//+++++++++++++++++++++++++++++++++++++++++++++++
 void ConvertMapIntoWall() {
 	uint8_t x,y;
 	//絶対壁を配置
@@ -38,24 +42,11 @@ void ConvertMapIntoWall() {
 		}
 	}
 }
-void printHorizontalWallData() {
-	uint8_t y;
-	printf("horizontal\n");
-	for(y=16;y>=0;y--){
-		printf("%d, %#x\n",y,wall_horizontal[y]);
-	}
-}
-void printVerticalWallData() {
-	uint8_t x;
-	printf("vertical\n");
-		for(x=0;x<17;x++){
-			printf("%d, %#x\n",x,wall_vertical[x]);
-		}
-}
 
-/*
- * @brief 壁情報表示用関数
- */
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// printWallData
+//	@brief 壁情報をUARTで表示
+//+++++++++++++++++++++++++++++++++++++++++++++++
 void printWallData()
 {
 	int8_t x,y;
@@ -83,20 +74,20 @@ void printWallData()
 	printf("\n");
 }
 
-/*
- * @brief マップ関連初期化
- */
-void deleteWallMap()
-{
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// deleteWallMap
+//	@brief 壁情報を初期化
+//+++++++++++++++++++++++++++++++++++++++++++++++
+void deleteWallMap() {
 	uint8_t x, y;
 
-	//マップのクリア
+	// マップのクリア
 	for(y = 0; y <= 0x0f; y++){
 		for(x = 0; x <= 0x0f; x++){
 			wall_map[y][x] = 0xf0;			//上位(2次走行時)を壁あり、下位(1次走行時)を壁なしとする。
 		}
 	}
-	//外壁の配置
+	// 外壁の配置
 	for(y = 0; y <= 0x0f; y++){
 		wall_map[y][0] |= 0xf1;				//最西に壁を配置
 		wall_map[y][15] |= 0xf4;			//最東に壁を配置
@@ -105,14 +96,15 @@ void deleteWallMap()
 		wall_map[0][x] |= 0xf2;				//最南に壁を配置
 		wall_map[15][x] |= 0xf8;				//最北に壁を配置
 	}
-	//スタート壁の配置
+	// スタート壁の配置
 	wall_map[0][0] = 0xf7;
 	wall_map[0][1] = 0xf3;
 }
 
-/*
- * @brief マップ関連再計算
- */
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// updateWallMap
+//	@brief 壁データを更新、現在位置を隣接区画らみたものと同じ。
+//+++++++++++++++++++++++++++++++++++++++++++++++
 void updateWallMap(uint8_t wall_info)
 {
 	//====壁情報の補正格納====
@@ -145,9 +137,10 @@ void updateWallMap(uint8_t wall_info)
 	}
 }
 
-/*
- * @brief 歩数マップ製作
- */
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// makeSteplMap
+//	@brief 歩数マップを生成
+//+++++++++++++++++++++++++++++++++++++++++++++++
 uint16_t makeStepMap(uint8_t goal_length)
 {
 	uint8_t x, y;
@@ -211,21 +204,21 @@ uint16_t makeStepMap(uint8_t goal_length)
 	}while(step_map[point.y][point.x] == 0xff);		//現在座標が未記入ではなくなるまで実行
 	return step_count;
 }
-/*
- * @brief route配列の計算
- */
+
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// MakeRoute_NESW()
+//	@brief 歩数マップから経路配列を作成
+//+++++++++++++++++++++++++++++++++++++++++++++++
 void MakeRoute_NESW()
 {
 	uint8_t i = 0;
 	uint8_t wall_temp;
 	uint8_t dir_temp =  point.dir;
 
-//	uint8_t cnt = 0;
-
 	//====最短経路を初期化====
 	do{
 		route[i++] = 0xff;										//routeを初期化、iをインクリメント
-	}while(i < MAX_NODE - 1);									//iが0でない間実行(iがオーバーフローして0になるまで実行？)
+	}while(i < MAX_NODE - 1);								//iが0でない間実行(iがオーバーフローして0になるまで実行？)
 	//====現在地情報を保存====
 	uint8_t step_count = step_map[point.y][point.x];
 	uint8_t x = point.x;
@@ -250,17 +243,17 @@ void MakeRoute_NESW()
 		}
 		//----南を見る----
 		else if(!(wall_temp & 0x02) && (step_map[y-1][x] < step_count)){	//南側に壁が無く、現在地より小さい歩数マップ値であれば
-			route[i] = (0x02 - point.dir) & 0x03;						//route配列に進行方向を記録
-			step_count = step_map[y-1][x];								//最大歩数マップ値を更新
-			y--;																	//南に進んだのでY座標をデクリメント
+			route[i] = (0x02 - point.dir) & 0x03;					//route配列に進行方向を記録
+			step_count = step_map[y-1][x];						//最大歩数マップ値を更新
+			y--;																//南に進んだのでY座標をデクリメント
 		}
 		//----西を見る----
 		else if(!(wall_temp & 0x01) && (step_map[y][x-1] < step_count)){	//西側に壁が無く、現在地より小さい歩数マップ値であれば
 			route[i] = (0x03 - point.dir) & 0x03;					//route配列に進行方向を記録
-			step_count = step_map[y][x-1];								//最大歩数マップ値を更新
-			x--;												//西に進んだのでX座標をデクリメント
+			step_count = step_map[y][x-1];						//最大歩数マップ値を更新
+			x--;																//西に進んだのでX座標をデクリメント
 		}
-//		printf("i: %d, x:%d, y:%d,route: 0x%x,step: %d\n",i,x,y,route[i],step_count);
+
 		//----格納データ形式変更----
 		switch(route[i]){										//route配列に格納した要素値で分岐
 		case 0x00:												//前進する場合
@@ -284,27 +277,27 @@ void MakeRoute_NESW()
 		}
 		i++;
 	}while( step_map[y][x] != 0);					//進んだ先の歩数マップ値が0(=ゴール)になるまで実行
-	point.dir = dir_temp;				//方向を始めの状態に戻す
-
-/*	for(cnt=0;cnt<i;cnt++){
-		printf("route[%d]: 0x%x\n",cnt,route[cnt]);
-		waitMs(1);
-	}
-*/
+	point.dir = dir_temp;								//方向を始めの状態に戻す
 }
-
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// ConfRoute_NESW()
+//	@brief 進行方向に壁があれば再計算
+//+++++++++++++++++++++++++++++++++++++++++++++++
 void ConfRoute_NESW(uint8_t goal_size, uint8_t wall_data)
 {
 	updateWallMap(wall_data);
 
 	//----最短経路上に壁があれば進路変更----
 	if(wall_data & route[map_count.route]){
-		makeStepMap(goal_size);							//歩数マップを更新
-		MakeRoute_NESW();								//最短経路を更新
+		makeStepMap(goal_size);
+		MakeRoute_NESW();
 		map_count.route = 0;
 	}
 }
-
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// advancePosition()
+//	@brief 内部位置情報を向きに合わせて更新
+//+++++++++++++++++++++++++++++++++++++++++++++++
 void advancePosition()
 {
 	switch(point.dir){

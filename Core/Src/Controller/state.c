@@ -17,6 +17,7 @@
 State_Typedef mouse;
 State_Typedef target;
 State_Typedef max;
+State_Typedef min;
 
 PID_Typedef PID_left_velocity;
 PID_Typedef PID_right_velocity;
@@ -63,7 +64,7 @@ float calculateTargetVelocity(void)
 	else if(MF.FLAG.DECEL == 1)	target_val -= max.accel * 0.001f;
 
 	if(target_val > max.velocity)			target_val = max.velocity;
-	else if(target_val < -max.velocity)	target_val = -max.velocity;
+	else if(target_val < -min.velocity)		target_val = -max.velocity;
 
 	return target_val;
 }
@@ -80,7 +81,7 @@ float calculateTagetOmega(void)
 	else if(MF.FLAG.WDECEL == 1)	target_val -= max.omega_accel * 0.001f;
 
 	if(target_val > max.omega)			target_val = max.omega;
-	else if(target_val < -max.omega)	target_val = -max.omega;
+	else if(target_val < -min.omega)	target_val = -max.omega;
 
 	return target_val;
 }
@@ -113,7 +114,6 @@ float fixTargetOmegaFromWallSensor(float error)
 float calculateTargetAccelAndVelocity(void)
 {
 	float target_velocity = target.velocity;
-//	float target_accel = target.accel;
 
 	if(MF.FLAG.WACCEL || MF.FLAG.WDECEL)	return target.velocity;
 
@@ -127,7 +127,7 @@ float calculateTargetAccelAndVelocity(void)
 	target_velocity += target.accel * 0.001f;
 
 	if(target_velocity > max.velocity)			target_velocity = max.velocity;
-	else if(target_velocity < -max.velocity)	target_velocity = -max.velocity;
+	else if(target_velocity < -min.velocity)	target_velocity = -max.velocity;
 
 	return target_velocity;
 }
@@ -172,6 +172,10 @@ void initMouseStatus(void)
 	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
 	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
 	max = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f, 0.05,0);
+	min = setStatus(0.0f, 0.055f, 0.0f,
+							-max.velocity,-max.accel, -max.jerk,0);
+
+	// パラメータ宣言
 
 	//MF
 	MF.FLAGS = 0x00000000;

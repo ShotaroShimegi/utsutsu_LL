@@ -19,6 +19,9 @@
 #define ONE_MM 2.0f*HALF_MM
 
 void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag);
+
+void driveTrapezoidal(float distance,float vel_max,float vel_min, float accel);
+
 void spinMotion(float angle);
 void slalomMotion(float angle);
 

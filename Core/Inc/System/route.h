@@ -17,6 +17,9 @@
 #define BIG_R180 -5
 #define BIG_L180 -6
 
+extern int8_t pass[1024];
+extern uint16_t pass_end_count;
+
 void MakePass(void);
 void ReadPass(void);
 void ShowPass(void);

@@ -56,6 +56,7 @@ float fixTargetOmegaFromWallSensor(float);
 extern State_Typedef mouse;
 extern State_Typedef target;
 extern State_Typedef max;
+extern State_Typedef min;
 
 extern PID_Typedef PID_left_velocity;
 extern PID_Typedef PID_right_velocity;

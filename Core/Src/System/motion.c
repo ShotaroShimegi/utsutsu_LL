@@ -61,6 +61,57 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 	if(out_velocity == 0.0f)	waitMs(200);
 }
 
+
+void driveTrapezoidal(float dist,float vel_max,float vel_min, float accel)
+{
+	float input_mileage = mouse.mileage;
+	float vel_error = vel_max - vel_min;
+	float offset;
+	uint8_t max_flag = 0;
+
+// オフセット計算
+	offset = vel_error*vel_error *0.50f / max.accel * 1000;
+	offset += 10;
+	target.omega = 0;
+
+	if(2.0f*offset > dist || 1.5f*ONE_MM > dist)	{
+		//Change Max Speed
+		max.velocity = vel_min;
+		min.velocity = 0.0f;
+	}else{
+		max.velocity = vel_max;
+		min.velocity = 0.0f;
+		max_flag = 1;
+	}
+
+	// 速度制御、角速度制御、加速度ON
+	setControlFlags(ON, ON, OFF, OFF);
+	setAccelFlags(1, 0, 0, 0);
+
+	//----Go Forward----
+	if(dist >= 0.0f){
+		while(mouse.mileage + offset < input_mileage + dist){
+			if(target.velocity ==  max.velocity) {
+				vel_error = target.velocity - vel_min;
+				offset = 0.5f * 1000 * vel_error * vel_error / accel;
+				offset += 1000 * vel_min * vel_error / accel;
+				offset += 10;
+			}
+			if(sensor.wall_val[FF]> FRONT_WALL_CONTROL)	break;
+		}
+		if(max_flag == 1)	{
+			min.velocity = vel_min;
+			setAccelFlags(1, 0, 0, 0);
+		}
+		while(mouse.mileage < input_mileage  + dist){
+			if(sensor.wall_val[FF] > FRONT_WALL_CONTROL)	break;
+			if((max_flag == 1) &&( target.velocity == min.velocity)) break;
+		}
+	} else{
+		while(mouse.mileage > input_mileage + dist);
+	}
+}
+
 /**
 * @brief 	その場で超信地旋回する
 * @param 	回転角度 [deg], 正方向はCCW

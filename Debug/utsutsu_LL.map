@@ -396,11 +396,7 @@ Discarded input sections
                 0x0000000000000000        0x7 Core/Src/System/map.o
  .text.ConvertMapIntoWall
                 0x0000000000000000       0xb4 Core/Src/System/map.o
- .rodata        0x0000000000000000       0x39 Core/Src/System/map.o
- .text.printHorizontalWallData
-                0x0000000000000000       0x38 Core/Src/System/map.o
- .text.printVerticalWallData
-                0x0000000000000000       0x48 Core/Src/System/map.o
+ .rodata        0x0000000000000000       0x15 Core/Src/System/map.o
  .text.printWallData
                 0x0000000000000000      0x138 Core/Src/System/map.o
  .text          0x0000000000000000        0x0 Core/Src/System/motion.o

@@ -6,6 +6,9 @@
  */
 #include<stdio.h>
 
+#include"Controller/state.h"
+#include"Controller/mode.h"
+
 #include"System/route.h"
 #include"System/map.h"
 #include"System/sensing.h"
@@ -16,70 +19,75 @@
 #include"Hardware/basic_timer.h"
 #include "Hardware/motor.h"
 #include"Hardware/interface_LED.h"
-/*
+
+// === パス用の変数 ===
+int8_t pass[1024];
+uint16_t pass_end_count;
+
 void ReadPass(void)
 {
 	uint16_t i = 0;
 	uint8_t buff;
 
 	MF.FLAG.CTRL = 1;
-	DriveAccel(SET_MM,FRONT_CONTROL_FLAG);
+	MF.FLAG.CALLBACK = 1;
+	mouse.run_state = 1;
+
+	driveAccelMotion(SET_MM,max.velocity,ON);
 
 	while(i != pass_end_count){
 		if(pass[i] > 0)	{
 			buff = 0x00;
-			LedDisplay(&buff);
+			displayBinaryValueWithLEDs(buff);
 			MF.FLAG.CTRL = 1;
-			DriveTrapezoid(HALF_MM *(float)pass[i],params_now.big_vel_max,params_now.vel_max,params_now.accel);
+			driveTrapezoidal(HALF_MM *(float)pass[i],params_now.big_vel_max,params_now.vel_max,params_now.accel);
 		}else{
 			switch(pass[i]){
 				case R90:
 					buff = 0x10;
-					LedDisplay(&buff);
-					SlalomR90();
+					displayBinaryValueWithLEDs(buff);
+					moveSlalomR90();
 					break;
 				case L90:
 					buff = 0x01;
-					LedDisplay(&buff);
-					SlalomL90();
+					displayBinaryValueWithLEDs(buff);
+					moveSlalomL90();
 					break;
 				case BIG_R90:
 					buff = 0x08;
-					LedDisplay(&buff);
-
-					BigSlalomR90();
+					displayBinaryValueWithLEDs(buff);
+//					BigSlalomR90();
 					break;
 				case BIG_L90:
 					buff = 0x02;
-					LedDisplay(&buff);
-
-					BigSlalomL90();
+					displayBinaryValueWithLEDs(buff);
+//					BigSlalomL90();
 					break;
 				case BIG_R180:
 					buff = 0x18;
-					LedDisplay(&buff);
-					BigSlalomR180();
+					displayBinaryValueWithLEDs(buff);
+//					BigSlalomR180();
 					break;
 				case BIG_L180:
 					buff = 0x03;
-					LedDisplay(&buff);
-
-					BigSlalomL180();
+					displayBinaryValueWithLEDs(buff);
+//					BigSlalomL180();
 					break;
 				default:
-					FailSafe();
+					errorFunctions(0xff);
 					break;
 			}
 		}
 		i++;
 	}
-	HalfSectionDecel();
+	moveHalfSectionDecel(OFF);
+	MF.FLAG.CALLBACK = OFF;
+	mouse.run_state = OFF;
 	printf("PASS END\n");
 	shutdownMotors();
-	basicTimerPause();
 	MelodyGoal();
 }
-*/
+
 /*
 void MakePass(void)
 {
