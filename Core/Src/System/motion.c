@@ -27,6 +27,9 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 	//速度制御、角度制御、壁制御
 	setControlFlags(1, 1, 0, wall_ctrl_flag & 0x01);
 
+	// 目標値入力
+	target.angle = mouse.angle;
+
 	//減速区間の計算
 	float error = max.velocity - out_velocity;
 	float offset = error*error *0.50f / max.accel * 1000;

@@ -24,15 +24,15 @@ uint16_t storeLog(uint16_t number) {
 	else									count = number;
 
 	log[count].target_velocity = target.velocity;
-	log[count].target_omega = target.omega;
+	log[count].target_omega = target.omega + fix_omega;
 	log[count].target_accel = target.accel;
 	log[count].real_velocity = mouse.velocity;
 	log[count].real_omega = mouse.omega;
 	log[count].real_accel = mouse.accel;
 	log[count].mileage = mouse.mileage;
 	log[count].angle = mouse.angle;
-	log[count].left_sensor = sensor.wall_val[L] - sensor.wall_offset[L];
-	log[count].right_sensor = sensor.wall_val[R] - sensor.wall_offset[R];
+	log[count].left_sensor = (int16_t)sensor.wall_val[L] - (int16_t)sensor.wall_offset[L];
+	log[count].right_sensor = (int16_t)sensor.wall_val[R] - (int16_t)sensor.wall_offset[R];
 	log[count].l_duty = output_duty_l;
 	log[count].r_duty = output_duty_r;
 

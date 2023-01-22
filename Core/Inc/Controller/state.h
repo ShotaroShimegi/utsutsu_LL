@@ -18,11 +18,13 @@
 
 //新しい壁制御用のサムシング
 #define SENSOR_DIF_BORDER 100.0f
+#define ABS_ERROR_RANGE 100.0f
 #define GAIN_FIXER 			300.0f
 #define GAIN_WALL_P		0.010f
 //#define GAIN_WALL_D		0.0001f
 #define GAIN_WALL_D		0.0f
 #define ERROR_MAX 			1.0f
+#define DIFF_BORDER		10
 
 typedef struct {
 	float angle;						// Unit [deg]
@@ -73,5 +75,5 @@ extern PID_Typedef PID_angle;
 
 extern float output_duty_r;
 extern float output_duty_l;
-
+extern float fix_omega;
 #endif /* INC_SYSTEM_STATE_H_ */

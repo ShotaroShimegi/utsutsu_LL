@@ -77,7 +77,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 				break;
 
 			case TURN_BACK:
-				moveHalfSectionDecel(OFF);
+				moveHalfSectionDecel(ON);
 				if(sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR)	set_flag = 1;
 				rotateSafteyR180();
 				if(set_flag == 1){
@@ -103,7 +103,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 
 //	＝＝＝＝ゴール処理＝＝＝＝
-	moveHalfSectionDecel(OFF);
+	moveHalfSectionDecel(ON);
 	MF.FLAG.CALLBACK = OFF;
 	mouse.run_state = OFF;
 	shutdownMotors();
