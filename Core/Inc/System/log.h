@@ -23,6 +23,8 @@ typedef struct{
 	float angle;
 	uint16_t left_sensor;
 	uint16_t right_sensor;
+	float l_duty;
+	float r_duty;
 }LOG_Typedef;
 
 uint16_t storeLog(uint16_t number);

@@ -19,8 +19,9 @@
 //新しい壁制御用のサムシング
 #define SENSOR_DIF_BORDER 100.0f
 #define GAIN_FIXER 			300.0f
-#define GAIN_WALL_P		0.005f
-#define GAIN_WALL_D		1000.0f
+#define GAIN_WALL_P		0.010f
+//#define GAIN_WALL_D		0.0001f
+#define GAIN_WALL_D		0.0f
 #define ERROR_MAX 			1.0f
 
 typedef struct {
@@ -47,6 +48,11 @@ typedef struct {
 	float LimitPID;
 }PID_Typedef;
 
+typedef struct {
+	State_Typedef upper;
+	State_Typedef downer;
+}Params_Typedef;
+
 float calculatePID(PID_Typedef *instance);
 PID_Typedef setParameters(float gainP, float gainI, float gainD, float LimitI, float LimitPID);
 void initMouseStatus(void);
@@ -58,9 +64,14 @@ extern State_Typedef target;
 extern State_Typedef max;
 extern State_Typedef min;
 
+extern Params_Typedef param1;
+
 extern PID_Typedef PID_left_velocity;
 extern PID_Typedef PID_right_velocity;
 extern PID_Typedef PID_omega;
 extern PID_Typedef PID_angle;
+
+extern float output_duty_r;
+extern float output_duty_l;
 
 #endif /* INC_SYSTEM_STATE_H_ */

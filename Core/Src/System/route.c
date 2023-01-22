@@ -40,7 +40,10 @@ void ReadPass(void)
 			buff = 0x00;
 			displayBinaryValueWithLEDs(buff);
 			MF.FLAG.CTRL = 1;
-			driveTrapezoidal(HALF_MM *(float)pass[i],params_now.big_vel_max,params_now.vel_max,params_now.accel);
+			driveTrapezoidal(HALF_MM *(float)pass[i],param1.upper.velocity,
+					param1.downer.velocity,param1.upper.accel);
+
+
 		}else{
 			switch(pass[i]){
 				case R90:

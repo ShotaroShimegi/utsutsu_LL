@@ -31,8 +31,10 @@ uint16_t storeLog(uint16_t number) {
 	log[count].real_accel = mouse.accel;
 	log[count].mileage = mouse.mileage;
 	log[count].angle = mouse.angle;
-	log[count].left_sensor = sensor.wall_val[L];
-	log[count].right_sensor = sensor.wall_val[R];
+	log[count].left_sensor = sensor.wall_val[L] - sensor.wall_offset[L];
+	log[count].right_sensor = sensor.wall_val[R] - sensor.wall_offset[R];
+	log[count].l_duty = output_duty_l;
+	log[count].r_duty = output_duty_r;
 
 	return count + 1;
 }
