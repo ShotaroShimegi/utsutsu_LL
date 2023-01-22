@@ -17,14 +17,14 @@
 #define 	FRONT_BASE_FR 260
 
 //新しい壁制御用のサムシング
-#define SENSOR_DIF_BORDER 100.0f
+//#define SENSOR_DIF_BORDER 100.0f
 #define ABS_ERROR_RANGE 100.0f
-#define GAIN_FIXER 			300.0f
-#define GAIN_WALL_P		0.010f
+//#define GAIN_FIXER 			300.0f
+//#define GAIN_WALL_P		0.010f
 //#define GAIN_WALL_D		0.0001f
-#define GAIN_WALL_D		0.0f
-#define ERROR_MAX 			1.0f
-#define DIFF_BORDER		10
+//#define ERROR_MAX 			1.0f
+#define DIFF_BORDER		6
+#define DIFF_SAMPLE		10
 
 typedef struct {
 	float angle;						// Unit [deg]

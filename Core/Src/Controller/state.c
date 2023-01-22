@@ -42,28 +42,57 @@ float fix_omega = 0.0f;
 */
 void calculateSensorError(void)
 {
-	static float pre_wall_val_r = 0.0f;
-	static float pre_wall_val_l = 0.0f;
+	static float pre_val_r[DIFF_SAMPLE] = {0};
+	static float pre_val_l[DIFF_SAMPLE] = {0};
+	static uint8_t  pre_cnt = 0;
 
 	//　センサ値の変化量を計算
-	float dif_left = sensor.wall_val[L] - pre_wall_val_l;
-	float dif_right = sensor.wall_val[R] - pre_wall_val_r;
+	float dif_left = sensor.wall_val[L] - pre_val_l[0];
+	float dif_right = sensor.wall_val[R] - pre_val_r[0];
+	uint16_t fix_l,fix_r;
+	float error_left,error_right;
 
-//　横壁状態に応じて、制御目標値（.wall_offsetの補正項を計算）
+//　横壁状態に応じて、壁判断値の補正項を計算）
+	if(fabs(dif_left) > DIFF_BORDER)		fix_l = 10;
+	else												fix_l = 0;
+	if(fabs(dif_right) > DIFF_BORDER)	fix_r = 10;
+	else												fix_r = 0;
+
+	error_left = (sensor.wall_val[L] - sensor.wall_offset[L]);
+	error_right = (sensor.wall_val[R] - sensor.wall_offset[R]);
 
 //　横壁センサの偏差計算、壁状況に応じて
-	float error_left = (sensor.wall_val[L] - sensor.wall_offset[L]);
-	float error_right = (sensor.wall_val[R] - sensor.wall_offset[R]);
-
+	if(sensor.wall_val[L] > WALL_BORDE_L + fix_l
+			&& sensor.wall_val[R] > WALL_BORDE_R + fix_r){
+		//　両壁アリ
+		PID_wall_side.error = 1.5f*error_right - error_left;
+	}else if(sensor.wall_val[L] <= WALL_BORDE_L + fix_l
+			&& sensor.wall_val[R] <= WALL_BORDE_R + fix_r){
+		//　両壁ナシ
+		PID_wall_side.error = 0.0f;
+	}else if(sensor.wall_val[L] > WALL_BORDE_L + fix_l){
+		//　左壁のみアリ
+		PID_wall_side.error =  - 2.0f*error_left;
+	}else if(sensor.wall_val[R] > WALL_BORDE_R + fix_r){
+		//　右壁のみアリ
+		PID_wall_side.error = 2.0f*1.5f*error_right;
+	}
 
 //　PID計算できる範囲で
-	PID_wall_side.error = 1.5f*error_right - error_left;
 	PID_wall_front_posture.error = (sensor.wall_val[FL] - FRONT_BASE_FL) - (sensor.wall_val[FR] - FRONT_BASE_FR);
 	PID_wall_front_distance.error = (sensor.wall_val[FL] - FRONT_BASE_FL) + (sensor.wall_val[FR] - FRONT_BASE_FR);
-//　センサ値を保存
-	pre_wall_val_l = sensor.wall_val[L];
-	pre_wall_val_r = sensor.wall_val[R];
-
+//　センサ値を保存, 配列化
+	if(pre_cnt  < DIFF_SAMPLE){
+		pre_val_l[pre_cnt] = sensor.wall_val[L];
+		pre_val_r[pre_cnt++] = sensor.wall_val[R];
+	}else if(pre_cnt >= DIFF_SAMPLE){
+		for(int i=0;i<DIFF_SAMPLE - 1;i++){
+			pre_val_l[i] = pre_val_l[i+1];
+			pre_val_r[i] = pre_val_r[i+1];
+		}
+		pre_val_l[DIFF_SAMPLE - 1] = sensor.wall_val[L];
+		pre_val_r[DIFF_SAMPLE - 1] = sensor.wall_val[R];
+	}
 }
 
 /**
@@ -269,12 +298,6 @@ void updateStatus(void)
 
 // ==== 現行の制御体制====
 	if(MF.FLAG.NEW == 0){
-//		float error_right = (sensor.wall_val[R] - sensor.wall_offset[R]);
-//		float error_left = (sensor.wall_val[L] - sensor.wall_offset[L]);
-//
-//		PID_wall_side.error = 1.5f*error_right - error_left;
-//		PID_wall_front_posture.error = (sensor.wall_val[FL] - FRONT_BASE_FL) - (sensor.wall_val[FR] - FRONT_BASE_FR);
-//		PID_wall_front_distance.error = (sensor.wall_val[FL] - FRONT_BASE_FL) + (sensor.wall_val[FR] - FRONT_BASE_FR);
 
 		calculateSensorError();
 
