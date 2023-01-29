@@ -17,7 +17,6 @@
 #define 	FRONT_BASE_FR 260
 
 //新しい壁制御用のサムシング
-//#define SENSOR_DIF_BORDER 100.0f
 #define ABS_ERROR_RANGE 100.0f
 //#define GAIN_FIXER 			300.0f
 //#define GAIN_WALL_P		0.010f

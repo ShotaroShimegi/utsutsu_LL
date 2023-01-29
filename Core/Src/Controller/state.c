@@ -81,7 +81,8 @@ void calculateSensorError(void)
 //　PID計算できる範囲で
 	PID_wall_front_posture.error = (sensor.wall_val[FL] - FRONT_BASE_FL) - (sensor.wall_val[FR] - FRONT_BASE_FR);
 	PID_wall_front_distance.error = (sensor.wall_val[FL] - FRONT_BASE_FL) + (sensor.wall_val[FR] - FRONT_BASE_FR);
-//　センサ値を保存, 配列化
+
+	//　センサ値を保存, 配列化
 	if(pre_cnt  < DIFF_SAMPLE){
 		pre_val_l[pre_cnt] = sensor.wall_val[L];
 		pre_val_r[pre_cnt++] = sensor.wall_val[R];
@@ -160,22 +161,7 @@ float calculateTagetOmega(void)
 * @param error -> 壁センサの偏差
 * @return 角速度目標値への補正項
 */
-float fixTargetOmegaFromWallSensor(float error)
-{
-/*
-// カスケード接続で角速度を操ろうとした。偏差の符号変化しないと角速度0のままになるので廃止。
- 	float fix_error = error / GAIN_FIXER;
-	static float pre_fix_error = 0.0f;
-
-	if(fix_error > ERROR_MAX)				fix_error = ERROR_MAX;
-	else if(fix_error < -ERROR_MAX)		fix_error = -ERROR_MAX;
-
-	float fix_val = GAIN_WALL_P * fix_error + GAIN_WALL_D * (fix_error - pre_fix_error);
-
-	pre_fix_error = fix_error;
-	return fix_val;
-*/
-
+float fixTargetOmegaFromWallSensor(float error) {
 // ======　偏差ー＞角速度変換制御　＝＝＝＝＝＝
 	float gain, angle, omega, dif;
 	static float pre_dif = 0.0f;
@@ -196,6 +182,7 @@ float fixTargetOmegaFromWallSensor(float error)
 }
 
 /**
+ * 工事中
  * calculateTargetAccelAndVelocity
 * @brief 　並進加速度、並進速度の目標値を計算する
 * @return 計算後の目標値

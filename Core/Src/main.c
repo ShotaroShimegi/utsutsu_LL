@@ -181,13 +181,13 @@ int main(void)
 	  		basicTimerPause();
 	  		  for(uint16_t i = 0;i<MAX_LOG;i++){
 	  			  printf("%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%4d,%4d,%.3f,%.3f\n",
-	  					log[i].target_velocity, log[i].target_omega,
-						log[i].target_accel,
-						log[i].real_velocity, log[i].real_omega,
-						log[i].real_accel,
-						log[i].mileage, log[i].angle,
-						log[i].left_sensor, log[i].right_sensor,
-						log[i].l_duty, log[i].r_duty);
+	  					g_log[i].target_velocity, g_log[i].target_omega,
+						g_log[i].target_accel,
+						g_log[i].real_velocity, g_log[i].real_omega,
+						g_log[i].real_accel,
+						g_log[i].mileage, g_log[i].angle,
+						g_log[i].left_sensor, g_log[i].right_sensor,
+						g_log[i].l_duty, g_log[i].r_duty);
 	  			  	    waitMs(1);
 	  		  }
 	  		  basicTimerStart();

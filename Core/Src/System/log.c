@@ -10,7 +10,7 @@
 
 #include"System/log.h"
 
-LOG_Typedef log [MAX_LOG];
+LOG_Typedef g_log [MAX_LOG];
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
 // storeLog
@@ -23,18 +23,18 @@ uint16_t storeLog(uint16_t number) {
 	if(number > MAX_LOG - 1)	return number;
 	else									count = number;
 
-	log[count].target_velocity = target.velocity;
-	log[count].target_omega = target.omega + fix_omega;
-	log[count].target_accel = target.accel;
-	log[count].real_velocity = mouse.velocity;
-	log[count].real_omega = mouse.omega;
-	log[count].real_accel = mouse.accel;
-	log[count].mileage = mouse.mileage;
-	log[count].angle = mouse.angle;
-	log[count].left_sensor = (int16_t)sensor.wall_val[L] - (int16_t)sensor.wall_offset[L];
-	log[count].right_sensor = (int16_t)sensor.wall_val[R] - (int16_t)sensor.wall_offset[R];
-	log[count].l_duty = output_duty_l;
-	log[count].r_duty = output_duty_r;
+	g_log[count].target_velocity = target.velocity;
+	g_log[count].target_omega = target.omega + fix_omega;
+	g_log[count].target_accel = target.accel;
+	g_log[count].real_velocity = mouse.velocity;
+	g_log[count].real_omega = mouse.omega;
+	g_log[count].real_accel = mouse.accel;
+	g_log[count].mileage = mouse.mileage;
+	g_log[count].angle = mouse.angle;
+	g_log[count].left_sensor = (int16_t)sensor.wall_val[L] - (int16_t)sensor.wall_offset[L];
+	g_log[count].right_sensor = (int16_t)sensor.wall_val[R] - (int16_t)sensor.wall_offset[R];
+	g_log[count].l_duty = output_duty_l;
+	g_log[count].r_duty = output_duty_r;
 
 	return count + 1;
 }

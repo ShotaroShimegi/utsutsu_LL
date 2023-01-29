@@ -134,7 +134,6 @@ c:/st/stm32cubeide_1.0.2/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externalt
 Allocating common symbols
 Common symbol       size              file
 
-log                 0x157c0           Core/Src/System/log.o
 __lock___atexit_recursive_mutex
                     0x1               c:/st/stm32cubeide_1.0.2/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-lock.o)
 __lock___arc4random_mutex
@@ -171,6 +170,7 @@ tim_counter         0x2               Core/Src/Controller/callback.o
 mouse               0x24              Core/Src/Controller/state.o
 sensor              0x40              Core/Src/System/sensing.o
 route               0x100             Core/Src/System/map.o
+g_log               0x157c0           Core/Src/System/log.o
 __lock___at_quick_exit_mutex
                     0x1               c:/st/stm32cubeide_1.0.2/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.9-2020-q2-update.win32_1.5.0.202011040924/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(lib_a-lock.o)
 MF                  0x2               Core/Src/System/flags.o
@@ -410,6 +410,8 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 Core/Src/System/motion.o
  .text.driveTrapezoidal
                 0x0000000000000000      0x240 Core/Src/System/motion.o
+ .text.driveSlalomFree
+                0x0000000000000000      0x1c0 Core/Src/System/motion.o
  .text          0x0000000000000000        0x0 Core/Src/System/music.o
  .data          0x0000000000000000        0x0 Core/Src/System/music.o
  .bss           0x0000000000000000        0x0 Core/Src/System/music.o
@@ -2692,7 +2694,7 @@ LOAD c:/st/stm32cubeide_1.0.2/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000020000480                MF
  *fill*         0x0000000020000482        0x2 
  COMMON         0x0000000020000484    0x157c0 Core/Src/System/log.o
-                0x0000000020000484                log
+                0x0000000020000484                g_log
  COMMON         0x0000000020015c44      0x454 Core/Src/System/map.o
                 0x0000000020015c44                step_map
                 0x0000000020015e44                wall_vertical

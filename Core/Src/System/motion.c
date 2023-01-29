@@ -64,7 +64,13 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 	if(out_velocity == 0.0f)	waitMs(200);
 }
 
-
+/**
+* @brief 汎用直進関数
+* @param1 直進距離 [mm]
+* @param2 許容する最大速度、距離と加速度から本当にここまで出すかは計算される
+* @param3 出口並進速度 [m/s], 止まりたいなら0.0f、ただし距離が短すぎるとこの速度で走り続ける
+* @param4 加速度、ぶっちゃけ前の名残、消したい
+*/
 void driveTrapezoidal(float dist,float vel_max,float vel_min, float accel)
 {
 	float input_mileage = mouse.mileage;
@@ -113,6 +119,41 @@ void driveTrapezoidal(float dist,float vel_max,float vel_min, float accel)
 	} else{
 		while(mouse.mileage > input_mileage + dist);
 	}
+}
+
+/**
+* @brief 汎用スラローム関数、斜めにまで対応させる
+* @param1 目標追加角度 [deg]
+* @param2 出口並進速度 [m/s], 止まりたいなら0.0f
+* @param3 壁制御の有無
+*/
+void driveSlalomFree(float theta, float omega_max, float omega_accel) {
+	float input_angle = mouse.angle;
+	float offset =  omega_max*omega_max*0.5 / omega_accel
+					* CONVERT_TO_DEG;									// [rad/s]
+	//====　目標値設定　====
+	target.omega = 0.0f, target.omega_accel = omega_accel;
+	max.omega = omega_max;
+
+	// 速度制御、角速度制御、加速ON
+	setControlFlags(ON, ON, OFF, OFF);
+
+	if(theta > 0){				//Left Turn
+		setAccelFlags(ON, OFF, ON, OFF);
+		while(mouse.angle + offset < input_angle + theta);
+		setAccelFlags(ON, OFF, OFF, ON);
+		while(mouse.angle < input_angle + theta ){
+			if(target.omega <= 0.0f) break;
+		}
+	} else if(theta < 0){		//Right Turn
+		setAccelFlags(ON, OFF, OFF, ON);
+		while(mouse.angle - offset > input_angle + theta);
+		setAccelFlags(ON, OFF, ON, OFF);
+		while(mouse.angle > input_angle + theta){
+			if(target.omega >= 0.0f) break;
+		}
+	}
+	target.angle += theta;
 }
 
 /**

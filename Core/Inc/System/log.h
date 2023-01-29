@@ -29,6 +29,6 @@ typedef struct{
 
 uint16_t storeLog(uint16_t number);
 
-extern LOG_Typedef log[MAX_LOG];
+extern LOG_Typedef g_log[MAX_LOG];
 
 #endif /* INC_SYSTEM_LOG_H_ */

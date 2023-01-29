@@ -21,6 +21,7 @@
 void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag);
 
 void driveTrapezoidal(float distance,float vel_max,float vel_min, float accel);
+void driveSlalomFree(float theta, float omega_max, float omega_accel);
 
 void spinMotion(float angle);
 void slalomMotion(float angle);
