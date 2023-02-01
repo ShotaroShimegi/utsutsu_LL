@@ -50,8 +50,21 @@ typedef struct {
 }PID_Typedef;
 
 typedef struct {
+	float velocity;
+	float accel;
+	float inverse_curvature;
+	float omega;						// Unit [rad/s]
+	float omega_accel;				// Unit [rad/s/s]
+	float before_offset;
+	float after_offset;
+}Turn_Typedef;
+
+typedef struct {
 	State_Typedef upper;
 	State_Typedef downer;
+	Turn_Typedef small_turn;
+	Turn_Typedef big_turn90;
+	Turn_Typedef big_turn180;
 }Params_Typedef;
 
 float calculatePID(PID_Typedef *instance);

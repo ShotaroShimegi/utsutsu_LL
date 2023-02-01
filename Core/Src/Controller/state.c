@@ -210,8 +210,7 @@ float calculateTargetAccelAndVelocity(void)
 
 State_Typedef setStatus(float angle,float curve,
 									float mileage, float velocity,
-									float accel, float jerk, uint8_t state)
-{
+									float accel, float jerk, uint8_t state) {
 	State_Typedef instance;
 	instance.angle = angle;
 	instance.omega = velocity / curve;
@@ -225,7 +224,21 @@ State_Typedef setStatus(float angle,float curve,
 
 	return instance;
 }
+Turn_Typedef setTurnParams(float velocity,float accel, float curve,
+											float b_offset, float a_offset) {
 
+	Turn_Typedef instance;
+	instance.velocity = velocity;
+	instance.accel = accel;
+	instance.omega = velocity / curve;
+	instance.omega_accel = accel / curve;
+	instance.inverse_curvature = curve;
+	instance.velocity = velocity;
+	instance.accel = accel;
+	instance.before_offset = b_offset;
+	instance.after_offset = a_offset;
+	return instance;
+}
 PID_Typedef setParameters(float gainP, float gainI, float gainD, float limitI, float limitPID)
 {
 	PID_Typedef instance;
@@ -255,6 +268,10 @@ void initMouseStatus(void)
 	param1.upper = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f, 0.05,0);
 	param1.downer = 	min = setStatus(0.0f, 0.055f, 0.0f,
 			-max.velocity,-max.accel, -max.jerk,0);
+	param1.small_turn = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
+	param1.big_turn90 = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
+	param1.big_turn180 = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
+
 	//MF
 	MF.FLAGS = 0x00000000;
 
