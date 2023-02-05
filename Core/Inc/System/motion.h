@@ -29,7 +29,7 @@ void slalomMotion(float angle);
 uint8_t moveHalfSectionAccel(uint8_t wall_ctrl_flag,uint8_t wall_read_flag);
 void moveHalfSectionDecel(uint8_t wall_ctrl_flag);
 uint8_t moveOneSectionAccel(uint8_t wall_ctrl);
-void fixPostureByWallSensor(void);
+void keepDistanceFromWall(void);
 void spinRight180(void);
 uint8_t moveSlalomR90(void);
 uint8_t moveSlalomL90(void);

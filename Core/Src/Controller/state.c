@@ -163,21 +163,30 @@ float calculateTagetOmega(void)
 */
 float fixTargetOmegaFromWallSensor(float error) {
 // ======　偏差ー＞角速度変換制御　＝＝＝＝＝＝
-	float gain, angle, omega, dif;
+	float gain, angle, omega, dif_a,dif_w,max_dif_w;
 	static float pre_dif = 0.0f;
+	static float pre_omega = 0.0f;
 // 偏差の絶対値に対する理想の角度[deg]を算出し、angleに格納
 // 角度の範囲はフェイルセーフと連動して線形化
 	gain = FAIL_ANGLE / ABS_ERROR_RANGE; // [deg / sensor]
 	angle = gain * error;
-	dif = angle + target.angle - mouse.angle;
+	dif_a = angle + target.angle - mouse.angle;
 // angleに制御周期内で追従できる角速度を計算
 // 角速度の値が大きすぎたら制限
-	omega = dif/ 0.1 * CONVERT_TO_RAD + 0.1f*(dif - pre_dif);
-	pre_dif = dif;
-/*
-	if(omega > 1.0f)		omega = 1.0f;
-	else if(omega < -0.10f)	omega = -1.0f;
-*/
+	omega = dif_a/ 0.1 * CONVERT_TO_RAD + 0.1f*(dif_a - pre_dif);
+	pre_dif = dif_a;
+
+// 角加速度制限
+	max_dif_w = max.omega_accel * 0.001f;
+	dif_w = omega - pre_omega;
+	if(dif_w> max_dif_w)				omega = pre_omega + max_dif_w;
+	else if (dif_w < -max_dif_w)	omega = pre_omega - max_dif_w;
+
+// 角速度制限
+	if(omega > 1.0f)				omega = 1.0f;
+	else if(omega < -1.0f)	omega = -1.0f;
+
+	pre_omega = omega;
 	return omega;
 }
 
@@ -279,8 +288,8 @@ void initMouseStatus(void)
 	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.10f, 0.00f, 0.2f);
-	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
-	PID_wall_front_distance = setParameters(0.0005f, 0.0f, 0.002f, 0.0f,0.2f);
+//	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
+	PID_wall_front_distance = setParameters(0.005f, 0.0f, 0.00f, 0.0f,0.2f);
 	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.3f);
 	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
@@ -302,10 +311,8 @@ void updateStatus(void)
 
 // ==== 現行の制御体制====
 	if(MF.FLAG.NEW == 0){
-
-		calculateSensorError();
-
 		//壁制御と姿勢制御の合体
+		calculateSensorError();
 		if(MF.FLAG.CTRL && (target.velocity > 0.0f)) {
 			fix_omega =  fixTargetOmegaFromWallSensor(PID_wall_side.error);
 		} else {

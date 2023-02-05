@@ -255,7 +255,7 @@ int main(void)
 	  		  MF.FLAG.CALLBACK = ON;
 	  		  enableMotors();
 
-	  		  fixPostureByWallSensor();
+	  		  keepDistanceFromWall();
 
 	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();

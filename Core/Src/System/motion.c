@@ -156,10 +156,10 @@ void driveSlalomFree(float theta, float omega_max, float omega_accel) {
 	target.angle += theta;
 }
 
-/**
+/*======================
 * @brief 	その場で超信地旋回する
 * @param 	回転角度 [deg], 正方向はCCW
-*/
+=======================*/
 void spinMotion(float angle_deg)
 {
 	float input_angle = mouse.angle;
@@ -203,8 +203,7 @@ void spinMotion(float angle_deg)
 	target.angle += angle_deg;
 }
 
-void slalomMotion(float angle_deg)
-{
+void slalomMotion(float angle_deg) {
 	float input_angle = mouse.angle;
 
 	//角速度制御、ON
@@ -265,16 +264,17 @@ uint8_t  moveOneSectionAccel(uint8_t wall_ctrl)
 	return wall_info;
 }
 
-void fixPostureByWallSensor(void)
+/*======================
+ * keepDistanceFromWall()
+* @brief 前壁からの距離を保つ位置制御を1秒間かける
+=======================*/
+void keepDistanceFromWall(void)
 {
 	MF.FLAG.FRONT = 1;
 	setControlFlags(OFF, OFF, OFF, OFF);
-	//todo 前壁制御関連
-	waitMs(500);
+	waitMs(1000);
 	MF.FLAG.FRONT = 0;
 	setControlFlags(ON, ON, OFF, OFF);
-	waitMs(200);
-	setControlFlags(OFF, OFF, OFF, OFF);
 }
 
 void spinRight180(void)
