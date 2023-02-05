@@ -26,14 +26,11 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 	float input_mileage = mouse.mileage;
 	//速度制御、角度制御、壁制御
 	setControlFlags(1, 1, 0, wall_ctrl_flag & 0x01);
-
 	// 目標値入力
 	target.angle = mouse.angle;
-
 	//減速区間の計算
 	float error = max.velocity - out_velocity;
 	float offset = error*error *0.50f / max.accel * 1000;
-
 	//引数があれな場合の例外処理
 	if(dist < offset)	offset = dist * 0.50f;
 	out_velocity = fabs(out_velocity);
@@ -218,7 +215,7 @@ void slalomMotion(float angle_deg) {
 	target.omega = 0.0f;
 
 	//加速して減速
-	if(angle_deg > 0){
+	if(angle_deg > 0){		// 左ターン
 		setAccelFlags(1, 0, 1, 0);
 		while(mouse.angle < input_angle + angle_deg - offset);
 		setAccelFlags(1, 0, 0, 1);
@@ -228,7 +225,7 @@ void slalomMotion(float angle_deg) {
 				break;
 			}
 		}
-	}else{
+	}else{					// 	右ターン
 		setAccelFlags(1, 0, 0, 1);
 		while(mouse.angle > input_angle + angle_deg + offset);
 		setAccelFlags(1, 0, 1, 0);
@@ -287,10 +284,10 @@ uint8_t moveSlalomR90(void)
 {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
-//	driveAccelMotion(30.0f, max.velocity, OFF);
+	driveAccelMotion(30.0f, max.velocity, OFF);
 	slalomMotion(ROT_ANGLE_R90);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(20.0f, max.velocity, ON);
+	driveAccelMotion(20.0f, max.velocity, OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -300,11 +297,11 @@ uint8_t moveSlalomL90(void)
 	uint8_t wall_info = 0x00;
 
 	MF.FLAG.SAFETY = OFF;
-//	driveAccelMotion(30.0f, max.velocity, OFF);
+	driveAccelMotion(30.0f, max.velocity, OFF);
 	slalomMotion(ROT_ANGLE_L90);
 	MF.FLAG.SAFETY = ON;
 
-	driveAccelMotion(18.0f, max.velocity, ON);
+	driveAccelMotion(20.0f, max.velocity, OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -335,7 +332,7 @@ void backMotion(float dist)
 	setControlFlags(1, 0, 0, 0);
 	target.velocity = 0.0f;
 	max.velocity = max_tmp;
-	waitMs(200);
+	waitMs(500);
 }
 /*
 void BigSlalomR90()

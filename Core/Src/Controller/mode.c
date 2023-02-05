@@ -98,6 +98,8 @@ void waitStarting(void)
 	//安全のためのモータが動かない用の設定
 	shutdownMotors();
 
+	basicTimerStart();
+
 	MF.FLAG.CALLBACK = 1;
 	printf("Ready???\n");
 	while(1){

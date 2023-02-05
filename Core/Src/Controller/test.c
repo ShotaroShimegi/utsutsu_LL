@@ -37,6 +37,22 @@ void prepareForTest(uint8_t safety_flag,uint8_t motor_enable)
 	  else if(motor_enable == 0) 	shutdownMotors();
 }
 
+/* =======================
+ * @brief 	前壁との距離制御テスト機能
+    =======================*/
+void testKeepDistance(void){
+	  waitStarting();
+	  getOffsets();
+	  enableEncoder();
+	  MF.FLAG.CALLBACK = ON;
+	  enableMotors();
+
+	  keepDistanceFromWall();
+
+	  MF.FLAG.CALLBACK = OFF;
+	  shutdownMotors();
+}
+
 /*
  * @brief 	壁センサの動作確認、printfでリアルタイム表示する仕様
  */
@@ -107,7 +123,7 @@ void testMotions(void)
 	  		}
 			break;
 		case 2:		//		左無限スラローム
-	  		  moveHalfSectionAccel(OFF, OFF);
+	  		  moveHalfSectionAccel(ON, ON);
 	  		  tim_counter = 0;
 			  moveSlalomL90();
 			  moveOneSectionAccel(OFF);
@@ -120,11 +136,10 @@ void testMotions(void)
 
 //	  		  basicTimerPause();
 	  		 MF.FLAG.CALLBACK = OFF;
-	  		  shutdownMotors();
+	  		 shutdownMotors();
 			break;
 
-		case 3:
-			//	右無限スラローム
+		case 3:		//	右無限スラローム
 	  		  moveHalfSectionAccel(OFF, OFF);
 	  		  tim_counter = 0;
 	  		  for(uint8_t cnt=0;cnt<16;cnt++){
@@ -139,7 +154,7 @@ void testMotions(void)
 	  		 MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
-		case 4:
+		case 4:		// 1区画直進ログ取
 			tim_counter = 0;
 	  		driveAccelMotion(SET_MM,max.velocity,OFF);
 	  		moveHalfSectionAccel(ON, ON);
@@ -148,9 +163,30 @@ void testMotions(void)
 	  		 MF.FLAG.CALLBACK = OFF;
 	  		shutdownMotors();
 			MF.FLAG.NEW = 1;
+		case 5:		//	右90スラローム　ログ取
+			tim_counter = 0,mouse.run_state = ON;
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(ON, ON);
+			displayBinaryValueWithLEDs(0xff);
+			moveSlalomR90();
+			displayBinaryValueWithLEDs(0x00);
+			moveHalfSectionDecel(OFF);
+	  		shutdownMotors();
+
+	  		waitMs(2000);
 
 			break;
+		case 6: 		//	左90スラローム　ログ取
+			tim_counter = 0,mouse.run_state = ON;
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(ON, ON);
+			displayBinaryValueWithLEDs(0xff);
+			moveSlalomL90();
+			displayBinaryValueWithLEDs(0x00);
+			moveHalfSectionDecel(OFF);
+	  		shutdownMotors();
 
+	  		waitMs(2000);
 		default:
 			break;
 	}

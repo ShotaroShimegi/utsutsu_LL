@@ -85,8 +85,8 @@ void searchMazeBySlalom(uint8_t goal_length)
 				}
 				rotateSafteyR180();
 				if(set_flag == 1){
-					backMotion(SET_MM);
-					driveAccelMotion(SET_MM,max.velocity,ON);
+					backMotion(FIX_MM);
+					driveAccelMotion(FIX_MM,max.velocity,ON);
 				}
 				rotate_on_map = DIR_SPIN_180;
 				changeDirection(rotate_on_map);

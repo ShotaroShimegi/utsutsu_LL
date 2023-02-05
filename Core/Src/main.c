@@ -167,8 +167,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  while (1)	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -218,9 +217,9 @@ int main(void)
 	  		  break;
 
 	  	  case 2:
-	  		  //記憶された迷路を読み出す、付け焼刃の疑似最短モード、
+	  		  //記憶された迷路を読み出す、重ね探索用
 	  		  MelodyUrara();
-	  		  MF.FLAG.SCND = ON;
+	  		  MF.FLAG.SCND = OFF;
 	  		  MF.FLAG.FIRST = OFF;
 	  		  loadWallMap();
 	  		  break;
@@ -242,29 +241,25 @@ int main(void)
 	  		  shutdownMotors();
 	  		  break;
 
-	  	  case 4 :		//	前壁制御
-	  		  waitStarting();
-	  		  getOffsets();
-	  		  enableEncoder();
-	  		  MF.FLAG.CALLBACK = ON;
-	  		  enableMotors();
-
-	  		  keepDistanceFromWall();
-
-	  		  MF.FLAG.CALLBACK = OFF;
-	  		  shutdownMotors();
+	  	  case 4 :
+	  		  //記憶された迷路を読み出す、疑似最短用
+	  		  MelodyYamato();
+	  		  MF.FLAG.SCND = ON;
+	  		  MF.FLAG.FIRST = OFF;
+	  		  loadWallMap();
 	  		  break;
+
 
 	  	  case 5 :		//	新制御方式の走行テスト
 	  		 MelodySummer();
 	  		 testMotions();
-	  		  break;
+	  		 break;
 	  	  case 6 :								break;
 	  	  case 7 :								break;
 	  	  case 8 :								break;
 	  	  case 9 :								break;
 	  	  case 10 :								break;
-	  	  case 11 :								break;
+	  	  case 11 :	testKeepDistance();	break;
 	  	  case 12:	testIMU();				break;
 	  	  case 13:	testEncoders();  		break;
 	  	  case 14:	testWallSensors();	break;

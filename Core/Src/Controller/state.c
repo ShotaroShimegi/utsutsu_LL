@@ -172,8 +172,8 @@ float fixTargetOmegaFromWallSensor(float error) {
 	angle = gain * error;
 	dif_a = angle + target.angle - mouse.angle;
 // angleに制御周期内で追従できる角速度を計算
-// 角速度の値が大きすぎたら制限
-	omega = dif_a/ 0.1 * CONVERT_TO_RAD + 0.1f*(dif_a - pre_dif);
+//	omega = dif_a/ 0.1 * CONVERT_TO_RAD + 0.1f*(dif_a - pre_dif);
+	omega = dif_a*10 * CONVERT_TO_RAD + 0.05f*(dif_a - pre_dif);
 	pre_dif = dif_a;
 
 // 角加速度制限
@@ -289,7 +289,7 @@ void initMouseStatus(void)
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.10f, 0.00f, 0.2f);
 //	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
-	PID_wall_front_distance = setParameters(0.005f, 0.0f, 0.00f, 0.0f,0.2f);
+	PID_wall_front_distance = setParameters(0.003f, 0.0f, 0.00f, 0.0f,0.2f);
 	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.3f);
 	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
