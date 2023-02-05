@@ -280,28 +280,25 @@ void spinRight180(void)
 	waitMs(100);
 }
 
-uint8_t moveSlalomR90(void)
-{
+uint8_t moveSlalomR90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(30.0f, max.velocity, OFF);
+	driveAccelMotion(10.0f, max.velocity, OFF);
 	slalomMotion(ROT_ANGLE_R90);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(20.0f, max.velocity, OFF);
+	driveAccelMotion(20.0f, max.velocity, ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }
 
-uint8_t moveSlalomL90(void)
-{
+uint8_t moveSlalomL90(void) {
 	uint8_t wall_info = 0x00;
 
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(30.0f, max.velocity, OFF);
+	driveAccelMotion(10.0f, max.velocity, OFF);
 	slalomMotion(ROT_ANGLE_L90);
 	MF.FLAG.SAFETY = ON;
-
-	driveAccelMotion(20.0f, max.velocity, OFF);
+	driveAccelMotion(20.0f, max.velocity, ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }

@@ -269,7 +269,7 @@ void initMouseStatus(void)
 	//State関連
 	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
 	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
-	max = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f, 0.05,0);
+	max = setStatus(0.0f, 0.055f, 0.0f, 0.45f, 4.0f, 0.05,0);
 	min = setStatus(0.0f, 0.055f, 0.0f,
 							-max.velocity,-max.accel, -max.jerk,0);
 
