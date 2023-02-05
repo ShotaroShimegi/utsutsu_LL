@@ -195,27 +195,22 @@ int main(void)
 
 	  	  case 1:		//		探索走行
 	  		  MelodyNatsumatsuri();
-
+//	==== 走行準備 ====
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
-
 	  		  enableMotors();
 	  		  mouse.angle = 0.0f;
-
-	  		  goal.x = GOAL_X;
-	  		  goal.y = GOAL_Y;
+//	==== 探索中 ====
+	  		  goal.x = GOAL_X, goal.y = GOAL_Y;
 	  		  searchMazeBySlalom(GOAL_LENGTH);
-	  		  goal.x = 0;
-	  		  goal.y = 0;
+	  		  goal.x = 0, goal.y = 0;
 	  		  enableMotors();
 	  		  searchMazeBySlalom(RETURN_GOAL_LENGTH);
-	  		  goal.x = GOAL_X;
-	  		  goal.y = GOAL_Y;
-
-	  		  MF.FLAG.CALLBACK = 1;
+	  		  goal.x = GOAL_X, goal.y = GOAL_Y;
+//	==== 帰還後の処理 ====
+	  		  MF.FLAG.CALLBACK = ON;
 	  		  enableMotors();
-
 	  		  rotateSafteyR180();
 	  		  changeDirection(DIR_SPIN_180);
 	  		  MF.FLAG.CALLBACK = OFF;
@@ -240,8 +235,7 @@ int main(void)
 	  		  enableMotors();
 	  		  mouse.angle = 0.0f;
 
-	  		  goal.x = GOAL_X;
-	  		  goal.y = GOAL_Y;
+	  		  goal.x = GOAL_X, goal.y = GOAL_Y;
 	  		  searchMazeBySlalom(GOAL_LENGTH);
 
 	  		  MF.FLAG.CALLBACK = OFF;
@@ -262,31 +256,19 @@ int main(void)
 	  		  break;
 
 	  	  case 5 :		//	新制御方式の走行テスト
-	  		 printf("--------Test Motions---------\n");
 	  		 MelodySummer();
 	  		 testMotions();
 	  		  break;
-
-	  	  case 8 :
-	  		  break;
-
-	  	  case 12:
-	  		  printf("--------IMU Test---------\n");
-	  		  testIMU();
-	  		  break;
-
-	  	  case 13:
-	  		  printf("--------Encoders Test---------\n");
-	  		  testEncoders();
-	  		  break;
-
-	  	  case 14:
-	  		  printf("--------Wall Sensor Test---------\n");
-	  		  testWallSensors();
-	  		  break;
-
-	  	  default:
-	  		  break;
+	  	  case 6 :								break;
+	  	  case 7 :								break;
+	  	  case 8 :								break;
+	  	  case 9 :								break;
+	  	  case 10 :								break;
+	  	  case 11 :								break;
+	  	  case 12:	testIMU();				break;
+	  	  case 13:	testEncoders();  		break;
+	  	  case 14:	testWallSensors();	break;
+	  	  default:								break;
 	  }
   }
   /* USER CODE END 3 */

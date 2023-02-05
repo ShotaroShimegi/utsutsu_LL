@@ -78,19 +78,15 @@ void searchMazeBySlalom(uint8_t goal_length)
 
 			case TURN_BACK:
 				moveHalfSectionDecel(ON);
-
+// ******** 壁までの距離を制御 ********
 				if(sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR){
 					set_flag = 1;
-// ******** 以下は壁までの距離制御ベース ********
 					keepDistanceFromWall();
-// ******** 以上は壁までの距離制御ベース ********
 				}
 				rotateSafteyR180();
 				if(set_flag == 1){
-// ******** 以下は壁への尻当て ********
-//					set_flag = 0;
-//					backMotion(SET_MM * 0.9f);
-//					driveAccelMotion(SET_MM,max.velocity,ON);
+					backMotion(SET_MM);
+					driveAccelMotion(SET_MM,max.velocity,ON);
 				}
 				rotate_on_map = DIR_SPIN_180;
 				changeDirection(rotate_on_map);

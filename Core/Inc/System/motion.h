@@ -14,7 +14,7 @@
 #define		ROT_ANGLE_L90 90.0f
 #define 	ROT_ANGLE_R180 -180.0f
 //目標距離
-#define SET_MM 62.0f
+#define SET_MM 30.0f
 #define HALF_MM 90.0f
 #define ONE_MM 2.0f*HALF_MM
 

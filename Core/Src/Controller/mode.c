@@ -24,6 +24,30 @@
 
 #include"tim.h"
 
+void printMode(uint8_t  temp){
+	printf(" mode:%2d  ", temp);
+	switch(temp){
+	case 0: printf("Output Log"); 						break;
+	case 1: printf("Search Run Lap"); 				break;
+	case 2: printf("Enter Wall Data"); 					break;
+	case 3: printf("Search Run One Way"); 		break;
+	case 4: printf("Test for Keeping Distance"); 	break;
+	case 5: printf("Test Motions");						break;
+	case 6: printf("No Mode Available"); 				break;
+	case 7: printf("No Mode Available"); 				break;
+	case 8: printf("No Mode Available"); 				break;
+	case 9: printf("No Mode Available"); 				break;
+	case 10: printf("No Mode Available"); 			break;
+	case 11: printf("No Mode Available");			break;
+	case 12: printf("IMU Test"); 						break;
+	case 13: printf("Encoder Test"); 					break;
+	case 14: printf("Wall Sensor Test");				break;
+	}
+	printf("\n");
+	displayBinaryValueWithLEDs(temp);
+	Melody(c6 + (60 * temp),100);
+}
+
 /*	modeSelect
  * @brief モード（0~15）をエンコーダから取得・確定させる
  * @return 確定したモードの値
@@ -51,11 +75,7 @@ uint8_t modeSelect(void)
 		enter = (float)(left_dial_val / 65536) * LEFT_RESOLUTION;
 		//前ループとの偏差からモード設定の変更と確定を判断
 		error = mode - pre_mode;
-		if(error != 0){
-			printf(" mode:%2d\n", mode);
-			displayBinaryValueWithLEDs(mode);
-			Melody(c6 + (60 * mode),100);
-		}
+		if(error != 0)	printMode(mode);
 		pre_mode = mode;
 	}while(enter != 2);
 
