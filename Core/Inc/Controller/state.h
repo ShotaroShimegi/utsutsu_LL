@@ -18,10 +18,6 @@
 
 //新しい壁制御用のサムシング
 #define ABS_ERROR_RANGE 100.0f
-//#define GAIN_FIXER 			300.0f
-//#define GAIN_WALL_P		0.010f
-//#define GAIN_WALL_D		0.0001f
-//#define ERROR_MAX 			1.0f
 #define DIFF_BORDER		6
 #define DIFF_SAMPLE		10
 
@@ -78,6 +74,7 @@ extern State_Typedef target;
 extern State_Typedef max;
 extern State_Typedef min;
 
+extern Params_Typedef* param;
 extern Params_Typedef param1;
 
 extern PID_Typedef PID_left_velocity;

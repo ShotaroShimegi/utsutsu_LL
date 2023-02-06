@@ -25,7 +25,7 @@ void driveTrapezoidal(float distance,float vel_max,float vel_min, float accel);
 void driveSlalomFree(float theta, float omega_max, float omega_accel);
 
 void spinMotion(float angle);
-void slalomMotion(float angle);
+void slalomMotion(float angle_deg, float omega, float omega_accel);
 
 uint8_t moveHalfSectionAccel(uint8_t wall_ctrl_flag,uint8_t wall_read_flag);
 void moveHalfSectionDecel(uint8_t wall_ctrl_flag);

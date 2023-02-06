@@ -121,8 +121,8 @@ void driveTrapezoidal(float dist,float vel_max,float vel_min, float accel)
 /**
 * @brief 汎用スラローム関数、斜めにまで対応させる
 * @param1 目標追加角度 [deg]
-* @param2 出口並進速度 [m/s], 止まりたいなら0.0f
-* @param3 壁制御の有無
+* @param2 最大角速度、基本絶対値でオッケー
+* @param3 最大角加速度、基本絶対値でオッケー
 */
 void driveSlalomFree(float theta, float omega_max, float omega_accel) {
 	float input_angle = mouse.angle;
@@ -157,22 +157,17 @@ void driveSlalomFree(float theta, float omega_max, float omega_accel) {
 * @brief 	その場で超信地旋回する
 * @param 	回転角度 [deg], 正方向はCCW
 =======================*/
-void spinMotion(float angle_deg)
-{
+void spinMotion(float angle_deg) {
 	float input_angle = mouse.angle;
-
 	//角速度制御、ON
 	setControlFlags(1, 1, 0, 0);
-
 	//減速区間の計算
 	float offset = max.omega*max.omega *0.50f
 						/ max.omega_accel * CONVERT_TO_DEG;
-
 	//引数があれな場合の例外処理
 	if(fabs(angle_deg) < offset)	offset =  fabs(angle_deg) * 0.50f;
 	target.velocity = 0.0f;
 	target.omega = 0.0f;
-
 	//加速して減速
 	if(angle_deg > 0){
 		setAccelFlags(0, 0, 1, 0);
@@ -200,19 +195,32 @@ void spinMotion(float angle_deg)
 	target.angle += angle_deg;
 }
 
-void slalomMotion(float angle_deg) {
+/**
+ * slalomMotion
+* @brief 初期化関連の実行関数
+* @param	目標角度
+* @param	角速度	（絶対値）
+* @param	角加速度	（絶対値）
+*/
+void slalomMotion(float angle_deg, float omega, float omega_accel) {
 	float input_angle = mouse.angle;
 
 	//角速度制御、ON
 	setControlFlags(ON, ON, OFF, OFF);
-
 	//減速区間の計算
-	float offset = max.omega*max.omega *0.50f
-						/ max.omega_accel * CONVERT_TO_DEG;
+	float offset = omega*omega *0.50f
+						/ omega_accel * CONVERT_TO_DEG;
 
 	//引数があれな場合の例外処理
 	if(fabs(angle_deg) < offset)	offset =  fabs(angle_deg) * 0.50f;
 	target.omega = 0.0f;
+	if(angle_deg > 0.0f){				//	左ターン
+		max.omega = omega;
+		target.omega_accel = omega_accel;
+	}else if(angle_deg < 0.0f){		// 	右ターン
+		min.omega = - omega;
+		target.omega_accel =  omega_accel;
+	}
 
 	//加速して減速
 	if(angle_deg > 0){		// 左ターン
@@ -225,7 +233,7 @@ void slalomMotion(float angle_deg) {
 				break;
 			}
 		}
-	}else{					// 	右ターン
+	}else{						// 	右ターン
 		setAccelFlags(1, 0, 0, 1);
 		while(mouse.angle > input_angle + angle_deg + offset);
 		setAccelFlags(1, 0, 1, 0);
@@ -241,15 +249,13 @@ void slalomMotion(float angle_deg) {
 	target.angle += angle_deg;
 }
 
-uint8_t moveHalfSectionAccel(uint8_t wall_ctrl_flag,uint8_t wall_read_flag)
-{
+uint8_t moveHalfSectionAccel(uint8_t wall_ctrl_flag,uint8_t wall_read_flag) {
 	driveAccelMotion(90.0f, max.velocity, wall_ctrl_flag);
 	if(wall_read_flag & 0x01)		return getWallInfo();
 	else									return 0;
 }
 
-void moveHalfSectionDecel(uint8_t wall_ctrl_flag)
-{
+void moveHalfSectionDecel(uint8_t wall_ctrl_flag) {
 	driveAccelMotion(90.0f, 0.0f, wall_ctrl_flag);
 }
 
@@ -283,22 +289,25 @@ void spinRight180(void)
 uint8_t moveSlalomR90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(10.0f, max.velocity, OFF);
-	slalomMotion(ROT_ANGLE_R90);
+//	driveAccelMotion(10.0f, max.velocity, OFF);
+	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF);
+	slalomMotion(ROT_ANGLE_R90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(20.0f, max.velocity, ON);
+//	driveAccelMotion(20.0f, max.velocity, ON);
+	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }
 
 uint8_t moveSlalomL90(void) {
 	uint8_t wall_info = 0x00;
-
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(10.0f, max.velocity, OFF);
-	slalomMotion(ROT_ANGLE_L90);
+//	driveAccelMotion(10.0f, max.velocity, OFF);
+	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF);
+	slalomMotion(ROT_ANGLE_L90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(20.0f, max.velocity, ON);
+//	driveAccelMotion(20.0f, max.velocity, ON);
+	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -331,46 +340,43 @@ void backMotion(float dist)
 	max.velocity = max_tmp;
 	waitMs(500);
 }
-/*
-void BigSlalomR90()
-{
-	MF.FLAG.CTRL = 1;
-	DriveAccel(params_now.big90_before,FRONT_CONTROL_FLAG);
-	MF.FLAG.CTRL = 0;
-	DriveSlalomFree(-90,params_now.big90_omega_max, params_now.big90_omega_accel, big90_omega_accel_time);
-	MF.FLAG.CTRL = 1;
-	DriveAccel(params_now.big90_after,0);
+
+// ==== 以下、大回りターンシリーズ ====
+
+void moveBigSlalomR90() {
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn90.before_offset, max.velocity, ON);
+	MF.FLAG.SAFETY = OFF;
+	driveSlalomFree(-90.0f, param->big_turn90.omega, param->big_turn90.omega_accel);
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn90.after_offset, max.velocity, ON);
 }
 
-void BigSlalomL90()
-{
-	MF.FLAG.CTRL = 1;
-	DriveAccel(params_now.big90_before,FRONT_CONTROL_FLAG);
-	MF.FLAG.CTRL = 0;
-	DriveSlalomFree(90,params_now.big90_omega_max, params_now.big90_omega_accel, big90_omega_accel_time);
-	MF.FLAG.CTRL = 1;
-	DriveAccel(params_now.big90_after,0);
+void moveBigSlalomL90() {
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn90.before_offset, max.velocity, ON);
+	MF.FLAG.SAFETY = OFF;
+	driveSlalomFree(90.0f, param->big_turn90.omega, param->big_turn90.omega_accel);
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn90.after_offset, max.velocity, ON);
 }
 
-void BigSlalomR180()
-{
-	MF.FLAG.CTRL = 1;
-	DriveAccel(params_now.big180_before,FRONT_CONTROL_FLAG);
-	MF.FLAG.CTRL = 0;
-	DriveSlalomFree(-180,params_now.big180_omega_max, params_now.big180_omega_accel, big180_omega_accel_time);
-	MF.FLAG.CTRL = 1;
-	DriveAccel(params_now.big180_after,0);
+void BigSlalomR180() {
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON);
+	MF.FLAG.SAFETY = OFF;
+	driveSlalomFree(-180.0f, param->big_turn180.omega, param->big_turn90.omega_accel);
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn180.after_offset, max.velocity, ON);
 }
 
-void BigSlalomL180()
-{
-	MF.FLAG.CTRL = 1;
-	SetMotionDirection(FORWARD);
-	DriveAccel(params_now.big180_before,FRONT_CONTROL_FLAG);
-	MF.FLAG.CTRL = 0;
-	DriveSlalomFree(180,params_now.big180_omega_max, params_now.big180_omega_accel, big180_omega_accel_time);
-	MF.FLAG.CTRL = 1;
-	DriveAccel(params_now.big180_after,0);
-	GetWallData();
+void BigSlalomL180() {
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON);
+	MF.FLAG.SAFETY = OFF;
+	driveSlalomFree(180.0f, param->big_turn180.omega, param->big_turn90.omega_accel);
+	MF.FLAG.SAFETY = ON;
+	driveAccelMotion(param->big_turn180.after_offset, max.velocity, ON);
 }
-*/
+
+// ==== 以上、大回りターンシリーズ ====

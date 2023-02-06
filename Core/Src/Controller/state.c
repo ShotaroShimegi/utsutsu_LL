@@ -15,12 +15,13 @@
 
 #include<math.h>
 
-State_Typedef mouse;
-State_Typedef target;
-State_Typedef max;
-State_Typedef min;
+State_Typedef mouse;						// センサデータベースの実測値
+State_Typedef target;						// 理想の状態値、制御目標値
+State_Typedef max;							// 逐次更新される制御目標値の上限値
+State_Typedef min;							// 逐次更新される制御目標値の下限値
 
-Params_Typedef param1;
+Params_Typedef* param;					// 最短走行などで用いるもの、基本的には他のparamsを代入して使う
+Params_Typedef param1;					// 探索走行ベースのパラメータ、1番遅い
 
 PID_Typedef PID_left_velocity;
 PID_Typedef PID_right_velocity;
@@ -78,7 +79,7 @@ void calculateSensorError(void)
 		PID_wall_side.error = 2.0f*1.5f*error_right;
 	}
 
-//　PID計算できる範囲で
+	//　PID計算できる範囲で
 	PID_wall_front_posture.error = (sensor.wall_val[FL] - FRONT_BASE_FL) - (sensor.wall_val[FR] - FRONT_BASE_FR);
 	PID_wall_front_distance.error = (sensor.wall_val[FL] - FRONT_BASE_FL) + (sensor.wall_val[FR] - FRONT_BASE_FR);
 
@@ -146,8 +147,8 @@ float calculateTagetOmega(void)
 {
 	float target_val = target.omega;
 
-	if(MF.FLAG.WACCEL == 1) 			target_val += max.omega_accel * 0.001f;
-	else if(MF.FLAG.WDECEL == 1)	target_val -= max.omega_accel * 0.001f;
+	if(MF.FLAG.WACCEL == 1) 			target_val += target.omega_accel * 0.001f;
+	else if(MF.FLAG.WDECEL == 1)	target_val -= target.omega_accel * 0.001f;
 
 	if(target_val > max.omega)			target_val = max.omega;
 	else if(target_val < min.omega)	target_val = min.omega;
@@ -268,23 +269,22 @@ void initMouseStatus(void)
 {
 	//State関連
 	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
-	target = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
-	max = setStatus(0.0f, 0.055f, 0.0f, 0.45f, 4.0f, 0.05,0);
+	target = setStatus(0.0f, 0.055f, 0.0f, 0.45f, 4.0f, 0.05f,0);
+	max = setStatus(0.0f, 0.055f, 0.0f, 0.45f, 4.0f, 0.05f,0);
 	min = setStatus(0.0f, 0.055f, 0.0f,
 							-max.velocity,-max.accel, -max.jerk,0);
 
 	// パラメータ宣言
-	param1.upper = setStatus(0.0f, 0.055f, 0.0f, 0.50f, 4.0f, 0.05,0);
+	param1.upper = setStatus(0.0f, 0.055f, 0.0f, 0.45f, 4.0f, 0.05,0);
 	param1.downer = 	min = setStatus(0.0f, 0.055f, 0.0f,
 			-max.velocity,-max.accel, -max.jerk,0);
-	param1.small_turn = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
+	param1.small_turn = setTurnParams(0.50f, 4.0f, 0.055f,10.0f,20.0f);
 	param1.big_turn90 = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
 	param1.big_turn180 = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
-
-	//MF
+	param = &param1;
+	// MF
 	MF.FLAGS = 0x00000000;
-
-	//PID関連
+	// PID関連
 	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.10f, 0.00f, 0.2f);
@@ -311,24 +311,21 @@ void updateStatus(void)
 
 // ==== 現行の制御体制====
 	if(MF.FLAG.NEW == 0){
-		//壁制御と姿勢制御の合体
+		// 壁制御と姿勢制御の合体
 		calculateSensorError();
 		if(MF.FLAG.CTRL && (target.velocity > 0.0f)) {
 			fix_omega =  fixTargetOmegaFromWallSensor(PID_wall_side.error);
 		} else {
 			fix_omega = 0.0f;
 		}
-
-		//目標値生成
+		// 目標値生成
 		target.velocity = calculateTargetVelocity();
 		target.omega = calculateTagetOmega();
-
 		//偏差計算
 		PID_angle.error = target.angle - mouse.angle;
 		PID_left_velocity.error = target.velocity - mouse.velocity;
 		PID_right_velocity.error = target.velocity - mouse.velocity;
 		PID_omega.error = target.omega + fix_omega - mouse.omega;
-
 		//PID計算
 		if(MF.FLAG.ACTRL)	{
 			tmp = calculatePID(&PID_angle);
@@ -346,7 +343,6 @@ void updateStatus(void)
 			tmp = calculatePID(&PID_wall_front_distance);
 			output_duty_r -= tmp, output_duty_l -= tmp;
 		}
-
 	}else if(MF.FLAG.NEW == 1){
 		// 新制御用の項目、工事中
 	}
