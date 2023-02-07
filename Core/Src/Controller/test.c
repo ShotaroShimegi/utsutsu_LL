@@ -172,9 +172,7 @@ void testMotions(void)
 			displayBinaryValueWithLEDs(0x00);
 			moveHalfSectionDecel(OFF);
 	  		shutdownMotors();
-
 	  		waitMs(2000);
-
 			break;
 		case 6: 		//	左90スラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
@@ -185,8 +183,52 @@ void testMotions(void)
 			displayBinaryValueWithLEDs(0x00);
 			moveHalfSectionDecel(OFF);
 	  		shutdownMotors();
-
 	  		waitMs(2000);
+		case 7:		//	右90大回りスラローム　ログ取
+			tim_counter = 0,mouse.run_state = ON;
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(ON, ON);
+			displayBinaryValueWithLEDs(0xff);
+			moveBigSlalomR90();
+			displayBinaryValueWithLEDs(0x00);
+			moveHalfSectionDecel(OFF);
+	  		shutdownMotors();
+	  		waitMs(2000);
+			break;
+		case 8:		//	左90大回りスラローム　ログ取
+			tim_counter = 0,mouse.run_state = ON;
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(ON, ON);
+			displayBinaryValueWithLEDs(0xff);
+			moveBigSlalomL90();
+			displayBinaryValueWithLEDs(0x00);
+			moveHalfSectionDecel(OFF);
+	  		shutdownMotors();
+	  		waitMs(2000);
+			break;
+		case 9:		//	右180大回りスラローム　ログ取
+			tim_counter = 0,mouse.run_state = ON;
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(ON, ON);
+			displayBinaryValueWithLEDs(0xff);
+			moveBigSlalomR180();
+			displayBinaryValueWithLEDs(0x00);
+			moveHalfSectionDecel(OFF);
+	  		shutdownMotors();
+	  		waitMs(2000);
+			break;
+		case 10:	//	左180大回りスラローム　ログ取
+			tim_counter = 0,mouse.run_state = ON;
+	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		moveHalfSectionAccel(ON, ON);
+			displayBinaryValueWithLEDs(0xff);
+			moveBigSlalomL180();
+			displayBinaryValueWithLEDs(0x00);
+			moveHalfSectionDecel(OFF);
+	  		shutdownMotors();
+	  		waitMs(2000);
+			break;
+
 		default:
 			break;
 	}

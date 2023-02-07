@@ -279,8 +279,8 @@ void initMouseStatus(void)
 	param1.downer = 	min = setStatus(0.0f, 0.055f, 0.0f,
 			-max.velocity,-max.accel, -max.jerk,0);
 	param1.small_turn = setTurnParams(0.50f, 4.0f, 0.055f,10.0f,20.0f);
-	param1.big_turn90 = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
-	param1.big_turn180 = setTurnParams(0.50f, 4.0f, 0.055f,20.0f,20.0f);
+	param1.big_turn90 = setTurnParams(0.50f, 4.0f, 0.055f,90.0f,90.0f);
+	param1.big_turn180 = setTurnParams(0.50f, 4.0f, 0.055f,90.0f,90.0f);
 	param = &param1;
 	// MF
 	MF.FLAGS = 0x00000000;

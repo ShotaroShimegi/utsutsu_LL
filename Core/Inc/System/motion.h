@@ -35,5 +35,9 @@ void spinRight180(void);
 uint8_t moveSlalomR90(void);
 uint8_t moveSlalomL90(void);
 void backMotion(float dist);
+void moveBigSlalomR90() ;
+void moveBigSlalomL90() ;
+void moveBigSlalomR180() ;
+void moveBigSlalomL180() ;
 
 #endif /* INC_SYSTEM_MOTION_H_ */

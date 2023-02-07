@@ -361,7 +361,7 @@ void moveBigSlalomL90() {
 	driveAccelMotion(param->big_turn90.after_offset, max.velocity, ON);
 }
 
-void BigSlalomR180() {
+void moveBigSlalomR180() {
 	MF.FLAG.SAFETY = ON;
 	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON);
 	MF.FLAG.SAFETY = OFF;
@@ -370,7 +370,7 @@ void BigSlalomR180() {
 	driveAccelMotion(param->big_turn180.after_offset, max.velocity, ON);
 }
 
-void BigSlalomL180() {
+void moveBigSlalomL180() {
 	MF.FLAG.SAFETY = ON;
 	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON);
 	MF.FLAG.SAFETY = OFF;
