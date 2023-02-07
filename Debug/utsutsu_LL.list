@@ -1705,11 +1705,11 @@ Disassembly of section .text:
  80013f6:	f003 f83b 	bl	8004470 <changeDirection>
  80013fa:	4b66      	ldr	r3, [pc, #408]	; (8001594 <searchMazeBySlalom+0x1e0>)
  80013fc:	781b      	ldrb	r3, [r3, #0]
- 80013fe:	2b04      	cmp	r3, #4
+ 80013fe:	2b02      	cmp	r3, #2
  8001400:	d10d      	bne.n	800141e <searchMazeBySlalom+0x6a>
  8001402:	4b64      	ldr	r3, [pc, #400]	; (8001594 <searchMazeBySlalom+0x1e0>)
  8001404:	785b      	ldrb	r3, [r3, #1]
- 8001406:	2b04      	cmp	r3, #4
+ 8001406:	2b02      	cmp	r3, #2
  8001408:	d109      	bne.n	800141e <searchMazeBySlalom+0x6a>
  800140a:	4b63      	ldr	r3, [pc, #396]	; (8001598 <searchMazeBySlalom+0x1e4>)
  800140c:	edd3 7a05 	vldr	s15, [r3, #20]
@@ -2705,9 +2705,9 @@ Disassembly of section .text:
  8001e4a:	2100      	movs	r1, #0
  8001e4c:	eddf 2ab7 	vldr	s5, [pc, #732]	; 800212c <initMouseStatus+0x320>
  8001e50:	eeb1 2a00 	vmov.f32	s4, #16	; 0x40800000  4.0
- 8001e54:	eddf 1ab6 	vldr	s3, [pc, #728]	; 8002130 <initMouseStatus+0x324>
+ 8001e54:	eddf 1ab3 	vldr	s3, [pc, #716]	; 8002124 <initMouseStatus+0x318>
  8001e58:	ed9f 1ab2 	vldr	s2, [pc, #712]	; 8002124 <initMouseStatus+0x318>
- 8001e5c:	eddf 0ab5 	vldr	s1, [pc, #724]	; 8002134 <initMouseStatus+0x328>
+ 8001e5c:	eddf 0ab4 	vldr	s1, [pc, #720]	; 8002130 <initMouseStatus+0x324>
  8001e60:	ed9f 0ab0 	vldr	s0, [pc, #704]	; 8002124 <initMouseStatus+0x318>
  8001e64:	4618      	mov	r0, r3
  8001e66:	f7ff ff2f 	bl	8001cc8 <setStatus>
@@ -2719,14 +2719,14 @@ Disassembly of section .text:
  8001e74:	c50f      	stmia	r5!, {r0, r1, r2, r3}
  8001e76:	6823      	ldr	r3, [r4, #0]
  8001e78:	602b      	str	r3, [r5, #0]
- 8001e7a:	4caf      	ldr	r4, [pc, #700]	; (8002138 <initMouseStatus+0x32c>)
+ 8001e7a:	4cae      	ldr	r4, [pc, #696]	; (8002134 <initMouseStatus+0x328>)
  8001e7c:	463b      	mov	r3, r7
  8001e7e:	2100      	movs	r1, #0
  8001e80:	eddf 2aaa 	vldr	s5, [pc, #680]	; 800212c <initMouseStatus+0x320>
  8001e84:	eeb1 2a00 	vmov.f32	s4, #16	; 0x40800000  4.0
- 8001e88:	eddf 1aa9 	vldr	s3, [pc, #676]	; 8002130 <initMouseStatus+0x324>
+ 8001e88:	eddf 1aab 	vldr	s3, [pc, #684]	; 8002138 <initMouseStatus+0x32c>
  8001e8c:	ed9f 1aa5 	vldr	s2, [pc, #660]	; 8002124 <initMouseStatus+0x318>
- 8001e90:	eddf 0aa8 	vldr	s1, [pc, #672]	; 8002134 <initMouseStatus+0x328>
+ 8001e90:	eddf 0aa7 	vldr	s1, [pc, #668]	; 8002130 <initMouseStatus+0x324>
  8001e94:	ed9f 0aa3 	vldr	s0, [pc, #652]	; 8002124 <initMouseStatus+0x318>
  8001e98:	4618      	mov	r0, r3
  8001e9a:	f7ff ff15 	bl	8001cc8 <setStatus>
@@ -2738,13 +2738,13 @@ Disassembly of section .text:
  8001ea8:	c50f      	stmia	r5!, {r0, r1, r2, r3}
  8001eaa:	6823      	ldr	r3, [r4, #0]
  8001eac:	602b      	str	r3, [r5, #0]
- 8001eae:	4ba2      	ldr	r3, [pc, #648]	; (8002138 <initMouseStatus+0x32c>)
+ 8001eae:	4ba1      	ldr	r3, [pc, #644]	; (8002134 <initMouseStatus+0x328>)
  8001eb0:	edd3 7a05 	vldr	s15, [r3, #20]
  8001eb4:	eeb1 7a67 	vneg.f32	s14, s15
- 8001eb8:	4b9f      	ldr	r3, [pc, #636]	; (8002138 <initMouseStatus+0x32c>)
+ 8001eb8:	4b9e      	ldr	r3, [pc, #632]	; (8002134 <initMouseStatus+0x328>)
  8001eba:	edd3 7a06 	vldr	s15, [r3, #24]
  8001ebe:	eef1 6a67 	vneg.f32	s13, s15
- 8001ec2:	4b9d      	ldr	r3, [pc, #628]	; (8002138 <initMouseStatus+0x32c>)
+ 8001ec2:	4b9c      	ldr	r3, [pc, #624]	; (8002134 <initMouseStatus+0x328>)
  8001ec4:	edd3 7a07 	vldr	s15, [r3, #28]
  8001ec8:	eef1 7a67 	vneg.f32	s15, s15
  8001ecc:	4c9b      	ldr	r4, [pc, #620]	; (800213c <initMouseStatus+0x330>)
@@ -2754,7 +2754,7 @@ Disassembly of section .text:
  8001ed6:	eeb0 2a66 	vmov.f32	s4, s13
  8001eda:	eef0 1a47 	vmov.f32	s3, s14
  8001ede:	ed9f 1a91 	vldr	s2, [pc, #580]	; 8002124 <initMouseStatus+0x318>
- 8001ee2:	eddf 0a94 	vldr	s1, [pc, #592]	; 8002134 <initMouseStatus+0x328>
+ 8001ee2:	eddf 0a93 	vldr	s1, [pc, #588]	; 8002130 <initMouseStatus+0x324>
  8001ee6:	ed9f 0a8f 	vldr	s0, [pc, #572]	; 8002124 <initMouseStatus+0x318>
  8001eea:	4618      	mov	r0, r3
  8001eec:	f7ff feec 	bl	8001cc8 <setStatus>
@@ -2771,9 +2771,9 @@ Disassembly of section .text:
  8001f04:	2100      	movs	r1, #0
  8001f06:	eddf 2a89 	vldr	s5, [pc, #548]	; 800212c <initMouseStatus+0x320>
  8001f0a:	eeb1 2a00 	vmov.f32	s4, #16	; 0x40800000  4.0
- 8001f0e:	eddf 1a88 	vldr	s3, [pc, #544]	; 8002130 <initMouseStatus+0x324>
+ 8001f0e:	eddf 1a8a 	vldr	s3, [pc, #552]	; 8002138 <initMouseStatus+0x32c>
  8001f12:	ed9f 1a84 	vldr	s2, [pc, #528]	; 8002124 <initMouseStatus+0x318>
- 8001f16:	eddf 0a87 	vldr	s1, [pc, #540]	; 8002134 <initMouseStatus+0x328>
+ 8001f16:	eddf 0a86 	vldr	s1, [pc, #536]	; 8002130 <initMouseStatus+0x324>
  8001f1a:	ed9f 0a82 	vldr	s0, [pc, #520]	; 8002124 <initMouseStatus+0x318>
  8001f1e:	4618      	mov	r0, r3
  8001f20:	f7ff fed2 	bl	8001cc8 <setStatus>
@@ -2785,13 +2785,13 @@ Disassembly of section .text:
  8001f2e:	c50f      	stmia	r5!, {r0, r1, r2, r3}
  8001f30:	6823      	ldr	r3, [r4, #0]
  8001f32:	602b      	str	r3, [r5, #0]
- 8001f34:	4b80      	ldr	r3, [pc, #512]	; (8002138 <initMouseStatus+0x32c>)
+ 8001f34:	4b7f      	ldr	r3, [pc, #508]	; (8002134 <initMouseStatus+0x328>)
  8001f36:	edd3 7a05 	vldr	s15, [r3, #20]
  8001f3a:	eeb1 7a67 	vneg.f32	s14, s15
- 8001f3e:	4b7e      	ldr	r3, [pc, #504]	; (8002138 <initMouseStatus+0x32c>)
+ 8001f3e:	4b7d      	ldr	r3, [pc, #500]	; (8002134 <initMouseStatus+0x328>)
  8001f40:	edd3 7a06 	vldr	s15, [r3, #24]
  8001f44:	eef1 6a67 	vneg.f32	s13, s15
- 8001f48:	4b7b      	ldr	r3, [pc, #492]	; (8002138 <initMouseStatus+0x32c>)
+ 8001f48:	4b7a      	ldr	r3, [pc, #488]	; (8002134 <initMouseStatus+0x328>)
  8001f4a:	edd3 7a07 	vldr	s15, [r3, #28]
  8001f4e:	eef1 7a67 	vneg.f32	s15, s15
  8001f52:	4c7a      	ldr	r4, [pc, #488]	; (800213c <initMouseStatus+0x330>)
@@ -2801,7 +2801,7 @@ Disassembly of section .text:
  8001f5c:	eeb0 2a66 	vmov.f32	s4, s13
  8001f60:	eef0 1a47 	vmov.f32	s3, s14
  8001f64:	ed9f 1a6f 	vldr	s2, [pc, #444]	; 8002124 <initMouseStatus+0x318>
- 8001f68:	eddf 0a72 	vldr	s1, [pc, #456]	; 8002134 <initMouseStatus+0x328>
+ 8001f68:	eddf 0a71 	vldr	s1, [pc, #452]	; 8002130 <initMouseStatus+0x324>
  8001f6c:	ed9f 0a6d 	vldr	s0, [pc, #436]	; 8002124 <initMouseStatus+0x318>
  8001f70:	4618      	mov	r0, r3
  8001f72:	f7ff fea9 	bl	8001cc8 <setStatus>
@@ -2827,7 +2827,7 @@ Disassembly of section .text:
  8001f9e:	463b      	mov	r3, r7
  8001fa0:	eeb3 2a04 	vmov.f32	s4, #52	; 0x41a00000  20.0
  8001fa4:	eef2 1a04 	vmov.f32	s3, #36	; 0x41200000  10.0
- 8001fa8:	ed9f 1a62 	vldr	s2, [pc, #392]	; 8002134 <initMouseStatus+0x328>
+ 8001fa8:	ed9f 1a61 	vldr	s2, [pc, #388]	; 8002130 <initMouseStatus+0x324>
  8001fac:	eef1 0a00 	vmov.f32	s1, #16	; 0x40800000  4.0
  8001fb0:	eeb6 0a00 	vmov.f32	s0, #96	; 0x3f000000  0.5
  8001fb4:	4618      	mov	r0, r3
@@ -2842,7 +2842,7 @@ Disassembly of section .text:
  8001fcc:	463b      	mov	r3, r7
  8001fce:	eeb3 2a04 	vmov.f32	s4, #52	; 0x41a00000  20.0
  8001fd2:	eef3 1a04 	vmov.f32	s3, #52	; 0x41a00000  20.0
- 8001fd6:	ed9f 1a57 	vldr	s2, [pc, #348]	; 8002134 <initMouseStatus+0x328>
+ 8001fd6:	ed9f 1a56 	vldr	s2, [pc, #344]	; 8002130 <initMouseStatus+0x324>
  8001fda:	eef1 0a00 	vmov.f32	s1, #16	; 0x40800000  4.0
  8001fde:	eeb6 0a00 	vmov.f32	s0, #96	; 0x3f000000  0.5
  8001fe2:	4618      	mov	r0, r3
@@ -2857,7 +2857,7 @@ Disassembly of section .text:
  8001ffa:	463b      	mov	r3, r7
  8001ffc:	eeb3 2a04 	vmov.f32	s4, #52	; 0x41a00000  20.0
  8002000:	eef3 1a04 	vmov.f32	s3, #52	; 0x41a00000  20.0
- 8002004:	ed9f 1a4b 	vldr	s2, [pc, #300]	; 8002134 <initMouseStatus+0x328>
+ 8002004:	ed9f 1a4a 	vldr	s2, [pc, #296]	; 8002130 <initMouseStatus+0x324>
  8002008:	eef1 0a00 	vmov.f32	s1, #16	; 0x40800000  4.0
  800200c:	eeb6 0a00 	vmov.f32	s0, #96	; 0x3f000000  0.5
  8002010:	4618      	mov	r0, r3
@@ -2967,9 +2967,9 @@ Disassembly of section .text:
  8002124:	00000000 	.word	0x00000000
  8002128:	200004ac 	.word	0x200004ac
  800212c:	3d4ccccd 	.word	0x3d4ccccd
- 8002130:	3ee66666 	.word	0x3ee66666
- 8002134:	3d6147ae 	.word	0x3d6147ae
- 8002138:	2000041c 	.word	0x2000041c
+ 8002130:	3d6147ae 	.word	0x3d6147ae
+ 8002134:	2000041c 	.word	0x2000041c
+ 8002138:	3ee66666 	.word	0x3ee66666
  800213c:	20000464 	.word	0x20000464
  8002140:	20000314 	.word	0x20000314
  8002144:	200002c8 	.word	0x200002c8
@@ -10410,10 +10410,10 @@ Disassembly of section .text:
  8006700:	f04f 0200 	mov.w	r2, #0
  8006704:	601a      	str	r2, [r3, #0]
  8006706:	4b23      	ldr	r3, [pc, #140]	; (8006794 <main+0x34c>)
- 8006708:	2204      	movs	r2, #4
+ 8006708:	2202      	movs	r2, #2
  800670a:	701a      	strb	r2, [r3, #0]
  800670c:	4b21      	ldr	r3, [pc, #132]	; (8006794 <main+0x34c>)
- 800670e:	2204      	movs	r2, #4
+ 800670e:	2202      	movs	r2, #2
  8006710:	705a      	strb	r2, [r3, #1]
  8006712:	2001      	movs	r0, #1
  8006714:	f7fa fe4e 	bl	80013b4 <searchMazeBySlalom>
@@ -10427,10 +10427,10 @@ Disassembly of section .text:
  8006728:	2001      	movs	r0, #1
  800672a:	f7fa fe43 	bl	80013b4 <searchMazeBySlalom>
  800672e:	4b19      	ldr	r3, [pc, #100]	; (8006794 <main+0x34c>)
- 8006730:	2204      	movs	r2, #4
+ 8006730:	2202      	movs	r2, #2
  8006732:	701a      	strb	r2, [r3, #0]
  8006734:	4b17      	ldr	r3, [pc, #92]	; (8006794 <main+0x34c>)
- 8006736:	2204      	movs	r2, #4
+ 8006736:	2202      	movs	r2, #2
  8006738:	705a      	strb	r2, [r3, #1]
  800673a:	4a12      	ldr	r2, [pc, #72]	; (8006784 <main+0x33c>)
  800673c:	7853      	ldrb	r3, [r2, #1]
@@ -10472,10 +10472,10 @@ Disassembly of section .text:
  80067ae:	f04f 0200 	mov.w	r2, #0
  80067b2:	601a      	str	r2, [r3, #0]
  80067b4:	4b1a      	ldr	r3, [pc, #104]	; (8006820 <main+0x3d8>)
- 80067b6:	2204      	movs	r2, #4
+ 80067b6:	2202      	movs	r2, #2
  80067b8:	701a      	strb	r2, [r3, #0]
  80067ba:	4b19      	ldr	r3, [pc, #100]	; (8006820 <main+0x3d8>)
- 80067bc:	2204      	movs	r2, #4
+ 80067bc:	2202      	movs	r2, #2
  80067be:	705a      	strb	r2, [r3, #1]
  80067c0:	2001      	movs	r0, #1
  80067c2:	f7fa fdf7 	bl	80013b4 <searchMazeBySlalom>
