@@ -59,22 +59,22 @@ void ReadPass(void)
 				case BIG_R90:
 					buff = 0x08;
 					displayBinaryValueWithLEDs(buff);
-//					BigSlalomR90();
+					moveBigSlalomR90();
 					break;
 				case BIG_L90:
 					buff = 0x02;
 					displayBinaryValueWithLEDs(buff);
-//					BigSlalomL90();
+					moveBigSlalomL90();
 					break;
 				case BIG_R180:
 					buff = 0x18;
 					displayBinaryValueWithLEDs(buff);
-//					BigSlalomR180();
+					moveBigSlalomR180();
 					break;
 				case BIG_L180:
 					buff = 0x03;
 					displayBinaryValueWithLEDs(buff);
-//					BigSlalomL180();
+					moveBigSlalomL180();
 					break;
 				default:
 					errorFunctions(0xff);

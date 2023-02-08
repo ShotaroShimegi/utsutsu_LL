@@ -21,8 +21,7 @@
 * @param2 出口並進速度 [m/s], 止まりたいなら0.0f
 * @param3 壁制御の有無
 */
-void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
-{
+void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag) {
 	float input_mileage = mouse.mileage;
 	//速度制御、角度制御、壁制御
 	setControlFlags(1, 1, 0, wall_ctrl_flag & 0x01);
@@ -37,22 +36,16 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag)
 
 	//加速して減速
 	setAccelFlags(1, 0, 0, 0);
-	while(mouse.mileage < input_mileage + dist - offset);
-	if(out_velocity != max.velocity){
-		setAccelFlags(0, 1, 0, 0);
-		while(mouse.mileage < input_mileage +dist) {
-			//出口速度に速度が到達したら強制終了
-			if(target.velocity <= out_velocity){
-				target.velocity = out_velocity;
-				break;
-			}
-		}
-	}else {
-		while(mouse.mileage < input_mileage + dist){
-			if(target.velocity <= out_velocity){
-				target.velocity = out_velocity;
-				break;
-			}
+	while(mouse.mileage < input_mileage + dist - offset){
+		if(sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR) break;
+	}
+	if(out_velocity != max.velocity)		setAccelFlags(0, 1, 0, 0);
+	while(mouse.mileage < input_mileage +dist) {
+		//出口速度に速度が到達したら強制終了
+		if(target.velocity <= out_velocity
+			|| (sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR)) {
+			target.velocity = out_velocity;
+			break;
 		}
 	}
 	setAccelFlags(0, 0, 0, 0);

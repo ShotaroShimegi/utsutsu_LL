@@ -275,12 +275,12 @@ void initMouseStatus(void)
 							-max.velocity,-max.accel, -max.jerk,0);
 
 	// パラメータ宣言
-	param1.upper = setStatus(0.0f, 0.055f, 0.0f, 0.45f, 4.0f, 0.05,0);
+	param1.upper = setStatus(0.0f, 0.055f, 0.0f, 1.0f, 4.0f, 0.05,0);
 	param1.downer = 	min = setStatus(0.0f, 0.055f, 0.0f,
-			-max.velocity,-max.accel, -max.jerk,0);
+			0.45f,-max.accel, -max.jerk,0);
 	param1.small_turn = setTurnParams(0.50f, 4.0f, 0.055f,10.0f,20.0f);
-	param1.big_turn90 = setTurnParams(0.50f, 4.0f, 0.055f,90.0f,90.0f);
-	param1.big_turn180 = setTurnParams(0.50f, 4.0f, 0.055f,90.0f,90.0f);
+	param1.big_turn90 = setTurnParams(0.50f, 4.0f, 0.120f,120.0f,123.0f);
+	param1.big_turn180 = setTurnParams(0.50f, 4.0f, 0.088f,150.0f,150.0f);
 	param = &param1;
 	// MF
 	MF.FLAGS = 0x00000000;
