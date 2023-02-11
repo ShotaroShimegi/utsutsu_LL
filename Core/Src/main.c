@@ -242,21 +242,40 @@ int main(void)
 	  		  break;
 
 	  	  case 4 :
-	  		  //記憶された迷路を読み出す、疑似最短用
+	  		  //記憶された迷路を読み出す、疑似最短用 and 最短経路Pass算出
 	  		  MelodyYamato();
 	  		  MF.FLAG.SCND = ON;
 	  		  MF.FLAG.FIRST = OFF;
 	  		  loadWallMap();
+	  		  MakePass();
 	  		  break;
-
 
 	  	  case 5 :		//	新制御方式の走行テスト
 	  		 MelodySummer();
 	  		 testMotions();
 	  		 break;
-	  	  case 6 :								break;
+	  	  case 6 :		// 経路表示
+	  		  MF.FLAG.SAFETY= OFF;
+	  		  waitStarting();
+	  		  basicTimerPause();
+	  		  ShowPass();
+	  		  break;
 	  	  case 7 :								break;
-	  	  case 8 :								break;
+	  	  case 8 :		// 最初のパラメータのpaasread();
+	  		  param = &param1;
+	  		  MelodyNatsumatsuri();
+//	==== 走行準備 ====
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  enableMotors();
+	  		  mouse.angle = 0.0f;
+// ==== 走行 ====
+	  		  ReadPass();
+// ==== 走行終了 ====
+	  		  MF.FLAG.CALLBACK = OFF;
+	  		  shutdownMotors();
+	  		  break;
 	  	  case 9 :								break;
 	  	  case 10 :								break;
 	  	  case 11 :	testKeepDistance();	break;

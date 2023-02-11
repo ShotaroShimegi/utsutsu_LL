@@ -19,7 +19,7 @@
 #define HALF_MM 90.0f
 #define ONE_MM 2.0f*HALF_MM
 
-void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag);
+void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag,uint8_t wall_check);
 
 void driveTrapezoidal(float distance,float vel_max,float vel_min, float accel);
 void driveSlalomFree(float theta, float omega_max, float omega_accel);
@@ -35,9 +35,21 @@ void spinRight180(void);
 uint8_t moveSlalomR90(void);
 uint8_t moveSlalomL90(void);
 void backMotion(float dist);
+// 大回りターン
 void moveBigSlalomR90() ;
 void moveBigSlalomL90() ;
 void moveBigSlalomR180() ;
 void moveBigSlalomL180() ;
+// 斜めターン
+void moveSlalomR45in();
+void moveSlalomR45out();
+void moveSlalomL45in();
+void moveSlalomL45out();
+void moveSlalomRV90out();
+void moveSlalomLV90in();
+void moveSlalomR135in();
+void moveSlalomR135out();
+void moveSlalomL135in();
+void moveSlalomL135out();
 
 #endif /* INC_SYSTEM_MOTION_H_ */

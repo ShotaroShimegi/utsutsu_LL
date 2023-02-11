@@ -24,11 +24,11 @@
 
 //For Wall Sensor
 #define CHARG_TIME		40
-#define WALL_BORDE_FR	50
+#define WALL_BORDE_FR	80
 #define WALL_BORDE_R	20
 #define WALL_BORDE_FF	20
 #define WALL_BORDE_L		30
-#define WALL_BORDE_FL	50
+#define WALL_BORDE_FL	90
 
 #define WALL_BACK_FR 230
 #define WALL_BACK_FL 230
@@ -42,6 +42,9 @@
 
 enum WALL_ID{
 	FR,R,FF,L,FL
+};
+enum LOGIC{
+	OR, AND
 };
 
 // センサデータ統合
@@ -72,6 +75,7 @@ float addAngle(float val);
 float getCenterVelocity(void);
 float getOmega(void);
 float getAccel(void);
+uint8_t checkFrontWall(uint8_t option) ;
 
 uint8_t getWallInfo(void);
 

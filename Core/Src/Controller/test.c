@@ -106,7 +106,7 @@ void testMotions(void)
 	prepareForTest(ON, ON);
 	switch(mode){
 		case 1:		//		6区画直線
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
 	  		moveHalfSectionAccel(ON, ON);
 	  		moveOneSectionAccel(ON);
 	  		moveOneSectionAccel(ON);
@@ -156,7 +156,7 @@ void testMotions(void)
 	  		  break;
 		case 4:		// 1区画直進ログ取
 			tim_counter = 0;
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,OFF);
 	  		moveHalfSectionAccel(ON, ON);
 	  		moveHalfSectionDecel(OFF);
 
@@ -165,7 +165,7 @@ void testMotions(void)
 			MF.FLAG.NEW = 1;
 		case 5:		//	右90スラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
 	  		moveHalfSectionAccel(ON, ON);
 			displayBinaryValueWithLEDs(0xff);
 			moveSlalomR90();
@@ -176,7 +176,7 @@ void testMotions(void)
 			break;
 		case 6: 		//	左90スラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
 	  		moveHalfSectionAccel(ON, ON);
 			displayBinaryValueWithLEDs(0xff);
 			moveSlalomL90();
@@ -186,7 +186,7 @@ void testMotions(void)
 	  		waitMs(2000);
 		case 7:		//	右90大回りスラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
 	  		moveHalfSectionAccel(ON, ON);
 			displayBinaryValueWithLEDs(0xff);
 			moveBigSlalomR90();
@@ -197,7 +197,7 @@ void testMotions(void)
 			break;
 		case 8:		//	左90大回りスラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
 	  		moveHalfSectionAccel(ON, ON);
 			displayBinaryValueWithLEDs(0xff);
 			moveBigSlalomL90();
@@ -208,7 +208,7 @@ void testMotions(void)
 			break;
 		case 9:		//	右180大回りスラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
 	  		moveHalfSectionAccel(ON, ON);
 			displayBinaryValueWithLEDs(0xff);
 			moveBigSlalomR180();
@@ -219,7 +219,7 @@ void testMotions(void)
 			break;
 		case 10:	//	左180大回りスラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
-	  		driveAccelMotion(SET_MM,max.velocity,OFF);
+	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
 	  		moveHalfSectionAccel(ON, ON);
 			displayBinaryValueWithLEDs(0xff);
 			moveBigSlalomL180();

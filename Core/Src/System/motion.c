@@ -20,8 +20,9 @@
 * @param1 直進距離 [mm]
 * @param2 出口並進速度 [m/s], 止まりたいなら0.0f
 * @param3 壁制御の有無
+* @param4 前壁ある場合の処理ON/OFF
 */
-void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag) {
+void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag, uint8_t wall_check) {
 	float input_mileage = mouse.mileage;
 	//速度制御、角度制御、壁制御
 	setControlFlags(1, 1, 0, wall_ctrl_flag & 0x01);
@@ -37,13 +38,13 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag) {
 	//加速して減速
 	setAccelFlags(1, 0, 0, 0);
 	while(mouse.mileage < input_mileage + dist - offset){
-		if(sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR) break;
+		if(wall_check && checkFrontWall(AND) ) break;
 	}
 	if(out_velocity != max.velocity)		setAccelFlags(0, 1, 0, 0);
 	while(mouse.mileage < input_mileage +dist) {
 		//出口速度に速度が到達したら強制終了
 		if(target.velocity <= out_velocity
-			|| (sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR)) {
+			|| (checkFrontWall(OR) && wall_check) ) {
 			target.velocity = out_velocity;
 			break;
 		}
@@ -243,13 +244,13 @@ void slalomMotion(float angle_deg, float omega, float omega_accel) {
 }
 
 uint8_t moveHalfSectionAccel(uint8_t wall_ctrl_flag,uint8_t wall_read_flag) {
-	driveAccelMotion(90.0f, max.velocity, wall_ctrl_flag);
+	driveAccelMotion(90.0f, max.velocity, wall_ctrl_flag,ON);
 	if(wall_read_flag & 0x01)		return getWallInfo();
 	else									return 0;
 }
 
 void moveHalfSectionDecel(uint8_t wall_ctrl_flag) {
-	driveAccelMotion(90.0f, 0.0f, wall_ctrl_flag);
+	driveAccelMotion(90.0f, 0.0f, wall_ctrl_flag,OFF);
 }
 
 uint8_t  moveOneSectionAccel(uint8_t wall_ctrl)
@@ -283,11 +284,11 @@ uint8_t moveSlalomR90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
 //	driveAccelMotion(10.0f, max.velocity, OFF);
-	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF);
+	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF,OFF);
 	slalomMotion(ROT_ANGLE_R90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
 //	driveAccelMotion(20.0f, max.velocity, ON);
-	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF);
+	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF, ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -296,11 +297,11 @@ uint8_t moveSlalomL90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
 //	driveAccelMotion(10.0f, max.velocity, OFF);
-	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF);
+	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF,OFF);
 	slalomMotion(ROT_ANGLE_L90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
 //	driveAccelMotion(20.0f, max.velocity, ON);
-	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF);
+	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF,ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -310,11 +311,10 @@ void backMotion(float dist)
 	float input_mileage = mouse.mileage;
 	float max_tmp = max.velocity;
 	//速度制御、角度制御、壁制御OFF
-	setControlFlags(1, 0, 0, 0);
+	setControlFlags(1, 0, 0, ON);
 
 	//減速区間の計算
-	max.velocity = 0.20f;
-	float offset = max.velocity*max.velocity *0.50f / max.accel * 1000;
+	float offset = 0.20f*0.20f *0.50f / max.accel * 1000;
 
 	//加速して減速
 	setAccelFlags(0, 1, 0, 0);
@@ -338,38 +338,50 @@ void backMotion(float dist)
 
 void moveBigSlalomR90() {
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn90.before_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn90.before_offset, max.velocity, ON,ON);
 	MF.FLAG.SAFETY = OFF;
 	driveSlalomFree(-90.0f, param->big_turn90.omega, param->big_turn90.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn90.after_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn90.after_offset, max.velocity, ON,ON);
 }
 
 void moveBigSlalomL90() {
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn90.before_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn90.before_offset, max.velocity, ON,ON);
 	MF.FLAG.SAFETY = OFF;
 	driveSlalomFree(90.0f, param->big_turn90.omega, param->big_turn90.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn90.after_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn90.after_offset, max.velocity, ON,ON);
 }
 
 void moveBigSlalomR180() {
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON,ON);
 	MF.FLAG.SAFETY = OFF;
 	driveSlalomFree(-180.0f, param->big_turn180.omega, param->big_turn90.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn180.after_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn180.after_offset, max.velocity, ON,ON);
 }
 
 void moveBigSlalomL180() {
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn180.before_offset, max.velocity, ON,ON);
 	MF.FLAG.SAFETY = OFF;
 	driveSlalomFree(180.0f, param->big_turn180.omega, param->big_turn90.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->big_turn180.after_offset, max.velocity, ON);
+	driveAccelMotion(param->big_turn180.after_offset, max.velocity, ON,ON);
 }
 
 // ==== 以上、大回りターンシリーズ ====
+
+// ==== 以下、斜めターンシリーズ ====
+void moveSlalomR45in();
+void moveSlalomR45out();
+void moveSlalomL45in();
+void moveSlalomL45out();
+void moveSlalomRV90out();
+void moveSlalomLV90in();
+void moveSlalomR135in();
+void moveSlalomR135out();
+void moveSlalomL135in();
+void moveSlalomL135out();

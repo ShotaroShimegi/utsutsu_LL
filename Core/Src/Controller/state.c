@@ -267,7 +267,7 @@ PID_Typedef setParameters(float gainP, float gainI, float gainD, float limitI, f
 */
 void initMouseStatus(void)
 {
-	//State関連
+	//実際の走行中に用いるState変数
 	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
 	target = setStatus(0.0f, 0.055f, 0.0f, 0.00f, 4.0f, 0.05f,0);
 	max = setStatus(0.0f, 0.055f, 0.0f, 0.45f, 4.0f, 0.05f,0);

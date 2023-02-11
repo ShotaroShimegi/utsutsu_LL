@@ -55,7 +55,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 		changeDirection(DIR_SPIN_180);
 	}
 
-	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,ON);
+	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,ON,ON);
 	wall_info = moveHalfSectionAccel(ON, ON);
 	advancePosition();
 	map_count.route++;
@@ -86,7 +86,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 				rotateSafteyR180();
 				if(set_flag == 1){
 					backMotion(FIX_MM);
-					driveAccelMotion(FIX_MM,max.velocity,ON);
+					driveAccelMotion(FIX_MM,max.velocity,ON,ON);
 				}
 				rotate_on_map = DIR_SPIN_180;
 				changeDirection(rotate_on_map);

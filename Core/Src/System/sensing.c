@@ -214,10 +214,26 @@ void updateSensors(void)
 // getOffsets
 //	@brief IMU用のオフセットを取得する、主に走行前など自律移動開始時に呼び出す
 //+++++++++++++++++++++++++++++++++++++++++++++++
-void getOffsets(void)
-{
+void getOffsets(void) {
 	sensor.gyro_accel_offset = getAccelOffset(SAMPLE_NUMBER_OFFSET);
 	sensor.gyro_omega_offset = getOmegaOffset(SAMPLE_NUMBER_OFFSET);
 	getWallSensorOffset();
 }
 
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// checkFrontWall
+//	@brief 前壁があるどうか確認する
+// @patern 1なら壁アリ、0なら壁ナシ
+//+++++++++++++++++++++++++++++++++++++++++++++++
+uint8_t checkFrontWall(uint8_t option) {
+	if(option == AND){
+		if(sensor.wall_val[FL] > WALL_BORDE_FL
+				&& sensor.wall_val[FR] > WALL_BORDE_FR)	return ON;
+		else 																	return OFF;
+	}else if(option == OR){
+		if(sensor.wall_val[FL] > WALL_BORDE_FL
+				|| sensor.wall_val[FR] > WALL_BORDE_FR)	return ON;
+		else 																	return OFF;
+	}
+	return 0;
+}

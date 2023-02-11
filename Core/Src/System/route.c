@@ -33,7 +33,7 @@ void ReadPass(void)
 	MF.FLAG.CALLBACK = 1;
 	mouse.run_state = 1;
 
-	driveAccelMotion(SET_MM,max.velocity,ON);
+	driveAccelMotion(SET_MM,max.velocity,ON,ON);
 
 	while(i != pass_end_count){
 		if(pass[i] > 0)	{
@@ -91,13 +91,12 @@ void ReadPass(void)
 	MelodyGoal();
 }
 
-/*
-void MakePass(void)
-{
+
+void MakePass(void) {
 	uint16_t j = 0;
 	uint16_t pass_count = 0;
 	uint16_t route_count = 1;
-//	uint16_t show_counter;
+	uint16_t show_counter;
 	uint16_t big_turn_flag = 0;
 	uint16_t normal_turn_flag = 0;
 	uint16_t return_flag = 0;
@@ -267,4 +266,3 @@ void ShowPass(void){
 	}
 	printf("End Print\n");
 }
-*/
