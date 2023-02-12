@@ -24,8 +24,7 @@
 int8_t pass[1024];
 uint16_t pass_end_count;
 
-void ReadPass(void)
-{
+void ReadPass(void) {
 	uint16_t i = 0;
 	uint8_t buff;
 
@@ -42,8 +41,6 @@ void ReadPass(void)
 			MF.FLAG.CTRL = 1;
 			driveTrapezoidal(HALF_MM *(float)pass[i],param1.upper.velocity,
 					param1.downer.velocity,param1.upper.accel);
-
-
 		}else{
 			switch(pass[i]){
 				case R90:

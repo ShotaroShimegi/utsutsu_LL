@@ -247,6 +247,10 @@ int main(void)
 	  		  MF.FLAG.SCND = ON;
 	  		  MF.FLAG.FIRST = OFF;
 	  		  loadWallMap();
+	  		  goal.x = GOAL_X, goal.y = GOAL_Y;
+	  		  point.x = 0, point.y = 0;
+	  		  makeStepMap(GOAL_LENGTH);
+	  		  MakeRoute_NESW();
 	  		  MakePass();
 	  		  break;
 

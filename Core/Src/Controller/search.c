@@ -40,8 +40,7 @@ void prepareStateForSearching(void)
 	}
 }
 
-void searchMazeBySlalom(uint8_t goal_length)
-{
+void searchMazeBySlalom(uint8_t goal_length) {
 	uint8_t rotate_on_map = 0x00;
 	uint8_t wall_info;
 	uint8_t set_flag = 0x00;
@@ -50,7 +49,7 @@ void searchMazeBySlalom(uint8_t goal_length)
 	prepareStateForSearching();
 	MF.FLAG.CALLBACK = 1;
 	mouse.run_state = 1;
-	if(sensor.wall_val[FR] > WALL_BACK_FL || sensor.wall_val[FR] > WALL_BACK_FR){
+	if(sensor.wall_val[FR] > WALL_BACK_FR || sensor.wall_val[FL] > WALL_BACK_FL){
 		rotateSafteyR180();
 		changeDirection(DIR_SPIN_180);
 	}

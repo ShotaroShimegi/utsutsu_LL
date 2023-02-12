@@ -275,12 +275,12 @@ void initMouseStatus(void)
 							-max.velocity,-max.accel, -max.jerk,0);
 
 	// パラメータ宣言
-	param1.upper = setStatus(0.0f, 0.055f, 0.0f, 1.0f, 4.0f, 0.05,0);
-	param1.downer = 	min = setStatus(0.0f, 0.055f, 0.0f,
+	param1.upper = setStatus(0.0f, 0.045f, 0.0f, 1.0f, 4.0f, 0.05,0);
+	param1.downer = setStatus(0.0f, 0.045f, 0.0f,
 			0.45f,-max.accel, -max.jerk,0);
-	param1.small_turn = setTurnParams(0.50f, 4.0f, 0.055f,10.0f,20.0f);
-	param1.big_turn90 = setTurnParams(0.50f, 4.0f, 0.120f,120.0f,123.0f);
-	param1.big_turn180 = setTurnParams(0.50f, 4.0f, 0.088f,150.0f,150.0f);
+	param1.small_turn = setTurnParams(0.45f, 4.0f, 0.045f,10.0f,20.0f);
+	param1.big_turn90 = setTurnParams(0.45f, 4.0f, 0.120f,38.0f,38.0f);
+	param1.big_turn180 = setTurnParams(0.45f, 4.0f, 0.088f,85.0f,85.0f);
 	param = &param1;
 	// MF
 	MF.FLAGS = 0x00000000;
@@ -294,8 +294,7 @@ void initMouseStatus(void)
 	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
 
-void updateStatus(void)
-{
+void updateStatus(void) {
 	//出力用の変数
 	float tmp = 0.0f;
 	fix_omega = 0.0f;
@@ -313,7 +312,7 @@ void updateStatus(void)
 	if(MF.FLAG.NEW == 0){
 		// 壁制御と姿勢制御の合体
 		calculateSensorError();
-		if(MF.FLAG.CTRL && (target.velocity > 0.0f)) {
+		if(MF.FLAG.CTRL && (target.velocity > -0.30f)) {
 			fix_omega =  fixTargetOmegaFromWallSensor(PID_wall_side.error);
 		} else {
 			fix_omega = 0.0f;

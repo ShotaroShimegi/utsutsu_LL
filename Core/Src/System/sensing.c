@@ -227,12 +227,12 @@ void getOffsets(void) {
 //+++++++++++++++++++++++++++++++++++++++++++++++
 uint8_t checkFrontWall(uint8_t option) {
 	if(option == AND){
-		if(sensor.wall_val[FL] > WALL_BORDE_FL
-				&& sensor.wall_val[FR] > WALL_BORDE_FR)	return ON;
+		if(sensor.wall_val[FL] > WALL_BORDE_FL +30
+				&& sensor.wall_val[FR] > WALL_BORDE_FR+40)	return ON;
 		else 																	return OFF;
 	}else if(option == OR){
-		if(sensor.wall_val[FL] > WALL_BORDE_FL
-				|| sensor.wall_val[FR] > WALL_BORDE_FR)	return ON;
+		if(sensor.wall_val[FL] > WALL_BORDE_FL+30
+				|| sensor.wall_val[FR] > WALL_BORDE_FR+40)	return ON;
 		else 																	return OFF;
 	}
 	return 0;
