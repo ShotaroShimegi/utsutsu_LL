@@ -256,6 +256,7 @@ int main(void)
 
 	  	  case 5 :		//	新制御方式の走行テスト
 	  		 MelodySummer();
+	  		param = &param2;
 	  		 testMotions();
 	  		 break;
 	  	  case 6 :		// 経路表示
@@ -265,22 +266,36 @@ int main(void)
 	  		  ShowPass();
 	  		  break;
 	  	  case 7 :								break;
-	  	  case 8 :		// 最初のパラメータのpaasread();
+	  	  case 8 :		// 最初のパラメータ
 	  		  param = &param1;
 	  		  MelodyNatsumatsuri();
-//	==== 走行準備 ====
+	  		  //	==== 走行準備 ====
 	  		  waitStarting();
 	  		  getOffsets();
 	  		  enableEncoder();
 	  		  enableMotors();
 	  		  mouse.angle = 0.0f;
-// ==== 走行 ====
+	  		  // ==== 走行 ====
 	  		  ReadPass();
-// ==== 走行終了 ====
+	  		  // ==== 走行終了 ====
 	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
-	  	  case 9 :								break;
+	  	  case 9 :		// 攻めたパラメータ
+	  		  param = &param2;
+	  		  MelodyNatsumatsuri();
+	  		  //	==== 走行準備 ====
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  enableMotors();
+	  		  mouse.angle = 0.0f;
+	  		  // ==== 走行 ====
+	  		  ReadPass();
+	  		  // ==== 走行終了 ====
+	  		  MF.FLAG.CALLBACK = OFF;
+	  		  shutdownMotors();
+	  		  break;
 	  	  case 10 :								break;
 	  	  case 11 :	testKeepDistance();	break;
 	  	  case 12:	testIMU();				break;

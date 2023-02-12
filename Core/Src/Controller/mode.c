@@ -31,14 +31,14 @@ void printMode(uint8_t  temp){
 	case 1: printf("Search Run Lap"); 				break;
 	case 2: printf("Enter Wall Data"); 					break;
 	case 3: printf("Search Run One Way"); 		break;
-	case 4: printf("Test for Keeping Distance"); 	break;
+	case 4: printf("Make Pass"); 						break;
 	case 5: printf("Test Motions");						break;
-	case 6: printf("No Mode Available"); 				break;
+	case 6: printf("Show Pass"); 						break;
 	case 7: printf("No Mode Available"); 				break;
-	case 8: printf("No Mode Available"); 				break;
+	case 8: printf("Param 1 Shortest Run"); 		break;
 	case 9: printf("No Mode Available"); 				break;
 	case 10: printf("No Mode Available"); 			break;
-	case 11: printf("No Mode Available");			break;
+	case 11: printf("Keep Posture Test");				break;
 	case 12: printf("IMU Test"); 						break;
 	case 13: printf("Encoder Test"); 					break;
 	case 14: printf("Wall Sensor Test");				break;

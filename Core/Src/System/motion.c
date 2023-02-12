@@ -280,10 +280,10 @@ void spinRight180(void) {
 uint8_t moveSlalomR90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF,OFF);
+	driveAccelMotion(param->small_turn.before_offset, max.velocity, ON,OFF);
 	slalomMotion(ROT_ANGLE_R90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF, ON);
+	driveAccelMotion(param->small_turn.after_offset, max.velocity, ON, OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -291,10 +291,10 @@ uint8_t moveSlalomR90(void) {
 uint8_t moveSlalomL90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(param->small_turn.before_offset, max.velocity, OFF,OFF);
+	driveAccelMotion(param->small_turn.before_offset, max.velocity, ON,OFF);
 	slalomMotion(ROT_ANGLE_L90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->small_turn.after_offset, max.velocity, OFF,ON);
+	driveAccelMotion(param->small_turn.after_offset, max.velocity, ON,OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }

@@ -76,6 +76,7 @@ extern State_Typedef min;
 
 extern Params_Typedef* param;
 extern Params_Typedef param1;
+extern Params_Typedef param2;
 
 extern PID_Typedef PID_left_velocity;
 extern PID_Typedef PID_right_velocity;

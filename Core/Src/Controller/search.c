@@ -49,7 +49,7 @@ void searchMazeBySlalom(uint8_t goal_length) {
 	prepareStateForSearching();
 	MF.FLAG.CALLBACK = 1;
 	mouse.run_state = 1;
-	if(sensor.wall_val[FR] > WALL_BACK_FR || sensor.wall_val[FL] > WALL_BACK_FL){
+	if(checkFrontWall(OR)){
 		rotateSafteyR180();
 		changeDirection(DIR_SPIN_180);
 	}
@@ -78,14 +78,14 @@ void searchMazeBySlalom(uint8_t goal_length) {
 			case TURN_BACK:
 				moveHalfSectionDecel(ON);
 // ******** 壁までの距離を制御 ********
-				if(sensor.wall_val[FR] > WALL_BACK_FL && sensor.wall_val[FR] > WALL_BACK_FR){
+				if(checkFrontWall(AND)){
 					set_flag = 1;
 					keepDistanceFromWall();
 				}
 				rotateSafteyR180();
 				if(set_flag == 1){
 					backMotion(FIX_MM);
-					driveAccelMotion(FIX_MM,max.velocity,ON,ON);
+					driveAccelMotion(FIX_MM,max.velocity,ON,OFF);
 				}
 				rotate_on_map = DIR_SPIN_180;
 				changeDirection(rotate_on_map);
