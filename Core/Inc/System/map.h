@@ -5,12 +5,13 @@
  *      Author: sssho
  */
 #include<stdint.h>
+#include"Controller/search.h"
 
 #ifndef INC_SYSTEM_MAP_H_
 #define INC_SYSTEM_MAP_H_
 
-#define GOAL_X 1
-#define GOAL_Y 0
+#define GOAL_X 4
+#define GOAL_Y 3
 #define GOAL_LENGTH 2
 #define RETURN_GOAL_LENGTH 1
 #define MAZE_SIZE 16
@@ -62,8 +63,9 @@ void PrintWallData();
 
 MAP_Mouse_Typedef setMapStruct(uint8_t x, uint8_t y, uint8_t dir);
 
-void MakeRoute_NESW();
-void ConfRoute_NESW(uint8_t goal_size, uint8_t wall_data);
+void makeRouteNESW();
+void makeRouteESNW();
+void confRoute(uint8_t goal_size, uint8_t wall_data);
 
 void advancePosition();
 void changeDirection(uint8_t rotate_hex);

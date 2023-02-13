@@ -155,7 +155,7 @@ void testMotions(void)
 
 	  		 MF.FLAG.CALLBACK = OFF;
 	  		shutdownMotors();
-			// MF.FLAG.NEW = 1;
+			break;
 		case 5:		//	右90スラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
 	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);
@@ -177,6 +177,7 @@ void testMotions(void)
 			moveHalfSectionDecel(OFF);
 	  		shutdownMotors();
 	  		waitMs(2000);
+	  		break;
 		case 7:		//	右90大回りスラローム　ログ取
 			tim_counter = 0,mouse.run_state = ON;
 	  		driveAccelMotion(SET_MM,max.velocity,OFF,ON);

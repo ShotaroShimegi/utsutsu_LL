@@ -52,7 +52,6 @@ void driveAccelMotion(float dist, float out_velocity,uint8_t wall_ctrl_flag, uin
 	setAccelFlags(0, 0, 0, 0);
 	setControlFlags(1, 0, 0, 0);
 	target.velocity = out_velocity;
-	if(out_velocity == 0.0f)	waitMs(200);
 }
 
 /**
@@ -244,7 +243,7 @@ void slalomMotion(float angle_deg, float omega, float omega_accel) {
 }
 
 uint8_t moveHalfSectionAccel(uint8_t wall_ctrl_flag,uint8_t wall_read_flag) {
-	driveAccelMotion(90.0f, max.velocity, wall_ctrl_flag,ON);
+	driveAccelMotion(90.0f, param->downer.velocity, wall_ctrl_flag,ON);
 	if(wall_read_flag & 0x01)		return getWallInfo();
 	else									return 0;
 }
@@ -280,10 +279,10 @@ void spinRight180(void) {
 uint8_t moveSlalomR90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(param->small_turn.before_offset, max.velocity, ON,OFF);
+	driveAccelMotion(param->small_turn.before_offset, param->downer.velocity, ON,OFF);
 	slalomMotion(ROT_ANGLE_R90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->small_turn.after_offset, max.velocity, ON, OFF);
+	driveAccelMotion(param->small_turn.after_offset, param->downer.velocity, ON, OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -291,10 +290,10 @@ uint8_t moveSlalomR90(void) {
 uint8_t moveSlalomL90(void) {
 	uint8_t wall_info = 0x00;
 	MF.FLAG.SAFETY = OFF;
-	driveAccelMotion(param->small_turn.before_offset, max.velocity, ON,OFF);
+	driveAccelMotion(param->small_turn.before_offset, param->downer.velocity, ON,OFF);
 	slalomMotion(ROT_ANGLE_L90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->small_turn.after_offset, max.velocity, ON,OFF);
+	driveAccelMotion(param->small_turn.after_offset, param->downer.velocity, ON,OFF);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -366,7 +365,7 @@ void moveBigSlalomL180() {
 }
 
 // ==== 以上、大回りターンシリーズ ====
-
+/*
 // ==== 以下、斜めターンシリーズ ====
 void moveSlalomR45in();
 void moveSlalomR45out();
@@ -378,3 +377,4 @@ void moveSlalomR135in();
 void moveSlalomR135out();
 void moveSlalomL135in();
 void moveSlalomL135out();
+*/

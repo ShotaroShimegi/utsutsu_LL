@@ -15,6 +15,8 @@
 
 #define WALL_TURN_VALUE 120
 
+extern uint8_t search_method;
+
 void rotateSafteyR180(void);
 void searchMazeBySlalom(uint8_t);
 uint8_t CheckGoal(uint8_t,uint8_t,uint8_t);

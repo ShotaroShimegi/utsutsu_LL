@@ -32,15 +32,14 @@ void ReadPass(void) {
 	MF.FLAG.CALLBACK = 1;
 	mouse.run_state = 1;
 
-	driveAccelMotion(SET_MM,max.velocity,ON,ON);
+	driveAccelMotion(SET_MM,param->upper.velocity,ON,ON);
 
 	while(i != pass_end_count){
 		if(pass[i] > 0)	{
 			buff = 0x00;
 			displayBinaryValueWithLEDs(buff);
-			MF.FLAG.CTRL = 1;
-			driveTrapezoidal(HALF_MM *(float)pass[i],param1.upper.velocity,
-					param1.downer.velocity,param1.upper.accel);
+			driveTrapezoidal(HALF_MM *(float)pass[i],param->upper.velocity,
+					param->downer.velocity,param->upper.accel);
 		}else{
 			switch(pass[i]){
 				case R90:
@@ -123,18 +122,18 @@ void MakePass(void) {
 
 	while(1){
 
-		printf("route_count : %d\n",route_count);
-		printf("half_straight_count : %d\n",half_straight_count);
+//		printf("route_count : %d\n",route_count);
+//		printf("half_straight_count : %d\n",half_straight_count);
 
 		for(show_counter=0;show_counter<255;show_counter++){
 			if(route[show_counter] == 0xff) break;
-			printf("route[%d] = %#x\n",show_counter,route[show_counter]);
+//			printf("route[%d] = %#x\n",show_counter,route[show_counter]);
 		}
 		for(show_counter=0;show_counter<1024;show_counter++){
 				if(pass[show_counter] == 100) break;
-				printf("pass[%d] = %d\n",show_counter,pass[show_counter]);
+//				printf("pass[%d] = %d\n",show_counter,pass[show_counter]);
 		}
-		printf("\n");
+//		printf("\n");
 
 		switch(route[route_count]){
 			case STRAIGHT:
@@ -146,7 +145,6 @@ void MakePass(void) {
 						pass[pass_count] = 1;
 						pass_count++;
 					}
-
 					pass[pass_count] = BIG_R90;
 					pass_count++;
 					route_count += 2;

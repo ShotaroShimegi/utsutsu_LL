@@ -160,6 +160,7 @@ int main(void)
   MF.FLAG.FIRST = 1;
   MF.FLAG.CALLBACK = 1;
   basicTimerStart();
+  search_method = !NORTH;
 
   uint8_t mode;
 
@@ -216,12 +217,8 @@ int main(void)
 	  		  shutdownMotors();
 	  		  break;
 
-	  	  case 2:
-	  		  //記憶された迷路を読み出す、重ね探索用
-	  		  MelodyUrara();
-	  		  MF.FLAG.SCND = OFF;
-	  		  MF.FLAG.FIRST = OFF;
-	  		  loadWallMap();
+	  	  case 2:	// 探索方法を変更
+	  		  search_method = !search_method;
 	  		  break;
 
 	  	  case 3 :
@@ -250,14 +247,16 @@ int main(void)
 	  		  goal.x = GOAL_X, goal.y = GOAL_Y;
 	  		  point.x = 0, point.y = 0;
 	  		  makeStepMap(GOAL_LENGTH);
-	  		  MakeRoute_NESW();
+	  		  makeRouteNESW();
 	  		  MakePass();
 	  		  break;
 
-	  	  case 5 :		//	新制御方式の走行テスト
-	  		 MelodySummer();
-	  		param = &param2;
-	  		 testMotions();
+	  	  case 5 :
+	  		  //記憶された迷路を読み出す、重ね探索用
+	  		  MelodyUrara();
+	  		  MF.FLAG.SCND = OFF;
+	  		  MF.FLAG.FIRST = OFF;
+	  		  loadWallMap();
 	  		 break;
 	  	  case 6 :		// 経路表示
 	  		  MF.FLAG.SAFETY= OFF;
@@ -296,7 +295,11 @@ int main(void)
 	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
-	  	  case 10 :								break;
+	  	  case 10 :			// 走行テスト
+	  		  MelodySummer();
+	  		  param = &param2;
+	  		  testMotions();
+	  		  break;
 	  	  case 11 :	testKeepDistance();	break;
 	  	  case 12:	testIMU();				break;
 	  	  case 13:	testEncoders();  		break;

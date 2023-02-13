@@ -209,8 +209,7 @@ uint16_t makeStepMap(uint8_t goal_length)
 // MakeRoute_NESW()
 //	@brief 歩数マップから経路配列を作成
 //+++++++++++++++++++++++++++++++++++++++++++++++
-void MakeRoute_NESW()
-{
+void makeRouteESNW() {
 	uint8_t i = 0;
 	uint8_t wall_temp;
 	uint8_t dir_temp =  point.dir;
@@ -235,11 +234,84 @@ void MakeRoute_NESW()
 			step_count = step_map[y][x+1];								//最大歩数マップ値を更新
 			x++;																		//東に進んだのでX座標をインクリメント
 		}
+		//----南を見る----
+		else if(!(wall_temp & 0x02) && (step_map[y-1][x] < step_count)){	//南側に壁が無く、現在地より小さい歩数マップ値であれば
+			route[i] = (0x02 - point.dir) & 0x03;					//route配列に進行方向を記録
+			step_count = step_map[y-1][x];						//最大歩数マップ値を更新
+			y--;																//南に進んだのでY座標をデクリメント
+		}
+		//----北を見る----
+		else if(!(wall_temp & 0x08) && (step_map[y+1][x] < step_count)){		//北側に壁が無く、現在地より小さい歩数マップ値であれば
+			route[i] = (0x00 - point.dir) & 0x03;												//route配列に進行方向を記録
+			step_count = step_map[y+1][x];													//最大歩数マップ値を更新
+			y++;																							//北に進んだのでY座標をインクリメント
+		}
+		//----西を見る----
+		else if(!(wall_temp & 0x01) && (step_map[y][x-1] < step_count)){	//西側に壁が無く、現在地より小さい歩数マップ値であれば
+			route[i] = (0x03 - point.dir) & 0x03;					//route配列に進行方向を記録
+			step_count = step_map[y][x-1];						//最大歩数マップ値を更新
+			x--;																//西に進んだのでX座標をデクリメント
+		}
+
+		//----格納データ形式変更----
+		switch(route[i]){										//route配列に格納した要素値で分岐
+		case 0x00:												//前進する場合
+			route[i] = 0x88;									//格納データ形式を変更
+			break;
+		case 0x01:												//右折する場合
+			changeDirection(DIR_SPIN_R90);			//内部情報の方向を90度右回転
+			route[i] = 0x44;									//格納データ形式を変更
+			break;
+		case 0x02:												//Uターンする場合
+			changeDirection(DIR_SPIN_180);			//内部情報の方向を180度回転
+			route[i] = 0x22;									//格納データ形式を変更
+			break;
+		case 0x03:												//左折する場合
+			changeDirection(DIR_SPIN_L90);			//内部情報の方向を90度右回転
+			route[i] = 0x11;									//格納データ形式を変更
+			break;
+		default:													//それ以外の場合
+			route[i] = 0x00;									//格納データ形式を変更
+			break;
+		}
+		i++;
+	}while( step_map[y][x] != 0);					//進んだ先の歩数マップ値が0(=ゴール)になるまで実行
+	point.dir = dir_temp;								//方向を始めの状態に戻す
+}
+//+++++++++++++++++++++++++++++++++++++++++++++++
+// MakeRoute_NESW()
+//	@brief 歩数マップから経路配列を作成
+//+++++++++++++++++++++++++++++++++++++++++++++++
+void makeRouteNESW() {
+	uint8_t i = 0;
+	uint8_t wall_temp;
+	uint8_t dir_temp =  point.dir;
+
+	//====最短経路を初期化====
+	do{
+		route[i++] = 0xff;										//routeを初期化、iをインクリメント
+	}while(i < MAX_NODE - 1);								//iが0でない間実行(iがオーバーフローして0になるまで実行？)
+	//====現在地情報を保存====
+	uint8_t step_count = step_map[point.y][point.x];
+	uint8_t x = point.x;
+	uint8_t y = point.y;
+	i=0;
+
+	//====最短経路を導出====
+	do{
+		wall_temp = wall_map[y][x];			//比較用マップ情報の格納
+		if(MF.FLAG.SCND)	wall_temp >>= 4;
 		//----北を見る----
 		else if(!(wall_temp & 0x08) && (step_map[y+1][x] < step_count)){		//北側に壁が無く、現在地より小さい歩数マップ値であれば
 			route[i] = (0x00 - point.dir) & 0x03;						//route配列に進行方向を記録
 			step_count = step_map[y+1][x];								//最大歩数マップ値を更新
 			y++;																	//北に進んだのでY座標をインクリメント
+		}
+		//----東を見る----
+		else if(!(wall_temp & 0x04) && (step_map[y][x+1] < step_count)){//東側に壁が無く、現在地より小さい歩数マップ値であれば
+			route[i] = (0x01 - point.dir) & 0x03;							//route配列に進行方向を記録
+			step_count = step_map[y][x+1];								//最大歩数マップ値を更新
+			x++;																		//東に進んだのでX座標をインクリメント
 		}
 		//----南を見る----
 		else if(!(wall_temp & 0x02) && (step_map[y-1][x] < step_count)){	//南側に壁が無く、現在地より小さい歩数マップ値であれば
@@ -279,18 +351,20 @@ void MakeRoute_NESW()
 	}while( step_map[y][x] != 0);					//進んだ先の歩数マップ値が0(=ゴール)になるまで実行
 	point.dir = dir_temp;								//方向を始めの状態に戻す
 }
+
 //+++++++++++++++++++++++++++++++++++++++++++++++
 // ConfRoute_NESW()
 //	@brief 進行方向に壁があれば再計算
 //+++++++++++++++++++++++++++++++++++++++++++++++
-void ConfRoute_NESW(uint8_t goal_size, uint8_t wall_data)
+void confRoute(uint8_t goal_size, uint8_t wall_data)
 {
 	updateWallMap(wall_data);
 
 	//----最短経路上に壁があれば進路変更----
 	if(wall_data & route[map_count.route]){
 		makeStepMap(goal_size);
-		MakeRoute_NESW();
+		if(search_method == NORTH)			makeRouteNESW();
+		else 												makeRouteESNW();
 		map_count.route = 0;
 	}
 }
@@ -345,12 +419,14 @@ void prepareMapForSearch(void)
 //	歩数マップの生成
 	map_count.step = makeStepMap(GOAL_LENGTH);
 //	経路配列の生成
-	MakeRoute_NESW();
+	if(search_method)	makeRouteESNW();
+	else						makeRouteNESW();
 }
 
 void saveWallMap(void)
 {
 	FLASH_Erase();
+	waitMs(100);
 	uint8_t i,j;
 	  for(i = 0; i < 16; i++){
 	    for(j = 0; j < 16; j++){
@@ -359,8 +435,7 @@ void saveWallMap(void)
 	  }
 }
 
-void loadWallMap(void)
-{
+void loadWallMap(void) {
 	  uint8_t i,j;
 	  for(i = 0; i < 16; i++){
 	    for(j = 0; j < 16; j++){

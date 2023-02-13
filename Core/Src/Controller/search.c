@@ -20,6 +20,8 @@
 
 #include<stdio.h>
 
+uint8_t search_method;
+
 void rotateSafteyR180(void){
 	MF.FLAG.SAFETY = OFF;
 	spinRight180();
@@ -42,7 +44,7 @@ void prepareStateForSearching(void)
 
 void searchMazeBySlalom(uint8_t goal_length) {
 	uint8_t rotate_on_map = 0x00;
-	uint8_t wall_info;
+	uint8_t wall_info,view_info;;
 	uint8_t set_flag = 0x00;
 
 	prepareMapForSearch();
@@ -54,11 +56,11 @@ void searchMazeBySlalom(uint8_t goal_length) {
 		changeDirection(DIR_SPIN_180);
 	}
 
-	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,ON,ON);
+	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,ON,OFF);
 	wall_info = moveHalfSectionAccel(ON, ON);
 	advancePosition();
 	map_count.route++;
-	ConfRoute_NESW(goal_length,wall_info);
+	confRoute(goal_length,wall_info);
 
 	//====探索走行====
 	do{
@@ -77,7 +79,7 @@ void searchMazeBySlalom(uint8_t goal_length) {
 
 			case TURN_BACK:
 				moveHalfSectionDecel(ON);
-// ******** 壁までの距離を制御 ********
+				// ******** 壁までの距離を制御 ********
 				if(checkFrontWall(AND)){
 					set_flag = 1;
 					keepDistanceFromWall();
@@ -99,9 +101,11 @@ void searchMazeBySlalom(uint8_t goal_length) {
 		}
 		map_count.route++;
 		advancePosition();
-		displayBinaryValueWithLEDs(wall_info);
-		ConfRoute_NESW(goal_length,wall_info);
-
+		confRoute(goal_length,wall_info);
+//		if(wall_info & 0x88)		view_info |= 0x04;
+//		if(wall_info & 0x11)		view_info |= 0x18;
+//		if(wall_info & 0x44)		view_info |= 0x03;
+//		displayBinaryValueWithLEDs(wall_info);
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 
 //	＝＝＝＝ゴール処理＝＝＝＝
@@ -115,8 +119,7 @@ void searchMazeBySlalom(uint8_t goal_length) {
 	MelodyGoal();
 }
 
-uint8_t CheckGoal(uint8_t x, uint8_t y, uint8_t length)
-{
+uint8_t CheckGoal(uint8_t x, uint8_t y, uint8_t length) {
 	uint8_t goal_check_x = GOAL_FAIL;
 	uint8_t goal_check_y = GOAL_FAIL;
 	uint8_t i = 0;
