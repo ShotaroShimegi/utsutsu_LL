@@ -143,8 +143,8 @@ void errorFunctions(uint8_t error_code)
 	waitMs(500);
 	MelodyMrLawrence();
 	while(1){
-		printf("Error Code : %d, target: %f, angle: %f\n",
-				error_code,target.angle,mouse.angle);
+		printf("Error Code : %d, target: %f, angle: %f, vel_target%f\n",
+				error_code,target.angle,mouse.angle,target.velocity);
 		waitMs(1000);
 	}
 }

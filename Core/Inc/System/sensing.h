@@ -25,9 +25,9 @@
 //For Wall Sensor
 #define CHARG_TIME		40
 #define WALL_BORDE_FR	50
-#define WALL_BORDE_R	10
+#define WALL_BORDE_R	20
 #define WALL_BORDE_FF	20
-#define WALL_BORDE_L		15
+#define WALL_BORDE_L		25
 #define WALL_BORDE_FL	50
 
 #define WALL_BACK_FR 230

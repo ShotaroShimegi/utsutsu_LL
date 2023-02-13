@@ -91,7 +91,7 @@ void searchMazeBySlalom(uint8_t goal_length) {
 				}
 				rotate_on_map = DIR_SPIN_180;
 				changeDirection(rotate_on_map);
-				wall_info = moveHalfSectionAccel(ON, ON);
+				wall_info = moveHalfSectionAccel(ON, OFF);
 				break;
 			case TURN_LEFT:
 				wall_info = moveSlalomL90();
@@ -102,10 +102,6 @@ void searchMazeBySlalom(uint8_t goal_length) {
 		map_count.route++;
 		advancePosition();
 		confRoute(goal_length,wall_info);
-//		if(wall_info & 0x88)		view_info |= 0x04;
-//		if(wall_info & 0x11)		view_info |= 0x18;
-//		if(wall_info & 0x44)		view_info |= 0x03;
-//		displayBinaryValueWithLEDs(wall_info);
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 
 //	＝＝＝＝ゴール処理＝＝＝＝

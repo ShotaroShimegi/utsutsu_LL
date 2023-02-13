@@ -279,7 +279,7 @@ void initMouseStatus(void)
 	param1.upper = setStatus(0.0f, 0.045f, 0.0f, 1.0f, 4.0f, 0.05,0);
 	param1.downer = setStatus(0.0f, 0.045f, 0.0f,
 			0.45f,-max.accel, -max.jerk,0);
-	param1.small_turn = setTurnParams(0.45f, 4.0f, 0.045f,10.0f,20.0f);
+	param1.small_turn = setTurnParams(0.45f, 4.0f, 0.045f,15.0f,20.0f);
 	param1.big_turn90 = setTurnParams(0.45f, 4.0f, 0.120f,38.0f,38.0f);
 	param1.big_turn180 = setTurnParams(0.45f, 4.0f, 0.088f,85.0f,85.0f);
 	param = &param1;
@@ -298,7 +298,7 @@ void initMouseStatus(void)
 	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.10f, 0.00f, 0.2f);
 //	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
-	PID_wall_front_distance = setParameters(0.003f, 0.0f, 0.00f, 0.0f,0.2f);
+	PID_wall_front_distance = setParameters(0.003f, 0.0f, 0.001f, 0.0f,0.2f);
 	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.3f);
 	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
