@@ -175,7 +175,7 @@ float fixTargetOmegaFromWallSensor(float error) {
 	dif_a = angle + target.angle - mouse.angle;
 // angleに制御周期内で追従できる角速度を計算
 //	omega = dif_a/ 0.1 * CONVERT_TO_RAD + 0.1f*(dif_a - pre_dif);
-	omega = dif_a*10 * CONVERT_TO_RAD + 0.05f*(dif_a - pre_dif);
+	omega = dif_a * CONVERT_TO_RAD + 0.05f*(dif_a - pre_dif);
 	pre_dif = dif_a;
 
 // 角加速度制限
