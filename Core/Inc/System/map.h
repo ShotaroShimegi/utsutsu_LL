@@ -58,7 +58,7 @@ extern uint8_t route[MAX_NODE];
 void deleteWallMap();
 uint16_t makeStepMap(uint8_t);
 void updateWallMap(uint8_t wall_info);
-
+void ConvertMapIntoWall(void);
 void PrintWallData();
 
 MAP_Mouse_Typedef setMapStruct(uint8_t x, uint8_t y, uint8_t dir);

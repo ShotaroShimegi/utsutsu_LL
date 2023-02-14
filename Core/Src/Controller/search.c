@@ -44,7 +44,7 @@ void prepareStateForSearching(void)
 
 void searchMazeBySlalom(uint8_t goal_length) {
 	uint8_t rotate_on_map = 0x00;
-	uint8_t wall_info,view_info;;
+	uint8_t wall_info;
 	uint8_t set_flag = 0x00;
 
 	prepareMapForSearch();
@@ -55,7 +55,6 @@ void searchMazeBySlalom(uint8_t goal_length) {
 		rotateSafteyR180();
 		changeDirection(DIR_SPIN_180);
 	}
-
 	if(goal.x == GOAL_X && goal.y == GOAL_Y)	driveAccelMotion(SET_MM,max.velocity,ON,OFF);
 	wall_info = moveHalfSectionAccel(ON, ON);
 	advancePosition();
@@ -91,7 +90,7 @@ void searchMazeBySlalom(uint8_t goal_length) {
 				}
 				rotate_on_map = DIR_SPIN_180;
 				changeDirection(rotate_on_map);
-				wall_info = moveHalfSectionAccel(ON, OFF);
+				wall_info = moveHalfSectionAccel(ON, ON);
 				break;
 			case TURN_LEFT:
 				wall_info = moveSlalomL90();
@@ -105,6 +104,8 @@ void searchMazeBySlalom(uint8_t goal_length) {
 	}while(CheckGoal(point.x,point.y,goal_length) != GOAL_OK);
 
 //	＝＝＝＝ゴール処理＝＝＝＝
+	wall_info = getWallInfo();
+	updateWallMap(wall_info);
 	moveHalfSectionDecel(ON);
 	MF.FLAG.CALLBACK = OFF;
 	mouse.run_state = OFF;

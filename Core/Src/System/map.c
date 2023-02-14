@@ -31,14 +31,14 @@ void ConvertMapIntoWall() {
 	uint8_t x,y;
 	//絶対壁を配置
 	wall_horizontal[MAZE_SIZE] = 0xffff;
-//	wall_horizontal[0] = 0xffff;
+	//wall_horizontal[0] = 0xffff;
 	wall_vertical[MAZE_SIZE] = 0xffff;
-//	wall_vertical[0] = 0xffff;
+	//wall_vertical[0] = 0xffff;
 
 	for(y=0;y<MAZE_SIZE;y++){
 		for(x=0;x<MAZE_SIZE;x++){
-			wall_horizontal[y] += (((wall_map[y][x] & 0x02) >> 1) << x);
-			wall_vertical[x] +=  ((wall_map[y][x] & 0x01) << y);
+			wall_horizontal[y] |= (((wall_map[y][x] & 0x02) >> 1) << x);
+			wall_vertical[x] |=  ((wall_map[y][x] & 0x01) << y);
 		}
 	}
 }
@@ -47,8 +47,7 @@ void ConvertMapIntoWall() {
 // printWallData
 //	@brief 壁情報をUARTで表示
 //+++++++++++++++++++++++++++++++++++++++++++++++
-void printWallData()
-{
+void PrintWallData() {
 	int8_t x,y;
 	ConvertMapIntoWall();
 	for(y=MAZE_SIZE;y>0;y--){
@@ -141,8 +140,7 @@ void updateWallMap(uint8_t wall_info)
 // makeSteplMap
 //	@brief 歩数マップを生成
 //+++++++++++++++++++++++++++++++++++++++++++++++
-uint16_t makeStepMap(uint8_t goal_length)
-{
+uint16_t makeStepMap(uint8_t goal_length) {
 	uint8_t x, y;
 	//====Clear Step Map====
 	for(y = 0; y <= 0x0f; y++){
@@ -206,7 +204,7 @@ uint16_t makeStepMap(uint8_t goal_length)
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
-// MakeRoute_NESW()
+// makeRouteNESW()
 //	@brief 歩数マップから経路配列を作成
 //+++++++++++++++++++++++++++++++++++++++++++++++
 void makeRouteESNW() {
@@ -234,17 +232,17 @@ void makeRouteESNW() {
 			step_count = step_map[y][x+1];								//最大歩数マップ値を更新
 			x++;																		//東に進んだのでX座標をインクリメント
 		}
-		//----南を見る----
-		else if(!(wall_temp & 0x02) && (step_map[y-1][x] < step_count)){	//南側に壁が無く、現在地より小さい歩数マップ値であれば
-			route[i] = (0x02 - point.dir) & 0x03;					//route配列に進行方向を記録
-			step_count = step_map[y-1][x];						//最大歩数マップ値を更新
-			y--;																//南に進んだのでY座標をデクリメント
-		}
 		//----北を見る----
 		else if(!(wall_temp & 0x08) && (step_map[y+1][x] < step_count)){		//北側に壁が無く、現在地より小さい歩数マップ値であれば
 			route[i] = (0x00 - point.dir) & 0x03;												//route配列に進行方向を記録
 			step_count = step_map[y+1][x];													//最大歩数マップ値を更新
 			y++;																							//北に進んだのでY座標をインクリメント
+		}
+		//----南を見る----
+		else if(!(wall_temp & 0x02) && (step_map[y-1][x] < step_count)){	//南側に壁が無く、現在地より小さい歩数マップ値であれば
+			route[i] = (0x02 - point.dir) & 0x03;					//route配列に進行方向を記録
+			step_count = step_map[y-1][x];						//最大歩数マップ値を更新
+			y--;																//南に進んだのでY座標をデクリメント
 		}
 		//----西を見る----
 		else if(!(wall_temp & 0x01) && (step_map[y][x-1] < step_count)){	//西側に壁が無く、現在地より小さい歩数マップ値であれば
@@ -303,9 +301,9 @@ void makeRouteNESW() {
 		if(MF.FLAG.SCND)	wall_temp >>= 4;
 		//----北を見る----
 		if(!(wall_temp & 0x08) && (step_map[y+1][x] < step_count)){		//北側に壁が無く、現在地より小さい歩数マップ値であれば
-			route[i] = (0x00 - point.dir) & 0x03;						//route配列に進行方向を記録
-			step_count = step_map[y+1][x];								//最大歩数マップ値を更新
-			y++;																	//北に進んだのでY座標をインクリメント
+			route[i] = (0x00 - point.dir) & 0x03;											//route配列に進行方向を記録
+			step_count = step_map[y+1][x];												//最大歩数マップ値を更新
+			y++;																						//北に進んだのでY座標をインクリメント
 		}
 		//----東を見る----
 		else if(!(wall_temp & 0x04) && (step_map[y][x+1] < step_count)){//東側に壁が無く、現在地より小さい歩数マップ値であれば
@@ -353,11 +351,12 @@ void makeRouteNESW() {
 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++
-// ConfRoute_NESW()
+// confRoute()
 //	@brief 進行方向に壁があれば再計算
+// goal_size : ゴールの辺のマス数
+// wall_data：壁情報
 //+++++++++++++++++++++++++++++++++++++++++++++++
-void confRoute(uint8_t goal_size, uint8_t wall_data)
-{
+void confRoute(uint8_t goal_size, uint8_t wall_data) {
 	updateWallMap(wall_data);
 
 	//----最短経路上に壁があれば進路変更----
@@ -372,8 +371,7 @@ void confRoute(uint8_t goal_size, uint8_t wall_data)
 // advancePosition()
 //	@brief 内部位置情報を向きに合わせて更新
 //+++++++++++++++++++++++++++++++++++++++++++++++
-void advancePosition()
-{
+void advancePosition() {
 	switch(point.dir){
 	case NORTH:
 		point.y++;
@@ -390,8 +388,7 @@ void advancePosition()
 	}
 }
 
-void changeDirection(uint8_t rotate_hex)
-{
+void changeDirection(uint8_t rotate_hex) {
 	if(rotate_hex == 0x00)					return;
 	point.dir = (point.dir + rotate_hex) & 0x03;
 }
@@ -404,7 +401,6 @@ MAP_Mouse_Typedef setMapStruct(uint8_t x, uint8_t y, uint8_t dir)
 	instance.dir = dir;
 	return instance;
 }
-
 
 void prepareMapForSearch(void)
 {
@@ -423,8 +419,7 @@ void prepareMapForSearch(void)
 	else						makeRouteNESW();
 }
 
-void saveWallMap(void)
-{
+void saveWallMap(void) {
 	FLASH_Erase();
 	waitMs(100);
 	uint8_t i,j;

@@ -279,17 +279,17 @@ void initMouseStatus(void)
 	param1.upper = setStatus(0.0f, 0.045f, 0.0f, 1.0f, 4.0f, 0.05,0);
 	param1.downer = setStatus(0.0f, 0.045f, 0.0f,
 			0.45f,-max.accel, -max.jerk,0);
-	param1.small_turn = setTurnParams(0.45f, 4.0f, 0.045f,15.0f,20.0f);
+	param1.small_turn = setTurnParams(0.45f, 4.0f, 0.045f,15.0f,30.0f);
 	param1.big_turn90 = setTurnParams(0.45f, 4.0f, 0.120f,38.0f,38.0f);
 	param1.big_turn180 = setTurnParams(0.45f, 4.0f, 0.088f,85.0f,85.0f);
 	param = &param1;
 
-	param2.upper = setStatus(0.0f, 0.040f, 0.0f, 2.0f, 6.0f, 0.05f,0);
+	param2.upper = setStatus(0.0f, 0.040f, 0.0f, 1.5f, 4.0f, 0.05f,0);
 	param2.downer = setStatus(0.0f, 0.040f, 0.0f,
 			0.80f,-max.accel, -max.jerk,0);
-	param2.small_turn = setTurnParams(0.80f, 6.0f, 0.040f,13.0f,49.0f);
-	param2.big_turn90 = setTurnParams(0.80f, 6.0f, 0.123f,92.0f,112.0f);
-	param2.big_turn180 = setTurnParams(0.80f, 6.0f, 0.160f,65.0f,95.0f);
+	param2.small_turn = setTurnParams(0.80f, 4.0f, 0.040f,13.0f,49.0f);
+	param2.big_turn90 = setTurnParams(0.80f, 4.0f, 0.123f,100.0f,112.0f);
+	param2.big_turn180 = setTurnParams(0.80f, 4.0f, 0.160f,105.0f,105.0f);
 
 	// MF
 	MF.FLAGS = 0x00000000;

@@ -264,7 +264,10 @@ int main(void)
 	  		  basicTimerPause();
 	  		  ShowPass();
 	  		  break;
-	  	  case 7 :								break;
+	  	  case 7 :		//迷路情報の開示
+	  		  ConvertMapIntoWall();
+	  		  PrintWallData();
+	  		  break;
 	  	  case 8 :		// 最初のパラメータ
 	  		  param = &param1;
 	  		  MelodyNatsumatsuri();
