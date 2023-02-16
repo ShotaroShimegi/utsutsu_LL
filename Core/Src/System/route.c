@@ -32,14 +32,14 @@ void ReadPass(void) {
 	MF.FLAG.CALLBACK = 1;
 	mouse.run_state = 1;
 
-	driveAccelMotion(SET_MM,param->upper.velocity,ON,ON);
+	driveAccelMotion(SET_MM,param->downer.velocity,ON,ON);
 
 	while(i != pass_end_count){
 		if(pass[i] > 0)	{
 			buff = 0x00;
 			displayBinaryValueWithLEDs(buff);
 			driveTrapezoidal(HALF_MM *(float)pass[i],param->upper.velocity,
-					param->downer.velocity,param->upper.accel);
+					param->downer.velocity,param->downer.accel);
 		}else{
 			switch(pass[i]){
 				case R90:

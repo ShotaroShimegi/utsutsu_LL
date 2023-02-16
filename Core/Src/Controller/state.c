@@ -278,28 +278,28 @@ void initMouseStatus(void)
 	// パラメータ宣言
 	param1.upper = setStatus(0.0f, 0.045f, 0.0f, 1.0f, 4.0f, 0.05,0);
 	param1.downer = setStatus(0.0f, 0.045f, 0.0f,
-			0.45f,-max.accel, -max.jerk,0);
+			0.45f,4.0f, -max.jerk,0);
 	param1.small_turn = setTurnParams(0.45f, 4.0f, 0.045f,15.0f,30.0f);
 	param1.big_turn90 = setTurnParams(0.45f, 4.0f, 0.120f,38.0f,38.0f);
 	param1.big_turn180 = setTurnParams(0.45f, 4.0f, 0.088f,85.0f,85.0f);
 	param = &param1;
 
-	param2.upper = setStatus(0.0f, 0.040f, 0.0f, 1.5f, 4.0f, 0.05f,0);
+	param2.upper = setStatus(0.0f, 0.040f, 0.0f, 1.0f, 4.0f, 0.05f,0);
 	param2.downer = setStatus(0.0f, 0.040f, 0.0f,
-			0.80f,-max.accel, -max.jerk,0);
-	param2.small_turn = setTurnParams(0.80f, 4.0f, 0.040f,13.0f,49.0f);
-	param2.big_turn90 = setTurnParams(0.80f, 4.0f, 0.123f,100.0f,112.0f);
-	param2.big_turn180 = setTurnParams(0.80f, 4.0f, 0.160f,105.0f,105.0f);
+			0.60f,2.0f, -max.jerk,0);
+	param2.small_turn = setTurnParams(0.60f, 8.0f, 0.040f,13.0f,49.0f);
+	param2.big_turn90 = setTurnParams(0.60f, 4.0f, 0.123f,5.0f,35.0f);
+	param2.big_turn180 = setTurnParams(0.60f, 4.0f, 0.090f,50.0f,85.0f);
 
 	// MF
 	MF.FLAGS = 0x00000000;
 	// PID関連
-	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
-	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 0.6f);
+	PID_left_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 1.0f);
+	PID_right_velocity = setParameters(3.5f, 0.01f, 0.0f, 0.1f, 1.0f);
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.10f, 0.00f, 0.2f);
 //	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
 	PID_wall_front_distance = setParameters(0.003f, 0.0f, 0.001f, 0.0f,0.2f);
-	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 0.3f);
+	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 1.0f);
 	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
 }
 
@@ -354,5 +354,22 @@ void updateStatus(void) {
 	}else if(MF.FLAG.NEW == 1){
 		// 新制御用の項目、工事中
 	}
+//
+//	if(fabs(output_duty_r) > 1.0f || fabs(output_duty_l) > 1.0f)	{
+//		float add = (output_duty_r + output_duty_l) *0.50f;		// 並進速度抽出
+//		float sub = (output_duty_r - output_duty_l) *0.50f;		// 角速度抽出
+//		add = add / (add + sub);
+//		sub = sub/ (add + sub);
+//		if(output_duty_r > output_duty_l){
+//			output_duty_r = add + sub;
+//			output_duty_l = add - sub;
+//		}else{
+//			output_duty_r = add - sub;
+//			output_duty_l = add + sub;
+//		}
+//	}
+	if(fabs(output_duty_r) > 1.0f) output_duty_r = output_duty_r/fabs(output_duty_r) *1.0f;
+	if(fabs(output_duty_l) > 1.0f) output_duty_l = output_duty_l/fabs(output_duty_l) *1.0f;
+
 	driveMotors(output_duty_l, output_duty_r);
 }

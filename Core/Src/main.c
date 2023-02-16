@@ -302,6 +302,8 @@ int main(void)
 	  		  MelodySummer();
 	  		  param = &param2;
 	  		  testMotions();
+	  		  MelodySummer();
+
 	  		  break;
 	  	  case 11 :	testKeepDistance();	break;
 	  	  case 12:	testIMU();				break;
