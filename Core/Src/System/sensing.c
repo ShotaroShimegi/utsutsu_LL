@@ -79,8 +79,7 @@ void getWallSensorOffset(void)
 	changeLEDs(OFF, OFF, OFF, OFF, OFF);
 }
 
-void getWallSensor(void)
-{
+void getWallSensor(void) {
 	changeLEDs(OFF, ON, ON, OFF, ON);
 	waitUs(CHARG_TIME);
 	sensor.wall_val[FR] = getWallADC(FR);
@@ -115,8 +114,7 @@ float getOmegaOffset(uint16_t num)
 //	@brief 加速度のオフセット用平均値を取得する
 // @param num　取得するサンプル数
 //+++++++++++++++++++++++++++++++++++++++++++++++
-float getAccelOffset(uint16_t num)
-{
+float getAccelOffset(uint16_t num) {
 	uint16_t i = 0;
 	float sum = 0.0f;
 	for(i=0;i<num;i++){
@@ -131,8 +129,7 @@ float getAccelOffset(uint16_t num)
 // getWallInfo
 //	@brief 壁情報を2進数で出力
 //+++++++++++++++++++++++++++++++++++++++++++++++
-uint8_t getWallInfo(void)
-{
+uint8_t getWallInfo(void) {
 	uint8_t val = 0x00;
 	//----Check Front----
 	if(sensor.wall_val[FR] > WALL_BORDE_FR || sensor.wall_val[FL] > WALL_BORDE_FL)	val |= 0x88;

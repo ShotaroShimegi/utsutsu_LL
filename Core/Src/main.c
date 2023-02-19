@@ -263,10 +263,25 @@ int main(void)
 	  		  waitStarting();
 	  		  basicTimerPause();
 	  		  ShowPass();
-	  		  break;
-	  	  case 7 :		//迷路情報の開示
+	  		  //迷路情報の開示
 	  		  ConvertMapIntoWall();
 	  		  PrintWallData();
+	  		  break;
+	  	  case 7 :// 裏パラメータ
+	  		  param = &param3;
+	  		  MelodyKurenai();
+	  		  //	==== 走行準備 ====
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  enableMotors();
+	  		  mouse.angle = 0.0f;
+	  		  // ==== 走行 ====
+	  		  ReadPass();
+	  		  // ==== 走行終了 ====
+	  		  MF.FLAG.CALLBACK = OFF;
+	  		  shutdownMotors();
+
 	  		  break;
 	  	  case 8 :		// 最初のパラメータ
 	  		  param = &param1;
@@ -299,11 +314,23 @@ int main(void)
 	  		  shutdownMotors();
 	  		  break;
 	  	  case 10 :			// 走行テスト
-	  		  MelodySummer();
-	  		  param = &param2;
-	  		  testMotions();
-	  		  MelodySummer();
-
+//	  		  MelodySummer();
+//	  		  param = &param2;
+//	  		  testMotions();
+//	  		  MelodySummer();
+	  		  param = &param4;
+	  		  MelodyKurenai();
+	  		  //	==== 走行準備 ====
+	  		  waitStarting();
+	  		  getOffsets();
+	  		  enableEncoder();
+	  		  enableMotors();
+	  		  mouse.angle = 0.0f;
+	  		  // ==== 走行 ====
+	  		  ReadPass();
+	  		  // ==== 走行終了 ====
+	  		  MF.FLAG.CALLBACK = OFF;
+	  		  shutdownMotors();
 	  		  break;
 	  	  case 11 :	testKeepDistance();	break;
 	  	  case 12:	testIMU();				break;

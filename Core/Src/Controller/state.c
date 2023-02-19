@@ -23,6 +23,8 @@ State_Typedef min;							// 逐次更新される制御目標値の下限値
 Params_Typedef* param;					// 最短走行などで用いるもの、基本的には他のparamsを代入して使う
 Params_Typedef param1;					// 探索走行ベースのパラメータ、1番遅い
 Params_Typedef param2;					// 0.8m/s　ベースのパラメータ
+Params_Typedef param3;					// 0.8m/s　ベースのパラメータ, MAX1.2m/s
+Params_Typedef param4;					// 0.8m/s　ベースのパラメータ, MAX1.5m/s
 
 PID_Typedef PID_left_velocity;
 PID_Typedef PID_right_velocity;
@@ -290,6 +292,20 @@ void initMouseStatus(void)
 	param2.small_turn = setTurnParams(0.60f, 8.0f, 0.040f,13.0f,49.0f);
 	param2.big_turn90 = setTurnParams(0.60f, 4.0f, 0.123f,5.0f,35.0f);
 	param2.big_turn180 = setTurnParams(0.60f, 4.0f, 0.090f,50.0f,85.0f);
+
+	param3.upper = setStatus(0.0f, 0.040f, 0.0f, 1.2f, 4.0f, 0.05f,0);
+	param3.downer = setStatus(0.0f, 0.040f, 0.0f,
+			0.60f,2.0f, -max.jerk,0);
+	param3.small_turn = setTurnParams(0.60f, 8.0f, 0.040f,13.0f,49.0f);
+	param3.big_turn90 = setTurnParams(0.60f, 4.0f, 0.123f,5.0f,35.0f);
+	param3.big_turn180 = setTurnParams(0.60f, 4.0f, 0.090f,50.0f,85.0f);
+
+	param4.upper = setStatus(0.0f, 0.040f, 0.0f, 1.5f, 4.0f, 0.05f,0);
+	param4.downer = setStatus(0.0f, 0.040f, 0.0f,
+			0.60f,2.0f, -max.jerk,0);
+	param4.small_turn = setTurnParams(0.60f, 8.0f, 0.040f,13.0f,49.0f);
+	param4.big_turn90 = setTurnParams(0.60f, 4.0f, 0.123f,5.0f,35.0f);
+	param4.big_turn180 = setTurnParams(0.60f, 4.0f, 0.090f,50.0f,85.0f);
 
 	// MF
 	MF.FLAGS = 0x00000000;

@@ -285,7 +285,7 @@ uint8_t moveSlalomR90(void) {
 	driveAccelMotion(param->small_turn.before_offset, param->downer.velocity, OFF,OFF);
 	slalomMotion(ROT_ANGLE_R90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->small_turn.after_offset, param->downer.velocity, ON, ON);
+	driveAccelMotion(param->small_turn.after_offset, param->downer.velocity, OFF, ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }
@@ -296,7 +296,7 @@ uint8_t moveSlalomL90(void) {
 	driveAccelMotion(param->small_turn.before_offset, param->downer.velocity, OFF,OFF);
 	slalomMotion(ROT_ANGLE_L90,param->small_turn.omega,param->small_turn.omega_accel);
 	MF.FLAG.SAFETY = ON;
-	driveAccelMotion(param->small_turn.after_offset, param->downer.velocity, ON,ON);
+	driveAccelMotion(param->small_turn.after_offset, param->downer.velocity, OFF,ON);
 	wall_info = getWallInfo();
 	return wall_info;
 }
