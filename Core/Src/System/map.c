@@ -167,7 +167,7 @@ uint16_t makeStepMap(uint8_t goal_length) {
 		//----マップ全域を捜索----
 		for( y = 0; y <= 0x0f; y++){
 			for( x = 0; x <= 0x0f; x++){
-				//----現在最大の歩数を発見したとき----
+				//----現在最小の歩数を発見したとき----
 				if( step_map[y][x] == step_count){
 					wall_temp = wall_map[y][x];						//map配列からマップデータを取り出す
 					if(MF.FLAG.SCND)		wall_temp >>= 4;		//上位4bitを使うので4bit分右にシフトさせる
@@ -277,7 +277,7 @@ void makeRouteESNW() {
 	point.dir = dir_temp;								//方向を始めの状態に戻す
 }
 //+++++++++++++++++++++++++++++++++++++++++++++++
-// MakeRoute_NESW()
+// makeRoute_NESW()
 //	@brief 歩数マップから経路配列を作成
 //+++++++++++++++++++++++++++++++++++++++++++++++
 void makeRouteNESW() {

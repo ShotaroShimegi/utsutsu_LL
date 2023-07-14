@@ -21,6 +21,7 @@
 #include<stdio.h>
 
 uint8_t search_method;
+goal_t real_goal;
 
 void rotateSafteyR180(void){
 	MF.FLAG.SAFETY = OFF;
@@ -145,6 +146,9 @@ uint8_t CheckGoal(uint8_t x, uint8_t y, uint8_t length) {
 
 	if((goal_check_x == GOAL_OK) && (goal_check_y == GOAL_OK)) {
 		MF.FLAG.FIRST = 0;
+		real_goal.x = x;
+		real_goal.y = y;
+		real_goal.dir = point.dir;
 		return GOAL_OK;
 	}
 	else{

@@ -22,16 +22,18 @@ State_Typedef min;							// 逐次更新される制御目標値の下限値
 
 Params_Typedef* param;					// 最短走行などで用いるもの、基本的には他のparamsを代入して使う
 Params_Typedef param1;					// 探索走行ベースのパラメータ、1番遅い
-Params_Typedef param2;					// 0.8m/s　ベースのパラメータ
-Params_Typedef param3;					// 0.8m/s　ベースのパラメータ, MAX1.2m/s
-Params_Typedef param4;					// 0.8m/s　ベースのパラメータ, MAX1.5m/s
+Params_Typedef param2;					// 0.6m/s　ベースのパラメータ
+Params_Typedef param3;					// 0.8m/s　ベースのパラメータ, MAX2.0m/s
+Params_Typedef param4;					// 1.2m/s　ベースのパラメータ, MAX2.0m/s
 
 PID_Typedef PID_left_velocity;
 PID_Typedef PID_right_velocity;
 PID_Typedef PID_wall_side;
 PID_Typedef PID_wall_front_posture;
 PID_Typedef PID_wall_front_distance;
-PID_Typedef PID_omega;
+PID_Typedef* PID_omega;
+PID_Typedef PID_omega2022;
+PID_Typedef PID_omega2023;
 PID_Typedef PID_angle;
 
 float output_duty_r = 0.0f;
@@ -44,8 +46,7 @@ float fix_omega = 0.0f;
 * @param error -> 壁センサの偏差
 * @return 角速度目標値への補正項
 */
-void calculateSensorError(void)
-{
+void calculateSensorError(void) {
 	static float pre_val_r[DIFF_SAMPLE] = {0};
 	static float pre_val_l[DIFF_SAMPLE] = {0};
 	static uint8_t  pre_cnt = 0;
@@ -133,8 +134,8 @@ float calculateTargetVelocity(void)
 {
 	float target_val = target.velocity;
 
-	if(MF.FLAG.ACCEL == 1) 			target_val += max.accel * 0.001f;
-	else if(MF.FLAG.DECEL == 1)	target_val -= max.accel * 0.001f;
+	if(MF.FLAG.ACCEL == 1) 			target_val += target.accel * 0.001f;
+	else if(MF.FLAG.DECEL == 1)	target_val -= target.accel * 0.001f;
 
 	if(target_val > max.velocity)			target_val = max.velocity;
 	else if(target_val < min.velocity)		target_val = min.velocity;
@@ -268,8 +269,7 @@ PID_Typedef setParameters(float gainP, float gainI, float gainD, float limitI, f
 * @brief 初期化関連の実行関数
 * @return 出力値
 */
-void initMouseStatus(void)
-{
+void initMouseStatus(void) {
 	//実際の走行中に用いるState変数
 	mouse = setStatus(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,0);
 	target = setStatus(0.0f, 0.055f, 0.0f, 0.00f, 4.0f, 0.05f,0);
@@ -286,26 +286,27 @@ void initMouseStatus(void)
 	param1.big_turn180 = setTurnParams(0.45f, 4.0f, 0.088f,85.0f,85.0f);
 	param = &param1;
 
+	// 0.6m/s ベース
 	param2.upper = setStatus(0.0f, 0.040f, 0.0f, 1.0f, 4.0f, 0.05f,0);
-	param2.downer = setStatus(0.0f, 0.040f, 0.0f,
-			0.60f,2.0f, -max.jerk,0);
+	param2.downer = setStatus(0.0f, 0.040f, 0.0f,0.60f,4.0f, -max.jerk,0);
 	param2.small_turn = setTurnParams(0.60f, 8.0f, 0.040f,13.0f,49.0f);
 	param2.big_turn90 = setTurnParams(0.60f, 4.0f, 0.123f,5.0f,35.0f);
 	param2.big_turn180 = setTurnParams(0.60f, 4.0f, 0.090f,50.0f,85.0f);
 
-	param3.upper = setStatus(0.0f, 0.040f, 0.0f, 1.2f, 4.0f, 0.05f,0);
-	param3.downer = setStatus(0.0f, 0.040f, 0.0f,
-			0.60f,2.0f, -max.jerk,0);
-	param3.small_turn = setTurnParams(0.60f, 8.0f, 0.040f,13.0f,49.0f);
-	param3.big_turn90 = setTurnParams(0.60f, 4.0f, 0.123f,5.0f,35.0f);
-	param3.big_turn180 = setTurnParams(0.60f, 4.0f, 0.090f,50.0f,85.0f);
+	// 0.8m/s ベース
+	param3.upper = setStatus(0.0f, 0.040f, 0.0f, 1.5f, 10.0f, 0.05f,0);
+	param3.downer = setStatus(0.0f, 0.040f, 0.0f,0.8f,10.0f, -max.jerk,0);
+	param3.small_turn = setTurnParams(0.8f, 10.0f, 0.040f,0.0f,29.0f);
+	param3.small_turn.omega = 15.0;
+	param3.big_turn90 = setTurnParams(0.8f, 10.0f, 0.123f,5.0f,33.0f);
+	param3.big_turn180 = setTurnParams(0.8f, 10.0f, 0.090f,50.0f,75.0f);
 
-	param4.upper = setStatus(0.0f, 0.040f, 0.0f, 1.5f, 4.0f, 0.05f,0);
-	param4.downer = setStatus(0.0f, 0.040f, 0.0f,
-			0.60f,2.0f, -max.jerk,0);
-	param4.small_turn = setTurnParams(0.60f, 8.0f, 0.040f,13.0f,49.0f);
-	param4.big_turn90 = setTurnParams(0.60f, 4.0f, 0.123f,5.0f,35.0f);
-	param4.big_turn180 = setTurnParams(0.60f, 4.0f, 0.090f,50.0f,85.0f);
+	// 0.8m/s ベース, 裏パラ
+	param4.upper = setStatus(0.0f, 0.040f, 0.0f, 2.0f, 10.0f, 0.05f,0);
+	param4.downer = setStatus(0.0f, 0.040f, 0.0f,0.80f,10.0f, -max.jerk,0);
+	param4.small_turn = setTurnParams(0.80f, 10.0f, 0.040f,13.0f,49.0f);
+	param4.big_turn90 = setTurnParams(0.80f, 10.0f, 0.123f,5.0f,35.0f);
+	param4.big_turn180 = setTurnParams(0.80f, 10.0f, 0.090f,50.0f,85.0f);
 
 	// MF
 	MF.FLAGS = 0x00000000;
@@ -315,8 +316,12 @@ void initMouseStatus(void)
 //	PID_wall_side = setParameters(0.003f, 0.0f, 0.10f, 0.00f, 0.2f);
 //	PID_wall_front_posture = setParameters(0.002f, 0.0f, 0.002f, 0.0f,0.2f);
 	PID_wall_front_distance = setParameters(0.003f, 0.0f, 0.001f, 0.0f,0.2f);
-	PID_omega = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 1.0f);
+	PID_omega2022 = setParameters(0.06f, 0.002f, 0.0f, 0.1f, 1.0f);						// 2022 全日本用パラメータ
+	PID_omega2023 = setParameters(0.20f, 0.05f, 0.0f, 0.3f, 1.0f);						// 2023用パラメータ
 	PID_angle = setParameters(0.10f, 0.0f, 0.04f, 0.1f, 0.2f);
+
+	// 最初はインスタンスを渡しておく
+	PID_omega = &PID_omega2022;
 }
 
 void updateStatus(void) {
@@ -343,20 +348,21 @@ void updateStatus(void) {
 			fix_omega = 0.0f;
 		}
 		// 目標値生成
+		target.accel = max.accel;
 		target.velocity = calculateTargetVelocity();
 		target.omega = calculateTagetOmega();
 		//偏差計算
 		PID_angle.error = target.angle - mouse.angle;
 		PID_left_velocity.error = target.velocity - mouse.velocity;
 		PID_right_velocity.error = target.velocity - mouse.velocity;
-		PID_omega.error = target.omega + fix_omega - mouse.omega;
+		PID_omega->error = target.omega + fix_omega - mouse.omega;
 		//PID計算
 		if(MF.FLAG.ACTRL)	{
 			tmp = calculatePID(&PID_angle);
 			output_duty_r += tmp, output_duty_l -= tmp;
 		}
 		if(MF.FLAG.WCTRL){
-			tmp = calculatePID(&PID_omega);
+			tmp = calculatePID(PID_omega);
 			output_duty_r += tmp, output_duty_l -= tmp;
 		}
 		if(MF.FLAG.VCTRL){

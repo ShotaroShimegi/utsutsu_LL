@@ -109,22 +109,16 @@ void MakePass(void) {
 		half_straight_count += 2;
 		j++;
 	}
-	pass[pass_count] = half_straight_count;
-	pass_count++;
-
+	pass[pass_count++] = half_straight_count;
 	half_straight_count = 0;
 	if((j-1) > 0)	route_count = j-1;			//Next is Straight
-	else			route_count = j;
-
+	else				route_count = j;
 	normal_turn_flag = 1;
-
 	if(route[route_count+1] == 0xff)	return_flag = 1;
 
 	while(1){
-
 //		printf("route_count : %d\n",route_count);
 //		printf("half_straight_count : %d\n",half_straight_count);
-
 		for(show_counter=0;show_counter<255;show_counter++){
 			if(route[show_counter] == 0xff) break;
 //			printf("route[%d] = %#x\n",show_counter,route[show_counter]);
@@ -137,55 +131,38 @@ void MakePass(void) {
 
 		switch(route[route_count]){
 			case STRAIGHT:
-
+				// 大回り90R
 				if((route[route_count+1] == TURN_RIGHT) && (route[route_count+2] == STRAIGHT)){
-
-					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
-					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
-						pass[pass_count] = 1;
-						pass_count++;
-					}
-					pass[pass_count] = BIG_R90;
-					pass_count++;
+					if((pass_count > 0) && (pass[pass_count-1] > 0))						pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2)	pass[pass_count++] = 1;
+					pass[pass_count++] = BIG_R90;
 					route_count += 2;
 					big_turn_flag = 1;
 					normal_turn_flag = 0;
 					break;
+					// 大回り180R
 				}else if((route[route_count+1] == TURN_RIGHT) && (route[route_count+2] == TURN_RIGHT) && (route[route_count+3] == STRAIGHT)){
-
-					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
-					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
-						pass[pass_count] = 1;
-						pass_count++;
-					}
-
-					pass[pass_count] = BIG_R180;
-
-					pass_count++;
+					if((pass_count > 0) && (pass[pass_count-1] > 0))						pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2)	pass[pass_count++] = 1;
+					pass[pass_count++] = BIG_R180;
 					route_count += 3;
 					big_turn_flag = 1;
 					normal_turn_flag = 0;
 					break;
+					// 大回り90L
 				}else if((route[route_count+1] == TURN_LEFT) && (route[route_count+2] == STRAIGHT)){
-					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
-					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
-						pass[pass_count] = 1;
-						pass_count++;
-					}
-					pass[pass_count] = BIG_L90;
-					pass_count++;
+					if((pass_count > 0) && (pass[pass_count-1] > 0))						pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2)	pass[pass_count++] = 1;
+					pass[pass_count++] = BIG_L90;
 					route_count += 2;
 					big_turn_flag = 1;
 					normal_turn_flag = 0;
 					break;
+					// 大回り180L
 				}else if((route[route_count+1] == TURN_LEFT) && (route[route_count+2] == TURN_LEFT) && (route[route_count+3] == STRAIGHT)){
-					if((pass_count > 0) && (pass[pass_count-1] > 0))	pass[pass_count-1] -= 1;
-					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2){
-						pass[pass_count] = 1;
-						pass_count++;
-					}
-					pass[pass_count] = BIG_L180;
-					pass_count++;
+					if((pass_count > 0) && (pass[pass_count-1] > 0))						pass[pass_count-1] -= 1;
+					else if(pass[pass_count-1] == -1 || pass[pass_count-1] == -2)	pass[pass_count++] = 1;
+					pass[pass_count++] = BIG_L180;
 					route_count += 3;
 					big_turn_flag = 1;
 					normal_turn_flag = 0;
@@ -195,7 +172,6 @@ void MakePass(void) {
 					normal_turn_flag = 0;
 					break;
 				}
-
 				j = route_count;
 				while(route[j] == STRAIGHT){
 					if(big_turn_flag == 1){
@@ -206,30 +182,23 @@ void MakePass(void) {
 					}
 					j++;
 				}
-				pass[pass_count] = half_straight_count;
-				pass_count++;
-
+				pass[pass_count++] = half_straight_count;
 				half_straight_count = 0;
 				route_count = j - 1;
 				normal_turn_flag = 1;
-
 				if(route[route_count+1] == 0xff)	return_flag = 1;
-
 				break;
-
 			case TURN_RIGHT:
 				normal_turn_flag = 0;
 				half_straight_count = 0;
-				pass[pass_count] = R90;
-				pass_count++;
+				pass[pass_count++] = R90;
 				route_count++;
 				break;
 
 			case TURN_LEFT:
 				normal_turn_flag = 0;
 				half_straight_count = 0;
-				pass[pass_count] = L90;
-				pass_count++;
+				pass[pass_count++] = L90;
 				route_count++;
 				break;
 

@@ -221,8 +221,7 @@ int main(void)
 	  		  search_method = !search_method;
 	  		  break;
 
-	  	  case 3 :
-	  		  // 走行テスト用、片道探索
+	  	  case 3 :	 // 走行テスト用、片道探索
 	  		  MelodyRayearth();
 
 	  		  waitStarting();
@@ -268,7 +267,8 @@ int main(void)
 	  		  PrintWallData();
 	  		  break;
 	  	  case 7 :// 裏パラメータ
-	  		  param = &param3;
+	  		  param = &param4;
+	  		  PID_omega = &PID_omega2023;
 	  		  MelodyKurenai();
 	  		  //	==== 走行準備 ====
 	  		  waitStarting();
@@ -281,7 +281,6 @@ int main(void)
 	  		  // ==== 走行終了 ====
 	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
-
 	  		  break;
 	  	  case 8 :		// 最初のパラメータ
 	  		  param = &param1;
@@ -294,6 +293,21 @@ int main(void)
 	  		  mouse.angle = 0.0f;
 	  		  // ==== 走行 ====
 	  		  ReadPass();
+	  		  // ==== 帰り走行 計算準備====
+//	  		  goal.x = 0, goal.y = 0;
+//	  		  point.x = real_goal.x, point.y = real_goal.y;
+//	  		  point.dir = real_goal.dir;
+//	  		  point.dir = (point.dir + DIR_SPIN_180) & 0x03;	//	ゴールから出る方向に回転
+//	  		  makeStepMap(1);
+//	  		  makeRouteNESW();
+//	  		  MakePass();
+//	  		  enableEncoder();
+//	  		  enableMotors();
+//	  		  mouse.angle = 0.0f;
+	  		// ==== 帰り走行 ====
+//	  		  spinRight180();
+//	  		  backMotion(FIX_MM);
+//	  		  ReadPass();
 	  		  // ==== 走行終了 ====
 	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
@@ -313,12 +327,9 @@ int main(void)
 	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
-	  	  case 10 :			// 走行テスト
-//	  		  MelodySummer();
-//	  		  param = &param2;
-//	  		  testMotions();
-//	  		  MelodySummer();
-	  		  param = &param4;
+	  	  case 10 :			// パラメータMAX
+	  		  param = &param3;
+	  		  PID_omega = &PID_omega2023;
 	  		  MelodyKurenai();
 	  		  //	==== 走行準備 ====
 	  		  waitStarting();
@@ -332,10 +343,17 @@ int main(void)
 	  		  MF.FLAG.CALLBACK = OFF;
 	  		  shutdownMotors();
 	  		  break;
-	  	  case 11 :	testKeepDistance();	break;
+	  	  case 11 :		// 走行テスト
+			  MelodySummer();
+			  param = &param3;
+			  PID_omega = &PID_omega2023;
+			  testMotions();
+			  MelodySummer();
+	  	  	  break;
 	  	  case 12:	testIMU();				break;
 	  	  case 13:	testEncoders();  		break;
 	  	  case 14:	testWallSensors();	break;
+//	  	  case 15:	testKeepDistance();	break;
 	  	  default:								break;
 	  }
   }

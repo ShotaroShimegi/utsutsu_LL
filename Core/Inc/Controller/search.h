@@ -15,6 +15,13 @@
 
 #define WALL_TURN_VALUE 120
 
+typedef struct{
+	uint8_t x;
+	uint8_t y;
+	uint8_t dir;
+}goal_t;
+
+extern goal_t real_goal;
 extern uint8_t search_method;
 
 void rotateSafteyR180(void);

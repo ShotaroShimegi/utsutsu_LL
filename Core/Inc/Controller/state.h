@@ -82,7 +82,9 @@ extern Params_Typedef param4;
 
 extern PID_Typedef PID_left_velocity;
 extern PID_Typedef PID_right_velocity;
-extern PID_Typedef PID_omega;
+extern PID_Typedef* PID_omega;
+extern PID_Typedef PID_omega2022;
+extern PID_Typedef PID_omega2023;
 extern PID_Typedef PID_angle;
 
 extern float output_duty_r;
