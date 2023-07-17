@@ -1761,11 +1761,11 @@ Disassembly of section .text:
  80014b2:	f003 fd27 	bl	8004f04 <changeDirection>
  80014b6:	4b67      	ldr	r3, [pc, #412]	; (8001654 <searchMazeBySlalom+0x1e0>)
  80014b8:	781b      	ldrb	r3, [r3, #0]
- 80014ba:	2b02      	cmp	r3, #2
+ 80014ba:	2b07      	cmp	r3, #7
  80014bc:	d10e      	bne.n	80014dc <searchMazeBySlalom+0x68>
  80014be:	4b65      	ldr	r3, [pc, #404]	; (8001654 <searchMazeBySlalom+0x1e0>)
  80014c0:	785b      	ldrb	r3, [r3, #1]
- 80014c2:	2b00      	cmp	r3, #0
+ 80014c2:	2b07      	cmp	r3, #7
  80014c4:	d10a      	bne.n	80014dc <searchMazeBySlalom+0x68>
  80014c6:	4b64      	ldr	r3, [pc, #400]	; (8001658 <searchMazeBySlalom+0x1e4>)
  80014c8:	edd3 7a05 	vldr	s15, [r3, #20]
@@ -12823,10 +12823,10 @@ Disassembly of section .text:
  8007f58:	f04f 0200 	mov.w	r2, #0
  8007f5c:	601a      	str	r2, [r3, #0]
  8007f5e:	4b22      	ldr	r3, [pc, #136]	; (8007fe8 <main+0x350>)
- 8007f60:	2202      	movs	r2, #2
+ 8007f60:	2207      	movs	r2, #7
  8007f62:	701a      	strb	r2, [r3, #0]
  8007f64:	4b20      	ldr	r3, [pc, #128]	; (8007fe8 <main+0x350>)
- 8007f66:	2200      	movs	r2, #0
+ 8007f66:	2207      	movs	r2, #7
  8007f68:	705a      	strb	r2, [r3, #1]
  8007f6a:	2002      	movs	r0, #2
  8007f6c:	f7f9 fa82 	bl	8001474 <searchMazeBySlalom>
@@ -12840,10 +12840,10 @@ Disassembly of section .text:
  8007f80:	2001      	movs	r0, #1
  8007f82:	f7f9 fa77 	bl	8001474 <searchMazeBySlalom>
  8007f86:	4b18      	ldr	r3, [pc, #96]	; (8007fe8 <main+0x350>)
- 8007f88:	2202      	movs	r2, #2
+ 8007f88:	2207      	movs	r2, #7
  8007f8a:	701a      	strb	r2, [r3, #0]
  8007f8c:	4b16      	ldr	r3, [pc, #88]	; (8007fe8 <main+0x350>)
- 8007f8e:	2200      	movs	r2, #0
+ 8007f8e:	2207      	movs	r2, #7
  8007f90:	705a      	strb	r2, [r3, #1]
  8007f92:	4a10      	ldr	r2, [pc, #64]	; (8007fd4 <main+0x33c>)
  8007f94:	7853      	ldrb	r3, [r2, #1]
@@ -12886,10 +12886,10 @@ Disassembly of section .text:
  8008002:	f04f 0200 	mov.w	r2, #0
  8008006:	601a      	str	r2, [r3, #0]
  8008008:	4b6e      	ldr	r3, [pc, #440]	; (80081c4 <main+0x52c>)
- 800800a:	2202      	movs	r2, #2
+ 800800a:	2207      	movs	r2, #7
  800800c:	701a      	strb	r2, [r3, #0]
  800800e:	4b6d      	ldr	r3, [pc, #436]	; (80081c4 <main+0x52c>)
- 8008010:	2200      	movs	r2, #0
+ 8008010:	2207      	movs	r2, #7
  8008012:	705a      	strb	r2, [r3, #1]
  8008014:	2002      	movs	r0, #2
  8008016:	f7f9 fa2d 	bl	8001474 <searchMazeBySlalom>
@@ -12910,10 +12910,10 @@ Disassembly of section .text:
  8008040:	7013      	strb	r3, [r2, #0]
  8008042:	f7fd f80f 	bl	8005064 <loadWallMap>
  8008046:	4b5f      	ldr	r3, [pc, #380]	; (80081c4 <main+0x52c>)
- 8008048:	2202      	movs	r2, #2
+ 8008048:	2207      	movs	r2, #7
  800804a:	701a      	strb	r2, [r3, #0]
  800804c:	4b5d      	ldr	r3, [pc, #372]	; (80081c4 <main+0x52c>)
- 800804e:	2200      	movs	r2, #0
+ 800804e:	2207      	movs	r2, #7
  8008050:	705a      	strb	r2, [r3, #1]
  8008052:	4b5e      	ldr	r3, [pc, #376]	; (80081cc <main+0x534>)
  8008054:	2200      	movs	r2, #0

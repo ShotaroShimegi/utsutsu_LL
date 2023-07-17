@@ -347,6 +347,7 @@ void updateStatus(void) {
 		} else {
 			fix_omega = 0.0f;
 		}
+
 		// 目標値生成
 		target.accel = max.accel;
 		target.velocity = calculateTargetVelocity();
